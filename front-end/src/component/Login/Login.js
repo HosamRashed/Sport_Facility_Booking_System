@@ -24,11 +24,12 @@ const Login = () => {
   }
 
   const submit = (event) => {
+    console.log("hello");
     event.preventDefault();
     // set configurations
     const configuration = {
       method: "post",
-      url: "http://localhost:3000/login",
+      url: "https://sportbooking-0zwf-main-ga64yyugvq-wm.a.run.app/login",
       data: {
         User_ID: formData.userID,
         password: formData.password,
