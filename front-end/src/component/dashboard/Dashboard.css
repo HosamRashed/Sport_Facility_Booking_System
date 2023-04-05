@@ -1,12 +1,6 @@
 .MainContainer {
-  border: 1px solid black;
-  display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: start;
 }
 
-.logOut {
-  margin: 10px;
-  border: 1px solid green;
-  cursor: pointer;
-}
+

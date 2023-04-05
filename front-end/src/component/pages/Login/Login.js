@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./login.css";
-import image from "../images/MMULogo.png";
+import image from "../../images/MMULogo.png";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import Cookies from "universal-cookie";
@@ -24,12 +24,11 @@ const Login = () => {
   }
 
   const submit = (event) => {
-    console.log("hello");
     event.preventDefault();
     // set configurations
     const configuration = {
       method: "post",
-      url: "https://sportbooking-0zwf-main-ga64yyugvq-wm.a.run.app/login",
+      url: "http://localhost:3000/login",
       data: {
         User_ID: formData.userID,
         password: formData.password,
@@ -37,13 +36,15 @@ const Login = () => {
     };
     axios(configuration)
       .then((result) => {
+        console.log("success");
+        console.log(result);
         cookies.set("TOKEN", result.data.token, { path: "/" });
         window.location.href = "/dashboard";
       })
       .catch((error) => {
-        setFailedMessages((prevData) => {
-          return !prevData;
-        });
+        console.log("fail");
+        console.log(error);
+        setFailedMessages(true);
       });
   };
 
@@ -75,9 +76,9 @@ const Login = () => {
           value={formData.password}
         />
         <button className="submitbutton">Log in</button>
-        <Link to="/login/reset-password">
+        {/* <Link to="/login/reset-password">
           <p className="reset">Reset Password</p>
-        </Link>
+        </Link> */}
       </form>
       {failedMessages && <p className="errormessage">INCORRECT CREDENTIALS</p>}
     </div>

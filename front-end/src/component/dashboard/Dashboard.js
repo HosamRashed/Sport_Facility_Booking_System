@@ -1,6 +1,7 @@
 import { Component } from "react";
 import Cookies from "universal-cookie";
 import "./Dashboard.css";
+import Navbar from "../Navbar/Navbar"
 
 class Dashboard extends Component {
   cookies = new Cookies();
@@ -8,16 +9,14 @@ class Dashboard extends Component {
   state = {};
   handleClick = () => {
     this.cookies.remove("TOKEN", { path: "/" });
-    window.location.href = "/login";
+    window.location.href = "/";
   };
   render() {
     return (
       <>
         {this.token ? (
           <div className="MainContainer">
-            <button className="logOut" onClick={this.handleClick}>
-              Log out
-            </button>
+            <Navbar />
           </div>
         ) : (
           <p className="authorizedMessage">
