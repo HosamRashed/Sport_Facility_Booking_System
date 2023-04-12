@@ -7,6 +7,7 @@ import Activities from "./pages/Activities/Activities";
 import Announcements from "./pages/Announcement/Announcements";
 import Bookings from "./pages/Booking/Bookings";
 import Students from "./pages/Student/Students";
+import CeateFacility from "./pages/Facility/createFacility/CreateFacility";
 
 class Router extends Component {
   render() {
@@ -20,6 +21,7 @@ class Router extends Component {
             <Route path="/announcements" element={<Announcements />} />
             <Route path="/bookings" element={<Bookings />} />
             <Route path="/facility" element={<Facility />} />
+            <Route path="/facility/create" element={<CeateFacility />} />
             <Route path="/students" element={<Students />} />
           </Routes>
         </BrowserRouter>

@@ -1,0 +1,86 @@
+.form {
+  padding: 20px;
+  margin: 10px;
+  background-color: white;
+  height: 520px;
+  display: flex;
+  align-items: start;
+  justify-content: start;
+  flex-direction: column;
+  max-width: 1000px;
+  border-radius: 8px;
+  box-shadow: 3px 7px 10px 3px #84c3e6;
+}
+
+.formcontainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+label {
+  font-size: 25px;
+  margin-block: 10px;
+  text-align: left; /* added to make the text start from the left */
+  width: 100%;
+}
+
+#name {
+  margin-left: 61px;
+  margin-bottom: 10px;
+  background-color: white;
+  font-size: 20px;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px black solid;
+  max-width: 1000px;
+  width: 700px; /* stretch the label to full width */
+}
+
+#description {
+  margin-left: 220px;
+  border: 1px black solid;
+  text-align: left;
+  font-size: 20px;
+  padding: 15px;
+  border-radius: 5px;
+  padding-bottom: 190px;
+  width: 700px;
+  max-width: 700px;
+  margin-bottom: 10px;
+}
+
+.endTitle {
+  margin-left: 100px;
+}
+
+select {
+  text-align: center;
+  width: 150px;
+  margin-left: 15px;
+  margin-right: 15px;
+  background-color: #cff3f3;
+  font-size: 20px;
+  padding: 10px 2px;
+  border-radius: 5px;
+}
+
+.submitBtn {
+  border: 1px solid rgb(80, 79, 79);
+  margin-top: 30px;
+  margin-left: 400px;
+  font-size: 20px;
+  padding: 10px 60px;
+  background-color: #cff3f3;
+  border-radius: 7px;
+  cursor: pointer;
+}
+
+.imageUplaoding {
+  margin-top: 20px;
+}
+
+.file {
+  margin-left: 10px;
+  font-size: 20px;
+}

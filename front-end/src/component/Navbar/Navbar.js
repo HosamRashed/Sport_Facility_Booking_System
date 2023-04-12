@@ -19,9 +19,10 @@ function Navbar() {
     cookies.remove("TOKEN", { path: "/" });
     window.location.href = "/";
   };
+  
   return (
     <>
-      <IconContext.Provider value={{ color: "#84C3E6" }}>
+      <IconContext.Provider value={{ color: "#4B87A8" }}>
         <div className="navbar">
           <Link to="#" className="menu-bars">
             {" "}

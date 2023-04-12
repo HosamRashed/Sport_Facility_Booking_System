@@ -59,6 +59,7 @@
 .title1 {
   font-size: 35px;
   color: #252525;
+  margin-top: 10px;
   margin-bottom: 10px;
   font-weight: lighter;
 }
@@ -69,10 +70,9 @@
   font-weight: lighter;
   color: #252525;
   border: 1px solid lightblack;
-  margin-bottom: 10px;
 }
 
 .errormessage {
-  font-size:20px;
+  font-size: 20px;
   color: red;
 }

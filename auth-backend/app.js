@@ -7,6 +7,7 @@ const jwt = require("jsonwebtoken");
 // require database connection
 const dbConnect = require("./db/dbConnect");
 const User = require("./db/userModel");
+const Facility = require("./db/facilityModel");
 const auth = require("./auth");
 
 // execute database connection
@@ -27,12 +28,53 @@ app.use((req, res, next) => {
 });
 
 // body parser configuration
-app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: "400kb" }));
 app.use(bodyParser.urlencoded({ extended: true }));
+
+app.get("/api/facility", (request, response, next) => {
+  Facility.find({})
+    .then((data) => {
+      response.status(200).json({
+        message: "the following are facilities data in the database: ",
+        data: data,
+      });
+    })
+    .catch((error) => {
+      response.status(500).send({
+        message: "the following error occurred: ",
+        error: error,
+      });
+    });
+});
 
 app.get("/", (request, response, next) => {
   response.json({ message: "Hey! this is the main page!" });
   next();
+});
+
+app.post("/facility/create", (request, response) => {
+  const facility = new Facility({
+    name: request.body.name,
+    description: request.body.description,
+    startTime: request.body.startTime,
+    endTime: request.body.endTime,
+    image: request.body.image,
+  });
+
+  facility
+    .save()
+    .then((result) => {
+      response.status(201).send({
+        message: "facility Created Successfully",
+        result,
+      });
+    })
+    .catch((error) => {
+      response.status(500).send({
+        message: "Error creating facility",
+        error,
+      });
+    });
 });
 
 // register endpoint
@@ -125,6 +167,52 @@ app.post("/login", (request, response) => {
       response.status(404).send({
         message: "User ID not found",
         e,
+      });
+    });
+});
+
+app.post("/facilities", (request, response) => {
+  // check if email exists
+  Facility.findOne({ name: request.body.name })
+
+    // if there is another facility with the same name
+    .then((result) => {
+      if (result) {
+        response.status(200).send({
+          message: "there is another facility with the same name",
+        });
+      } else {
+        const facility = new Facility({
+          name: request.body.name,
+          description: request.body.description,
+          location: request.body.location,
+          startTime: request.body.startTime,
+          endTime: request.body.endTime,
+        });
+
+        facility
+          .save()
+          // return success if the new user is added to the database successfully
+          .then((result) => {
+            response.status(201).send({
+              message: "facility hass been Created Successfully",
+              result,
+            });
+          })
+          // catch erroe if the new user wasn't added successfully to the database
+          .catch((error) => {
+            response.status(500).send({
+              message: "Error creating new facility",
+              error,
+            });
+          });
+      }
+    })
+    // catch error if password do not match
+    .catch((error) => {
+      response.status(400).send({
+        message: "",
+        error,
       });
     });
 });

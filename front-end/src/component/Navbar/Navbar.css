@@ -1,9 +1,9 @@
 body {
-  background-color: #cff3f3;
+  background-color: white;
 }
 .navbar {
   padding-top: 40px;
-  background-color: #cff3f3;
+  background-color: white;
   height: 60px;
   display: flex;
   justify-content: start;
@@ -26,7 +26,7 @@ body {
   margin-left: 10px;
   border-radius: 8px;
   padding-top: 20px;
-  background-color: white;
+  background-color: #cff3f3;
   width: 250px;
   height: 97vh;
   display: flex;
@@ -65,7 +65,7 @@ body {
 }
 
 .nav-text a:hover {
-  background-color: #84c3e6;
+  background-color: #4b87a8;
 }
 
 .nav-menu-items {
@@ -73,7 +73,7 @@ body {
 }
 
 .navbar-toggle {
-  background-color: white;
+  background-color: #cff3f3;
   width: 100%;
   height: 60px;
   display: flex;

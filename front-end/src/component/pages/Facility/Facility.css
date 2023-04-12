@@ -1,0 +1,72 @@
+/* main page Facility style */
+
+.facilityTable {
+  margin-top: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.facilitiesContainer {
+  max-width: 60em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+/* facility componenet style */
+table {
+  border: collapse;
+  border-spacing: 0;
+  border-radius: 8px;
+}
+
+.errorContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 500px;
+  border: 1px solid black;
+  text-align: center;
+  font-size: 25px;
+  background-color: #cff3f3;
+  border-radius: 5px;
+  margin-top: 20px;
+}
+
+table tbody td {
+  border-top: 1pt solid #4b87a8;
+  line-height: 1em;
+  vertical-align: middle;
+  padding: 0.5em 0.75em;
+  text-align: center;
+}
+table thead th {
+  text-align: center;
+  padding: 0.35em 0.75em;
+}
+
+caption {
+  border-top-right-radius: 8px;
+  border-top-left-radius: 8px;
+  background-color: #cff3f3;
+  padding: 0.5em 0.5em;
+  font-weight: bold;
+  font-size: 1.2em;
+  width: 50em;
+}
+
+button {
+  font-size: 1em;
+  padding: 0.5em 0.5em;
+  background-color: #cff3f3;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+}
+.icon {
+  color: black;
+  font-size: 25px;
+  margin-right: 10px;
+}

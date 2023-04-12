@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import "./login.css";
 import image from "../../images/MMULogo.png";
-import { Link } from "react-router-dom";
 import axios from "axios";
 import Cookies from "universal-cookie";
 
@@ -15,7 +14,6 @@ const Login = () => {
   };
 
   const [formData, setFormData] = useState(initiolaize);
-  const [login, setLogin] = useState(null);
   function handlChanged(event) {
     const { value, name } = event.target;
     setFormData((prevData) => {
@@ -39,7 +37,7 @@ const Login = () => {
         console.log("success");
         console.log(result);
         cookies.set("TOKEN", result.data.token, { path: "/" });
-        window.location.href = "/dashboard";
+        window.location.href = "/facility";
       })
       .catch((error) => {
         console.log("fail");
