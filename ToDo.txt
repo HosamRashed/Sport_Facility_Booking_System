@@ -1,0 +1,3 @@
+* complete facility functionalities (edit, delete)
+* complete the announcemnt page and connect it with the backend
+* change the body color in the login page to light blue 

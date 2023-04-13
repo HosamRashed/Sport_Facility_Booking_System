@@ -8,6 +8,7 @@ const jwt = require("jsonwebtoken");
 const dbConnect = require("./db/dbConnect");
 const User = require("./db/userModel");
 const Facility = require("./db/facilityModel");
+const Announcement = require("./db/announcemnetModel");
 const auth = require("./auth");
 
 // execute database connection
@@ -52,6 +53,7 @@ app.get("/", (request, response, next) => {
   next();
 });
 
+// create a new facility
 app.post("/facility/create", (request, response) => {
   const facility = new Facility({
     name: request.body.name,
@@ -72,6 +74,30 @@ app.post("/facility/create", (request, response) => {
     .catch((error) => {
       response.status(500).send({
         message: "Error creating facility",
+        error,
+      });
+    });
+});
+
+// create a new announcement
+app.post("/announcement", (request, response) => {
+  const announcement = new Announcement({
+    title: request.body.title,
+    content: request.body.content,
+    image: request.body.image,
+  });
+
+  announcement
+    .save()
+    .then((result) => {
+      response.status(201).send({
+        message: "announcement Created Successfully",
+        result,
+      });
+    })
+    .catch((error) => {
+      response.status(500).send({
+        message: "Error creating announcement",
         error,
       });
     });
