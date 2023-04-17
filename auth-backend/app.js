@@ -9,7 +9,6 @@ const dbConnect = require("./db/dbConnect");
 const User = require("./db/userModel");
 const Facility = require("./db/facilityModel");
 const Announcement = require("./db/announcemnetModel");
-const auth = require("./auth");
 
 // execute database connection
 dbConnect();
@@ -48,11 +47,6 @@ app.get("/api/facility", (request, response, next) => {
     });
 });
 
-app.get("/", (request, response, next) => {
-  response.json({ message: "Hey! this is the main page!" });
-  next();
-});
-
 // create a new facility
 app.post("/facility/create", (request, response) => {
   const facility = new Facility({
@@ -75,6 +69,28 @@ app.post("/facility/create", (request, response) => {
       response.status(500).send({
         message: "Error creating facility",
         error,
+      });
+    });
+});
+
+app.post("/facility/delete", (request, response) => {
+  Facility.deleteOne(
+    {
+      _id: request.body.userId,
+    },
+    function (err) {
+      console.log(err);
+    }
+  )
+    .then(() => {
+      response.status(200).send({
+        data: "Deleted",
+      });
+    })
+    .catch((err) => {
+      response.status(500).send({
+        Error: err.message,
+        data: "Error",
       });
     });
 });
@@ -241,16 +257,6 @@ app.post("/facilities", (request, response) => {
         error,
       });
     });
-});
-
-// free endpoint
-app.get("/free-endpoint", (request, response) => {
-  response.json({ message: "You are free to access me anytime" });
-});
-
-// authentication endpoint
-app.get("/auth-endpoint", auth, (request, response) => {
-  response.send({ message: "You are authorized to access me" });
 });
 
 module.exports = app;

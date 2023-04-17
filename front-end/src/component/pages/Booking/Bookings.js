@@ -1,10 +1,12 @@
 import React from "react";
 import Navbar from "../../Navbar/Navbar";
 import Cookies from "universal-cookie";
+import Swal from "sweetalert2";
 
 const Bookings = () => {
   const cookies = new Cookies();
   const token = cookies.get("TOKEN");
+
   return (
     <>
       {token ? (

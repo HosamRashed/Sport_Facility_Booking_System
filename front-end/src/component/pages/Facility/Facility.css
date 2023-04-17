@@ -3,6 +3,7 @@
 .facilityTable {
   margin-top: 30px;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
 }
@@ -12,11 +13,15 @@
   justify-content: center;
   align-items: center;
 }
-/* facility componenet style */
+.btnCreate {
+  margin-top: 20px;
+  border: 1px solid black;
+}
 table {
+  border: 1px solid black;
+  border-top: none;
   border: collapse;
   border-spacing: 0;
-  border-radius: 8px;
 }
 
 .errorContainer {
@@ -48,6 +53,8 @@ table thead th {
 }
 
 caption {
+  border: 1px solid black;
+  border-bottom: none;
   border-top-right-radius: 8px;
   border-top-left-radius: 8px;
   background-color: #cff3f3;
@@ -58,11 +65,12 @@ caption {
 }
 
 button {
+  margin-right: 5px;
   font-size: 1em;
   padding: 0.5em 0.5em;
   background-color: #cff3f3;
   border-radius: 5px;
-  border: none;
+  border: 1px solid black;
   cursor: pointer;
 }
 .icon {

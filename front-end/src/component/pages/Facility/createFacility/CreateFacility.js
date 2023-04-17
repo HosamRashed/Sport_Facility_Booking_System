@@ -3,6 +3,7 @@ import axios from "axios";
 import Navbar from "../../../Navbar/Navbar";
 import Cookies from "universal-cookie";
 import "./CreateFacility.css";
+import Swal from "sweetalert2";
 
 export default function CreateFacility() {
   const initialize = {
@@ -39,6 +40,26 @@ export default function CreateFacility() {
     });
   };
 
+  const Toast = Swal.mixin({
+    toast: true,
+    position: "top-end",
+    showConfirmButton: false,
+    backgroundColor: "green",
+    timer: 3000,
+    timerProgressBar: true,
+  });
+
+  const alert = () => {
+    Toast.fire({
+      title: "Facility has created successfully",
+      background: "#18a146",
+      color: "white",
+    });
+    setTimeout(() => {
+      window.location.href = "/facility";
+    }, 3000);
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const config = {
@@ -55,8 +76,8 @@ export default function CreateFacility() {
     axios(config)
       .then((response) => {
         console.log("succes creating facility");
-        console.log(response.data);
-        window.location.href = "/facility";
+        setForm(initialize);
+        alert();
       })
       .catch((error) => {
         console.log(error);

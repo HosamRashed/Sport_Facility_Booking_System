@@ -21,7 +21,7 @@
 label {
   font-size: 25px;
   margin-block: 10px;
-  text-align: left; /* added to make the text start from the left */
+  text-align: left; 
   width: 100%;
 }
 

@@ -41,9 +41,9 @@ export default function Announcement() {
     event.preventDefault();
     const config = {
       method: "POST",
-      url: "http://localhost:3000/facility/create",
+      url: "http://localhost:3000/announcement",
       data: {
-        name: form.name,
+        title: form.title,
         content: form.content,
         image: form.image,
       },
@@ -69,23 +69,24 @@ export default function Announcement() {
               <div>
                 <label>Announcement Title: </label>
                 <input
-                  id="name"
+                  id="title"
                   type="text"
                   onChange={handleChange}
-                  name="name"
-                  value={form.name}
+                  name="title"
+                  value={form.title}
                 />
               </div>
 
               <div>
-                <label>Announcement content</label>
+                <label>Announcement Content:</label>
                 <textarea
-                  id="description"
+                  id="content"
                   onChange={handleChange}
                   name="content"
+                  value={form.content}
                 />
               </div>
-              
+
               <div className="imageUplaoding">
                 <label className="uploadImage">Upload facility image:</label>
                 <input
