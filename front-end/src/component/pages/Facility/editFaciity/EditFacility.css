@@ -1,0 +1,105 @@
+.btn-modal {
+  padding: 10px 20px;
+  display: block;
+  margin: 100px auto 0;
+  font-size: 18px;
+}
+
+.modal {
+  border-radius: 50px;
+}
+
+.modal,
+.overlay {
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  position: fixed;
+}
+
+.overlay {
+  background: rgba(49, 49, 49, 0.8);
+}
+.modal-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  line-height: 1.4;
+  background: #f1f1f1;
+  padding: 14px 28px;
+  border-radius: 3px;
+  width: 1100px;
+  min-width: 300px;
+}
+
+.close-modal {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 5px 7px;
+  font-size: 30px;
+}
+
+.Editform {
+  padding: 20px;
+  margin: 50px;
+  background-color: white;
+  height: 520px;
+  display: flex;
+  align-items: start;
+  justify-content: start;
+  flex-direction: column;
+  max-width: 1000px;
+  border-radius: 8px;
+  box-shadow: 1px 2px 15px 1px rgb(169, 150, 150);
+}
+
+#Editname {
+  margin-left: 61px;
+  margin-bottom: 10px;
+  background-color: white;
+  font-size: 20px;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px black solid;
+  max-width: 1000px;
+  width: 420px;
+}
+
+#Editdescription {
+  margin-left: 10px;
+  border: 1px black solid;
+  text-align: left;
+  font-size: 20px;
+  padding: 15px;
+  border-radius: 5px;
+  padding-bottom: 190px;
+  width: 420px;
+  max-width: 700px;
+}
+
+.EditfacilityTiming {
+  margin-top: 20px;
+}
+
+.EditsubmitBtn {
+  border: 1px solid rgb(80, 79, 79);
+  margin-top: 40px;
+  margin-left: 360px;
+  font-size: 20px;
+  padding: 10px 60px;
+  background-color: #cff3f3;
+  border-radius: 7px;
+  cursor: pointer;
+}
+.label {
+  font-size: 30px;
+  margin-bottom: 10px;
+  position: absolute;
+  top: 5px;
+  left: 400px;
+}

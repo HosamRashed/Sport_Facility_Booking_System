@@ -31,7 +31,7 @@ app.use((req, res, next) => {
 app.use(bodyParser.json({ limit: "400kb" }));
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.get("/api/facility", (request, response, next) => {
+app.get("/api/facility", (request, response) => {
   Facility.find({})
     .then((data) => {
       response.status(200).json({
@@ -49,34 +49,82 @@ app.get("/api/facility", (request, response, next) => {
 
 // create a new facility
 app.post("/facility/create", (request, response) => {
-  const facility = new Facility({
-    name: request.body.name,
-    description: request.body.description,
-    startTime: request.body.startTime,
-    endTime: request.body.endTime,
-    image: request.body.image,
-  });
+  Facility.findOne({ name: request.body.name })
 
-  facility
-    .save()
+    // if there is another facility with the same name
     .then((result) => {
-      response.status(201).send({
-        message: "facility Created Successfully",
-        result,
-      });
+      if (result) {
+        response.status(200).send({
+          message: "there is another facility with the same name",
+        });
+      } else {
+        const facility = new Facility({
+          name: request.body.name,
+          description: request.body.description,
+          startTime: request.body.startTime,
+          endTime: request.body.endTime,
+          image: request.body.image,
+          reservationTimes: 0,
+        });
+
+        facility
+          .save()
+          // return success if the new user is added to the database successfully
+          .then((result) => {
+            response.status(201).send({
+              message: "facility hass been Created Successfully",
+              result,
+            });
+          })
+          // catch erroe if the new user wasn't added successfully to the database
+          .catch((error) => {
+            response.status(500).send({
+              message: "Error creating new facility",
+              error,
+            });
+          });
+      }
     })
+    // catch error if password do not match
     .catch((error) => {
-      response.status(500).send({
-        message: "Error creating facility",
+      response.status(400).send({
+        message: "",
         error,
       });
     });
 });
 
-app.post("/facility/delete", (request, response) => {
+app.put("/facility/:id", (req, res) => {
+  const id = req.params.id;
+  const { name, description, startTime, endTime, image } = req.body;
+
+  Facility.findByIdAndUpdate(
+    id,
+    {
+      name: name,
+      description: description,
+      startTime: startTime,
+      endTime: endTime,
+      image: image,
+    },
+    { new: true }
+  )
+    .then((facility) => {
+      res.json(facility);
+    })
+    .catch((error) => {
+      res
+        .status(500)
+        .json({ message: "Error updating facility!", error: error });
+    });
+});
+
+app.delete("/facility/delete/:id", (request, response) => {
+  const id = request.params.id;
+
   Facility.deleteOne(
     {
-      _id: request.body.userId,
+      _id: id,
     },
     function (err) {
       console.log(err);
@@ -214,7 +262,6 @@ app.post("/login", (request, response) => {
 });
 
 app.post("/facilities", (request, response) => {
-  // check if email exists
   Facility.findOne({ name: request.body.name })
 
     // if there is another facility with the same name
@@ -230,6 +277,7 @@ app.post("/facilities", (request, response) => {
           location: request.body.location,
           startTime: request.body.startTime,
           endTime: request.body.endTime,
+          reservationTimes: 0,
         });
 
         facility

@@ -6,6 +6,7 @@ const FacilitySchema = new mongoose.Schema({
   startTime: { required: true, type: "string" },
   endTime: { required: true, type: "string" },
   image: { required: true, type: "string" },
+  reservationTimes: { type: Number },
 });
 
 module.exports =

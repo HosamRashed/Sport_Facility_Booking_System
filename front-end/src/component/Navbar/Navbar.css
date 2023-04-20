@@ -35,7 +35,7 @@ body {
   top: 0;
   left: -100%;
   transition: 850ms;
-  box-shadow: 3px 7px 10px 3px #84c3e6;
+  box-shadow: 1px 2px 15px 1px rgb(169, 150, 150);
 }
 
 .nav-menu.active {

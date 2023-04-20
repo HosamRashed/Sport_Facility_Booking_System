@@ -55,9 +55,6 @@ export default function CreateFacility() {
       background: "#18a146",
       color: "white",
     });
-    setTimeout(() => {
-      window.location.href = "/facility";
-    }, 3000);
   };
 
   const handleSubmit = (event) => {
@@ -78,6 +75,9 @@ export default function CreateFacility() {
         console.log("succes creating facility");
         setForm(initialize);
         alert();
+        setTimeout(() => {
+          window.location.href = "/facility";
+        }, 3000);
       })
       .catch((error) => {
         console.log(error);

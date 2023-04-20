@@ -1,2 +1,2 @@
-* complete facility functionalities (edit, delete)
-* change the body color in the login page to light blue 
+* finish booking and user front and backend 
+* display current announcements available in the system make somthing similar to the faility page.

@@ -73,6 +73,14 @@ button {
   border: 1px solid black;
   cursor: pointer;
 }
+.btnCreate {
+  font-size: 20px;
+  margin-block: 20px;
+  padding: 10px 60px;
+  background-color: #cff3f3;
+  border-radius: 7px;
+  cursor: pointer;
+}
 .icon {
   color: black;
   font-size: 25px;

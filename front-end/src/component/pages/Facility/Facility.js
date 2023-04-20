@@ -7,12 +7,15 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import "./Facility.css";
 import Swal from "sweetalert2";
+import EditFacility from "./editFaciity/EditFacility";
 
 const Facility = () => {
+  const [modal, setModal] = useState(false);
   const cookies = new Cookies();
   const token = cookies.get("TOKEN");
   const [facilities, setFacilities] = useState([]);
   const [isLoading, setIsLoading] = useState(true); // Add isLoading state variable
+  const [selectFacility, setSelectFacility] = useState(null);
   useEffect(() => {
     getData();
   }, []);
@@ -39,15 +42,12 @@ const Facility = () => {
       .then((result) => {
         if (result.isConfirmed) {
           const config = {
-            method: "POST",
-            url: "http://localhost:3000/facility/delete",
-            data: {
-              userId: facility_id,
-            },
+            method: "DELETE",
+            url: `http://localhost:3000/facility/delete/${facility_id}`,
           };
           axios(config)
             .then((response) => {
-              console.log(" The facility is deleteds", response);
+              console.log(" The facility is deleted", response);
               getData();
             })
             .catch((error) => {
@@ -56,6 +56,11 @@ const Facility = () => {
         } else if (result.dismiss === Swal.DismissReason.cancel) {
         }
       });
+  };
+
+  const toggleModal = (facility) => {
+    setSelectFacility(facility);
+    setModal(!modal);
   };
 
   const delteFacility = (facility_id) => {
@@ -96,7 +101,7 @@ const Facility = () => {
             />
           </Link>
           <Link to="#" className="icon">
-            <FiIcons.FiEdit />
+            <FiIcons.FiEdit onClick={() => toggleModal(facility)} />
           </Link>
         </td>
         <td></td>
@@ -112,7 +117,7 @@ const Facility = () => {
           <thead>
             <tr>
               <th>Image</th>
-              <th>Name</th>
+              <th>Facility Name</th>
               <th>Available Time</th>
             </tr>
           </thead>
@@ -124,7 +129,7 @@ const Facility = () => {
             window.location.href = "/facility/create";
           }}
         >
-          create new Facility{" "}
+          CREATE NEW FACILITY
         </button>
       </div>
     ) : (
@@ -143,6 +148,13 @@ const Facility = () => {
               displayFacility
             )}
           </div>
+          {modal && (
+            <EditFacility
+              update={getData}
+              prevFacility={selectFacility}
+              clicked={toggleModal}
+            />
+          )}
         </div>
       ) : (
         <p className="errorContainer">
