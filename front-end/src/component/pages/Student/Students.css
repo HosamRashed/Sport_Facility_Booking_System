@@ -99,3 +99,25 @@ button {
   border: 1px solid black;
   cursor: pointer;
 }
+
+.barred {
+  color: white;
+  margin-right: 5px;
+  font-size: 1em;
+  padding: 0.5em 0.5em;
+  background-color: rgb(207, 43, 43);
+  border-radius: 5px;
+  border: 1px solid black;
+  cursor: pointer;
+}
+
+.activeStudent {
+  color: white;
+  margin-right: 5px;
+  font-size: 1em;
+  padding: 0.5em 0.5em;
+  background-color: rgb(23, 169, 23);
+  border-radius: 5px;
+  border: 1px solid black;
+  cursor: pointer;
+}

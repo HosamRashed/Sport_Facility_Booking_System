@@ -90,7 +90,7 @@ const Facility = () => {
           {facility.startTime} - {facility.endTime}
         </td>
         <td>
-          <button>Add timetable</button>
+          <button className="timetable">Add Timetable</button>
         </td>
         <td>
           <Link to="#" className="icon">

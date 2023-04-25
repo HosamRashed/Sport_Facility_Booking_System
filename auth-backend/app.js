@@ -7,6 +7,7 @@ const jwt = require("jsonwebtoken");
 // require database connection
 const dbConnect = require("./db/dbConnect");
 const User = require("./db/userModel");
+const Students = require("./db/studentsModel");
 const Facility = require("./db/facilityModel");
 const Announcement = require("./db/announcemnetModel");
 
@@ -31,11 +32,59 @@ app.use((req, res, next) => {
 app.use(bodyParser.json({ limit: "400kb" }));
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.get("/api/facility", (request, response) => {
-  Facility.find({})
+// create new student
+app.post("/students/create", (request, response) => {
+  Students.findOne({ user_ID: request.body.User_ID })
+
+    // if there is another facility with the same name
+    .then((result) => {
+      if (result) {
+        response.status(402).send({
+          message: "there is another student account with the same name",
+        });
+      } else {
+        const student = new Students({
+          User_ID: request.body.User_ID,
+          User_Email: request.body.User_Email,
+          User_Name: request.body.User_Name,
+          password: request.body.password,
+          User_Gender: request.body.User_Gender,
+          User_status: "actuve",
+        });
+
+        student
+          .save()
+          // return success if the new user is added to the database successfully
+          .then((result) => {
+            response.status(201).send({
+              message: "student user has been created successfully",
+              result,
+            });
+          })
+          // catch erroe if the new user wasn't added successfully to the database
+          .catch((error) => {
+            response.status(500).send({
+              message: "Error creating new student user",
+              error,
+            });
+          });
+      }
+    })
+    // catch error if password do not match
+    .catch((error) => {
+      response.status(400).send({
+        message: "",
+        error,
+      });
+    });
+});
+
+// retrive students data
+app.get("/api/students", (request, response) => {
+  Students.find({})
     .then((data) => {
       response.status(200).json({
-        message: "the following are facilities data in the database: ",
+        message: "the following are students data in the database: ",
         data: data,
       });
     })
@@ -44,6 +93,32 @@ app.get("/api/facility", (request, response) => {
         message: "the following error occurred: ",
         error: error,
       });
+    });
+});
+
+// update the status of the student
+app.put("/students/:id", (req, res) => {
+  const id = req.params.id;
+
+  Students.findByIdAndUpdate(
+    id,
+    {
+      User_ID: req.body.User_ID,
+      User_Email: req.body.User_Email,
+      User_Name: req.body.User_Name,
+      password: req.body.password,
+      User_Gender: req.body.User_Gender,
+      User_status: req.body.User_status,
+    },
+    { new: true }
+  )
+    .then((student) => {
+      res.json(student);
+    })
+    .catch((error) => {
+      res
+        .status(502)
+        .json({ message: "Error updating student status!", error: error });
     });
 });
 
@@ -94,6 +169,24 @@ app.post("/facility/create", (request, response) => {
     });
 });
 
+// retrive facility data
+app.get("/api/facility", (request, response) => {
+  Facility.find({})
+    .then((data) => {
+      response.status(200).json({
+        message: "the following are facilities data in the database: ",
+        data: data,
+      });
+    })
+    .catch((error) => {
+      response.status(500).send({
+        message: "the following error occurred: ",
+        error: error,
+      });
+    });
+});
+
+// update facility
 app.put("/facility/:id", (req, res) => {
   const id = req.params.id;
   const { name, description, startTime, endTime, image } = req.body;
@@ -119,6 +212,7 @@ app.put("/facility/:id", (req, res) => {
     });
 });
 
+// delete facility
 app.delete("/facility/delete/:id", (request, response) => {
   const id = request.params.id;
 
@@ -163,6 +257,71 @@ app.post("/announcement", (request, response) => {
       response.status(500).send({
         message: "Error creating announcement",
         error,
+      });
+    });
+});
+
+// retrive announcements data
+app.get("/api/announcements", (request, response) => {
+  Announcement.find({})
+    .then((data) => {
+      response.status(200).json({
+        message: "the following are announcement data in the database: ",
+        data: data,
+      });
+    })
+    .catch((error) => {
+      response.status(500).send({
+        message: "the following error occurred: ",
+        error: error,
+      });
+    });
+});
+
+// update announcement
+app.put("/announcement/:id", (req, res) => {
+  const id = req.params.id;
+  const { title, content, image } = req.body;
+
+  Announcement.findByIdAndUpdate(
+    id,
+    {
+      title: title,
+      content: content,
+      image: image,
+    },
+    { new: true }
+  )
+    .then((announcement) => {
+      res.json(announcement);
+    })
+    .catch((error) => {
+      res
+        .status(500)
+        .json({ message: "Error updating announcement!", error: error });
+    });
+});
+
+// delete announcement
+app.delete("/announcement/delete/:id", (request, response) => {
+  const id = request.params.id;
+  Announcement.deleteOne(
+    {
+      _id: id,
+    },
+    function (err) {
+      console.log(err);
+    }
+  )
+    .then(() => {
+      response.status(200).send({
+        data: "Deleted",
+      });
+    })
+    .catch((err) => {
+      response.status(500).send({
+        Error: err.message,
+        data: "Error",
       });
     });
 });

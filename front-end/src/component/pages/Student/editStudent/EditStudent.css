@@ -1,0 +1,100 @@
+.btn-modal {
+  padding: 10px 20px;
+  display: block;
+  margin: 100px auto 0;
+  font-size: 18px;
+}
+
+.modal {
+  border-radius: 50px;
+}
+
+.modal,
+.overlay {
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  position: fixed;
+}
+
+.overlay {
+  background: rgba(49, 49, 49, 0.8);
+}
+.modal-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  line-height: 1.4;
+  background: #f1f1f1;
+  padding: 14px 28px;
+  border-radius: 3px;
+  width: 1100px;
+  min-width: 300px;
+}
+
+.close-modal {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 5px 7px;
+  font-size: 30px;
+}
+
+.Edit {
+  display: flex;
+  border: 1px solid black;
+  padding: 20px;
+  margin: 50px;
+  background-color: white;
+  height: 350px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  max-width: 1000px;
+  border-radius: 8px;
+  box-shadow: 1px 2px 15px 1px rgb(169, 150, 150);
+}
+
+.marginRight {
+  margin-left: 28px;
+}
+
+.marginleft {
+  margin-left: -10px;
+}
+
+.EditInfo {
+  margin-left: 10px;
+  margin-bottom: 10px;
+  background-color: white;
+  font-size: 20px;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px black solid;
+  max-width: 1000px;
+  width: 420px;
+}
+
+.updateButton {
+  border: 1px solid rgb(80, 79, 79);
+  margin-top: 40px;
+  margin-left: 20px;
+  font-size: 20px;
+  padding: 10px 60px;
+  background-color: #cff3f3;
+  border-radius: 7px;
+  cursor: pointer;
+}
+
+.Formlabel {
+  font-size: 30px;
+  margin-bottom: 10px;
+  position: absolute;
+  top: 5px;
+  left: 450px;
+}

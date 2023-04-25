@@ -72,7 +72,6 @@ export default function CreateFacility() {
     };
     axios(config)
       .then((response) => {
-        console.log("succes creating facility");
         setForm(initialize);
         alert();
         setTimeout(() => {
