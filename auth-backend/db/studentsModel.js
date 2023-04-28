@@ -8,19 +8,30 @@ const StudentSchema = new mongoose.Schema({
     unique: [true, "User_ID Exist"],
   },
 
-  User_Email: {
-    type: String,
-    required: [true, "Please provide your email!"],
-    unique: [true, "provided email Exist"],
-  },
-
-  User_Name: {
+  Full_Name: {
     type: String,
     required: [true, "Please provide your name!"],
+  },
+
+  SecretQuestion: {
+    type: String,
+    required: [true, "Please choose a secret question!"],
     unique: false,
   },
 
-  password: {
+  AnswerQuestion: {
+    type: String,
+    required: [true, "Please answer the secret question!"],
+    unique: false,
+  },
+
+  Password: {
+    type: String,
+    required: [true, "Please provide a password!"],
+    unique: false,
+  },
+
+  ConfirmPassword: {
     type: String,
     required: [true, "Please provide a password!"],
     unique: false,

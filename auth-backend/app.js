@@ -45,11 +45,13 @@ app.post("/students/create", (request, response) => {
       } else {
         const student = new Students({
           User_ID: request.body.User_ID,
-          User_Email: request.body.User_Email,
-          User_Name: request.body.User_Name,
-          password: request.body.password,
+          Full_Name: request.body.Full_Name,
+          SecretQuestion: request.body.SecretQuestion,
+          AnswerQuestion: request.body.AnswerQuestion,
+          Password: request.body.Password,
+          ConfirmPassword: request.body.ConfirmPassword,
           User_Gender: request.body.User_Gender,
-          User_status: "actuve",
+          User_status: "active",
         });
 
         student
@@ -97,18 +99,20 @@ app.get("/api/students", (request, response) => {
 });
 
 // update the status of the student
-app.put("/students/:id", (req, res) => {
+app.put("/students/:id", (request, res) => {
   const id = req.params.id;
 
   Students.findByIdAndUpdate(
     id,
     {
-      User_ID: req.body.User_ID,
-      User_Email: req.body.User_Email,
-      User_Name: req.body.User_Name,
-      password: req.body.password,
-      User_Gender: req.body.User_Gender,
-      User_status: req.body.User_status,
+      User_ID: request.body.User_ID,
+      Full_Name: request.body.Full_Name,
+      SecretQuestion: request.body.SecretQuestion,
+      AnswerQuestion: request.body.AnswerQuestion,
+      Password: request.body.Password,
+      ConfirmPassword: request.body.ConfirmPassword,
+      User_Gender: request.body.User_Gender,
+      User_status: "active",
     },
     { new: true }
   )
