@@ -7,7 +7,7 @@ const jwt = require("jsonwebtoken");
 // require database connection
 const dbConnect = require("./db/dbConnect");
 const User = require("./db/userModel");
-const Students = require("./db/studentsModel");
+const Students = require("./db/studentModel");
 const Facility = require("./db/facilityModel");
 const Announcement = require("./db/announcemnetModel");
 
@@ -31,51 +31,61 @@ app.use((req, res, next) => {
 // body parser configuration
 app.use(bodyParser.json({ limit: "400kb" }));
 app.use(bodyParser.urlencoded({ extended: true }));
+var os = require("os");
+
+// var networkInterfaces = os.networkInterfaces();
+
+// console.log(networkInterfaces);
 
 // create new student
 app.post("/students/create", (request, response) => {
-  Students.findOne({ user_ID: request.body.User_ID })
-
-    // if there is another facility with the same name
+  Students.findOne({ User_ID: request.body.User_ID })
     .then((result) => {
+      console.log(result);
       if (result) {
-        response.status(402).send({
-          message: "there is another student account with the same name",
+        response.status(200).send({
+          message: "Duplicate",
         });
       } else {
-        const student = new Students({
-          User_ID: request.body.User_ID,
-          Full_Name: request.body.Full_Name,
-          SecretQuestion: request.body.SecretQuestion,
-          AnswerQuestion: request.body.AnswerQuestion,
-          Password: request.body.Password,
-          ConfirmPassword: request.body.ConfirmPassword,
-          User_Gender: request.body.User_Gender,
-          User_status: "active",
-        });
-
-        student
-          .save()
-          // return success if the new user is added to the database successfully
-          .then((result) => {
-            response.status(201).send({
-              message: "student user has been created successfully",
-              result,
+        bcrypt
+          .hash(request.body.Password, 10) // Hash the password
+          .then((hashedPassword) => {
+            const student = new Students({
+              User_ID: request.body.User_ID,
+              Full_Name: request.body.Full_Name,
+              SecretQuestion: request.body.SecretQuestion,
+              AnswerQuestion: request.body.AnswerQuestion,
+              Password: hashedPassword, // Assign the hashed password
+              ConfirmPassword: hashedPassword,
+              User_Gender: request.body.User_Gender,
+              User_status: "active",
             });
+            student
+              .save()
+              .then((result) => {
+                console.log("successful"),
+                  response.status(200).send({
+                    message: "successful",
+                  });
+              })
+              .catch((error) => {
+                response.status(500).send({
+                  message: "Error creating new student user",
+                  error,
+                });
+              });
           })
-          // catch erroe if the new user wasn't added successfully to the database
           .catch((error) => {
             response.status(500).send({
-              message: "Error creating new student user",
+              message: "Password was not hashed successfully",
               error,
             });
           });
       }
     })
-    // catch error if password do not match
     .catch((error) => {
-      response.status(400).send({
-        message: "",
+      response.status(501).send({
+        message: "Error with findOne function!",
         error,
       });
     });
@@ -126,6 +136,116 @@ app.put("/students/:id", (request, res) => {
     });
 });
 
+// login endpoint
+app.post("/students/login", (request, response) => {
+  Students.findOne({ User_ID: request.body.User_ID })
+    .then((student) => {
+      if (student) {
+        bcrypt
+          .compare(request.body.Password, student.Password)
+          .then((passwordCheck) => {
+            if (passwordCheck) {
+              response.status(200).send({
+                message: "Login Successful",
+              });
+            } else {
+              response.status(400).send({
+                message: "Password is incorrect!",
+              });
+            }
+          })
+          .catch((error) => {
+            response.status(500).send({
+              message: "An error occurred while comparing passwords",
+              error,
+            });
+          });
+      } else {
+        response.status(404).send({
+          message: "User ID not found",
+        });
+      }
+    })
+    .catch((error) => {
+      response.status(500).send({
+        message: "An error occurred while searching for the user",
+        error,
+      });
+    });
+});
+
+app.post("/students/resetPassword", (request, response) => {
+  const { User_ID, AnswerQuestion } = request.body;
+  Students.findOne({ User_ID })
+    .then((student) => {
+      if (student) {
+        if (student.AnswerQuestion === AnswerQuestion) {
+          response.status(200).send({
+            message: "Successful",
+          });
+        } else {
+          response.status(400).send({
+            message: "The answer is incorrect!",
+          });
+        }
+      } else {
+        response.status(404).send({
+          message: "User ID not found",
+        });
+      }
+    })
+    .catch((error) => {
+      response.status(500).send({
+        message: "An error occurred while searching for the user",
+        error,
+      });
+    });
+});
+
+app.post("/students/updatePassword", (request, response) => {
+  const { User_ID, Password, ConfirmPassword } = request.body;
+
+  if (Password !== ConfirmPassword) {
+    response.status(400).send({
+      message: "Passwords do not match!",
+    });
+    return;
+  }
+
+  Students.findOne({ User_ID })
+    .then((student) => {
+      if (student) {
+        bcrypt.hash(Password, 10).then((hashedPassword) => {
+          student.Password = hashedPassword;
+          student.ConfirmPassword = hashedPassword;
+
+          student
+            .save()
+            .then(() => {
+              response.status(200).send({
+                message: "Password updated successfully",
+              });
+            })
+            .catch((error) => {
+              response.status(500).send({
+                message: "Error updating password",
+                error,
+              });
+            });
+        });
+      } else {
+        response.status(404).send({
+          message: "User ID not found",
+        });
+      }
+    })
+    .catch((error) => {
+      response.status(500).send({
+        message: "An error occurred while searching for the user",
+        error,
+      });
+    });
+});
 // create a new facility
 app.post("/facility/create", (request, response) => {
   Facility.findOne({ name: request.body.name })
@@ -347,7 +467,7 @@ app.post("/register", (request, response) => {
         .save()
         // return success if the new user is added to the database successfully
         .then((result) => {
-          response.status(201).send({
+          response.status(200).send({
             message: "User Created Successfully",
             result,
           });

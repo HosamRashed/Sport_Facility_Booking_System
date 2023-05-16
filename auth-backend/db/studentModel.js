@@ -11,6 +11,7 @@ const StudentSchema = new mongoose.Schema({
   Full_Name: {
     type: String,
     required: [true, "Please provide your name!"],
+    unique: false,
   },
 
   SecretQuestion: {
@@ -33,21 +34,23 @@ const StudentSchema = new mongoose.Schema({
 
   ConfirmPassword: {
     type: String,
-    required: [true, "Please provide a password!"],
+    required: [true, "Please confirm the password!"],
     unique: false,
   },
 
   User_Gender: {
     type: String,
     required: [true, "Please select your gender!"],
+    unique: false,
   },
 
   User_status: {
     type: String,
     required: [true],
+    unique: false,
   },
 });
 
 // export UserSchema
 module.exports =
-  mongoose.model.Students || mongoose.model("students", StudentSchema);
+  mongoose.model.Student || mongoose.model("student", StudentSchema);

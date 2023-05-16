@@ -100,7 +100,7 @@ const Students = () => {
         const initialStudents = response.data.data.map((student) => {
           return {
             ...student,
-            status: student.User_status === "Active" ? true : false,
+            status: student.User_status === "active" ? true : false,
           };
         });
         setStudents(initialStudents);
@@ -114,7 +114,7 @@ const Students = () => {
   const components = students.map((student) => {
     return (
       <tr key={student._id}>
-        <td>{student.User_Name}</td>
+        <td>{student.Full_Name}</td>
         <td>{student.User_ID}</td>
         <td>{student.User_Gender}</td>
         <td>

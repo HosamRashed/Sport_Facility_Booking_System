@@ -50,7 +50,7 @@
   padding: 20px;
   margin: 50px;
   background-color: white;
-  height: 350px;
+  height: 390px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -82,7 +82,7 @@
 
 .updateButton {
   border: 1px solid rgb(80, 79, 79);
-  margin-top: 40px;
+  margin-top: 20px;
   margin-left: 20px;
   font-size: 20px;
   padding: 10px 60px;

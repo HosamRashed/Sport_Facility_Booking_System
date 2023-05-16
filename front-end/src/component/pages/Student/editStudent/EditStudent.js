@@ -103,18 +103,29 @@ export default function EditStudent(props) {
                 type="text"
                 onChange={handleChange}
                 name="User_Name"
-                value={updateForm.User_Name}
+                value={updateForm.Full_Name}
               />
             </div>
 
             <div>
-              <label> Student Email: </label>
+              <label> Secret Question: </label>
               <input
                 className="EditInfo"
                 type="text"
                 onChange={handleChange}
                 name="User_Email"
-                value={updateForm.User_Email}
+                value={updateForm.SecretQuestion}
+              />
+            </div>
+
+            <div>
+              <label> Secret Answer: </label>
+              <input
+                className="EditInfo"
+                type="text"
+                onChange={handleChange}
+                name="User_Email"
+                value={updateForm.AnswerQuestion}
               />
             </div>
 
