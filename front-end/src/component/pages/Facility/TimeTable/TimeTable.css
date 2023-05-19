@@ -1,0 +1,115 @@
+.options {
+  padding: 20px;
+  width: 1120px;
+  margin: 10px;
+  background-color: white;
+  height: 320px;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  flex-direction: column;
+  max-width: 1300px;
+  border-radius: 8px;
+  box-shadow: 1px 2px 15px 1px rgb(169, 150, 150);
+}
+
+.daysContainer {
+  height: 200px;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  justify-self: center;
+  align-items: center;
+}
+
+.check {
+  display: none;
+}
+
+.checkmark {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  background-color: #ccc;
+  border-radius: 3px;
+  margin-right: 5px;
+}
+
+.check:checked + .checkmark {
+  background-color: #418ddf;
+}
+
+.check-label {
+  display: inline-block;
+  color: #333;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.days {
+  padding-left: 20px;
+  width: 1150px;
+  height: 300px;
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+}
+
+#dayslabel {
+  margin-top: 10px;
+  padding: 5px 50px;
+  background-color: #cff3f3;
+  border: 0.5px solid rgb(101, 100, 100);
+  border-radius: 5px;
+  font-size: 30px;
+  margin-bottom: 10px;
+}
+
+.formContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+select {
+  text-align: center;
+  width: 200px;
+  margin-left: 15px;
+  margin-right: 15px;
+  background-color: #cff3f3;
+  font-size: 20px;
+  padding: 10px 2px;
+  border-radius: 5px;
+}
+
+.submitButton {
+  border: 1px solid rgb(80, 79, 79);
+  font-size: 20px;
+  padding: 10px 60px;
+  background-color: #cff3f3;
+  border-radius: 7px;
+  cursor: pointer;
+}
+
+.error {
+  margin-top: 10px;
+  font-size: 23px;
+  color: red;
+}
+
+.SlotsContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 5px solid black;
+  width: 800px;
+  height: 300px;
+}
+
+.MainContainerSlots {
+  border: 1px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

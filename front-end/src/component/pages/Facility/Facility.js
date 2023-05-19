@@ -90,7 +90,14 @@ const Facility = () => {
           {facility.startTime} - {facility.endTime}
         </td>
         <td>
-          <button className="timetable">Add Timetable</button>
+          <button
+            onClick={() => {
+              window.location.href = "/facility/timeTable";
+            }}
+            className="timetable"
+          >
+            Add Timetable
+          </button>
         </td>
         <td>
           <Link to="#" className="icon">

@@ -71,7 +71,7 @@ const Announcement = () => {
 
   const getData = () => {
     axios
-      .get("http://localhost:3000/api/announcements")
+      .get("http://localhost:9229/api/announcements")
       .then((response) => {
         setAnnouncements(response.data.data);
         setIsLoading(false); // Set isLoading to false when data is fetched

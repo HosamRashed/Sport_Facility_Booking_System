@@ -33,9 +33,9 @@ app.use(bodyParser.json({ limit: "400kb" }));
 app.use(bodyParser.urlencoded({ extended: true }));
 var os = require("os");
 
-// var networkInterfaces = os.networkInterfaces();
+var networkInterfaces = os.networkInterfaces();
 
-// console.log(networkInterfaces);
+console.log(networkInterfaces);
 
 // create new student
 app.post("/students/create", (request, response) => {
@@ -106,6 +106,12 @@ app.get("/api/students", (request, response) => {
         error: error,
       });
     });
+});
+
+app.get("/", (request, response) => {
+  response.status(200).json({
+    message: "the following are students data in the database: ",
+  });
 });
 
 // update the status of the student
@@ -295,6 +301,7 @@ app.post("/facility/create", (request, response) => {
 
 // retrive facility data
 app.get("/api/facility", (request, response) => {
+  console.log("hello");
   Facility.find({})
     .then((data) => {
       response.status(200).json({
@@ -452,6 +459,8 @@ app.delete("/announcement/delete/:id", (request, response) => {
 
 // register endpoint
 app.post("/register", (request, response) => {
+  console.log("hello");
+
   // hash the password
   bcrypt
     .hash(request.body.password, 10)
