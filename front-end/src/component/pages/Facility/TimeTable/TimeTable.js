@@ -22,7 +22,7 @@ export default function TimeTable() {
   const [visible, setVisible] = useState(false);
   let numberOfSlots;
   let slots;
-  const [content, setContent] = useState(true);
+  const [content, setContent] = useState(false);
   const cookies = new Cookies();
   const token = cookies.get("TOKEN");
 
@@ -46,26 +46,36 @@ export default function TimeTable() {
     return true;
   };
 
-  const slotsdevide = () => {
-    numberOfSlots =
+  const slotsDivide = () => {
+    const numberOfSlots =
       (parseInt(form.availableTo) - parseInt(form.availableFrom)) /
       form.duration;
     let startTime = parseInt(form.availableFrom);
     const availableSlots = [];
 
     for (let i = 0; i < numberOfSlots; i++) {
-      availableSlots.push({
-        time: [startTime, startTime + 2],
-        availability: "available",
-        type: "",
-      });
-      startTime = startTime + 2;
+      if (form.duration === "2") {
+        availableSlots.push({
+          time: [startTime, startTime + 2],
+          availability: "available",
+          type: "",
+        });
+        startTime = startTime + 2;
+      } else if (form.duration === "1") {
+        availableSlots.push({
+          time: [startTime, startTime + 1],
+          availability: "available",
+          type: "",
+        });
+        startTime = startTime + 1;
+      }
     }
+
     return availableSlots;
   };
 
   const prepareContent = () => {
-    slots = slotsdevide();
+    slots = slotsDivide();
     const days = form.selectedDays.map((day) => {
       return {
         [day]: {
@@ -85,9 +95,8 @@ export default function TimeTable() {
       }
     });
 
-    console.log(form.calender.Thursday.slots[0].time);
-
-    // setContent(true);
+    console.log(form);
+    setContent(true);
   };
 
   const handleNext = (event) => {
@@ -95,6 +104,11 @@ export default function TimeTable() {
     if (checkInputs()) {
       prepareContent();
     }
+  };
+
+  const update = (event) => {
+    event.preventDefault();
+    setContent(false);
   };
 
   const handleChange = (event) => {
@@ -116,7 +130,31 @@ export default function TimeTable() {
       }));
     }
   };
+  const handleSlotTypeChange = (time, type) => {
+    const updatedCalender = { ...form.calender };
 
+    Object.keys(updatedCalender).forEach((dayName) => {
+      const updatedSlots = updatedCalender[dayName].slots.map((slot) => {
+        if (slot.time === time) {
+          if (type === "unavailable") {
+            return { ...slot, availability: "unavailable" };
+          } else {
+            return { ...slot, type, availability: "available" };
+          }
+        }
+        return slot;
+      });
+
+      updatedCalender[dayName].slots = updatedSlots;
+    });
+
+    setForm((prevData) => ({
+      ...prevData,
+      calender: updatedCalender,
+    }));
+  };
+
+  console.log(form.calender);
   const Toast = Swal.mixin({
     toast: true,
     position: "top-end",
@@ -185,8 +223,9 @@ export default function TimeTable() {
                     <option value="16.00">16.00 PM</option>
                     <option value="18.00">18.00 PM</option>
                   </select>
+
                   <select
-                    id="availableTo"
+                    id="type"
                     name="availableTo"
                     value={form.availableTo}
                     onChange={handleChange}
@@ -317,10 +356,25 @@ export default function TimeTable() {
         ) : (
           <>
             <Navbar />
+
             <div className="MainContainerSlots">
+              <div className="title">Select a category for each slot</div>
               <div className="SlotsContainer">
-                <Slot info={form} />
+                {form.calender &&
+                  Object.keys(form.calender).length > 0 &&
+                  form.calender[Object.keys(form.calender)[0]].slots.map(
+                    (slot) => (
+                      <Slot
+                        info={slot}
+                        key={slot.time.join("")}
+                        onChangeType={handleSlotTypeChange}
+                      />
+                    )
+                  )}
               </div>
+              <button className="UpdateBtn" type="submit" onClick={update}>
+                Update
+              </button>
             </div>
           </>
         )
