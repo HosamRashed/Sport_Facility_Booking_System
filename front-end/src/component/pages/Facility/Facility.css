@@ -40,15 +40,6 @@ table {
   margin-top: 20px;
 }
 
-table tbody td {
-  max-width: 300px;
-
-  border-top: 1pt solid #4b87a8;
-  line-height: 1em;
-  vertical-align: middle;
-  padding: 0.5em 0.75em;
-  text-align: center;
-}
 table thead th {
   text-align: center;
   padding: 0.35em 0.75em;

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+
 import Navbar from "../../Navbar/Navbar";
 import Cookies from "universal-cookie";
 import * as AiIcons from "react-icons/ai";
@@ -9,7 +10,7 @@ import "./Facility.css";
 import Swal from "sweetalert2";
 import EditFacility from "./editFaciity/EditFacility";
 
-const Facility = () => {
+const Facility = ({ history }) => {
   const [modal, setModal] = useState(false);
   const cookies = new Cookies();
   const token = cookies.get("TOKEN");
@@ -86,13 +87,11 @@ const Facility = () => {
           <img src={facility.image} height="50px" width="50px" alt="" />
         </td>
         <td>{facility.name}</td>
-        <td>
-          {facility.startTime} - {facility.endTime}
-        </td>
+        <td>{facility.description}</td>
         <td>
           <button
             onClick={() => {
-              window.location.href = "/facility/timeTable";
+              window.location.href = `/facility/${facility._id}/timeTable`;
             }}
             className="timetable"
           >
@@ -125,7 +124,7 @@ const Facility = () => {
             <tr>
               <th>Image</th>
               <th>Facility Name</th>
-              <th>Available Time</th>
+              <th>Facility Description</th>
             </tr>
           </thead>
           <tbody>{components}</tbody>

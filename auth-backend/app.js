@@ -108,15 +108,9 @@ app.get("/api/students", (request, response) => {
     });
 });
 
-app.get("/", (request, response) => {
-  response.status(200).json({
-    message: "the following are students data in the database: ",
-  });
-});
-
 // update the status of the student
 app.put("/students/:id", (request, res) => {
-  const id = req.params.id;
+  const id = request.params.id;
 
   Students.findByIdAndUpdate(
     id,
@@ -126,9 +120,9 @@ app.put("/students/:id", (request, res) => {
       SecretQuestion: request.body.SecretQuestion,
       AnswerQuestion: request.body.AnswerQuestion,
       Password: request.body.Password,
-      ConfirmPassword: request.body.ConfirmPassword,
+      ConfirmPassword: request.body.Password,
       User_Gender: request.body.User_Gender,
-      User_status: "active",
+      User_status: request.body.User_status,
     },
     { new: true }
   )
@@ -266,8 +260,6 @@ app.post("/facility/create", (request, response) => {
         const facility = new Facility({
           name: request.body.name,
           description: request.body.description,
-          startTime: request.body.startTime,
-          endTime: request.body.endTime,
           image: request.body.image,
           reservationTimes: 0,
         });
@@ -320,15 +312,13 @@ app.get("/api/facility", (request, response) => {
 // update facility
 app.put("/facility/:id", (req, res) => {
   const id = req.params.id;
-  const { name, description, startTime, endTime, image } = req.body;
+  const { name, description, image } = req.body;
 
   Facility.findByIdAndUpdate(
     id,
     {
       name: name,
       description: description,
-      startTime: startTime,
-      endTime: endTime,
       image: image,
     },
     { new: true }
@@ -567,8 +557,6 @@ app.post("/facilities", (request, response) => {
           name: request.body.name,
           description: request.body.description,
           location: request.body.location,
-          startTime: request.body.startTime,
-          endTime: request.body.endTime,
           reservationTimes: 0,
         });
 

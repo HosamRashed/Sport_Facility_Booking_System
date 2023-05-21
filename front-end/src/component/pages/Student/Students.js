@@ -52,6 +52,14 @@ const Students = () => {
       buttonsStyling: false,
     });
 
+    /*       User_ID: request.body.User_ID,
+      Full_Name: request.body.Full_Name,
+      SecretQuestion: request.body.SecretQuestion,
+      AnswerQuestion: request.body.AnswerQuestion,
+      Password: request.body.Password,
+      ConfirmPassword: request.body.Password,
+      User_Gender: request.body.User_Gender,
+      User_status: "active",*/
     swalWithBootstrapButtons
       .fire({
         title: `Are you sure you want to ${message} this student?`,
@@ -70,11 +78,12 @@ const Students = () => {
             url: `http://localhost:3000/students/${studentId}`,
             data: {
               User_ID: students[studentIndex].User_ID,
-              User_Email: students[studentIndex].User_Email,
-              User_Name: students[studentIndex].User_Name,
-              password: students[studentIndex].password,
+              Full_Name: students[studentIndex].Full_Name,
+              Password: students[studentIndex].Password,
+              SecretQuestion: students[studentIndex].SecretQuestion,
+              AnswerQuestion: students[studentIndex].AnswerQuestion,
               User_Gender: students[studentIndex].User_Gender,
-              User_status: newStatus ? "Active" : "Barred",
+              User_status: newStatus ? "active" : "barred",
             },
           };
 
@@ -86,7 +95,7 @@ const Students = () => {
               );
             })
             .catch((error) => {
-              console.log(error);
+              console.log("hello", error);
             });
         } else if (result.dismiss === Swal.DismissReason.cancel) {
         }
@@ -104,6 +113,7 @@ const Students = () => {
           };
         });
         setStudents(initialStudents);
+        console.log(students);
         setIsLoading(false);
       })
       .catch((error) => {
@@ -122,7 +132,7 @@ const Students = () => {
             onClick={() => handleStatusChange(student._id, student.status)}
             className={student.status ? "activeStudent" : "barred"}
           >
-            {student.status ? "Active" : "Barred"}
+            {student.status ? "active" : "barred"}
           </button>
         </td>
         <td>

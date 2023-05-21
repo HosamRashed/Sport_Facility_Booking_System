@@ -9,8 +9,6 @@ export default function CreateFacility() {
   const initialize = {
     name: "",
     description: "",
-    startTime: "",
-    endTime: "",
     image: "",
   };
 
@@ -65,8 +63,6 @@ export default function CreateFacility() {
       data: {
         name: form.name,
         description: form.description,
-        startTime: form.startTime,
-        endTime: form.endTime,
         image: form.image,
       },
     };
@@ -113,41 +109,7 @@ export default function CreateFacility() {
                   value={form.description}
                 />
               </div>
-              <div className="facilityTiming">
-                <label htmlFor="startTime">Start From:</label>
-                <select
-                  id="startTime"
-                  name="startTime"
-                  value={form.startTime}
-                  onChange={handleChange}
-                >
-                  <option value="">-- Choose --</option>
-                  <option value="8.00 AM">8.00 AM</option>
-                  <option value="10.00 AM">10.00 AM</option>
-                  <option value="12.00 AM">12.00 AM</option>
-                  <option value="2.00 PM">2.00 PM</option>
-                  <option value="4.00 PM">4.00 PM</option>
-                  <option value="6.00 PM">6.00 PM</option>
-                </select>
 
-                <label className="endTitle" htmlFor="endTime">
-                  End at:
-                </label>
-                <select
-                  id="endTime"
-                  name="endTime"
-                  value={form.endTime}
-                  onChange={handleChange}
-                >
-                  <option value="">-- Choose --</option>
-                  <option value="10.00 AM">10.00 AM</option>
-                  <option value="12.00 AM">12.00 AM</option>
-                  <option value="2.00 PM">2.00 PM</option>
-                  <option value="4.00 PM">4.00 PM</option>
-                  <option value="6.00 PM">6.00 PM</option>
-                  <option value="8.00 PM">8.00 PM</option>
-                </select>
-              </div>
               <div className="imageUplaoding">
                 <label className="uploadImage">Upload facility image:</label>
                 <input

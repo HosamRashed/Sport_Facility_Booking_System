@@ -49,8 +49,6 @@ export default function EditFacility(props) {
       data: {
         name: updateForm.name,
         description: updateForm.description,
-        startTime: updateForm.startTime,
-        endTime: updateForm.endTime,
         image: updateForm.image,
       },
     };
@@ -107,41 +105,7 @@ export default function EditFacility(props) {
                 value={updateForm.description}
               />
             </div>
-            <div className="EditfacilityTiming">
-              <label htmlFor="startTime">Start From:</label>
-              <select
-                id="startTime"
-                name="startTime"
-                value={updateForm.startTime}
-                onChange={handleChange}
-              >
-                <option value="">-- Choose --</option>
-                <option value="8.00 AM">8.00 AM</option>
-                <option value="10.00 AM">10.00 AM</option>
-                <option value="12.00 AM">12.00 AM</option>
-                <option value="2.00 PM">2.00 PM</option>
-                <option value="4.00 PM">4.00 PM</option>
-                <option value="6.00 PM">6.00 PM</option>
-              </select>
 
-              <label className="endTitle" htmlFor="endTime">
-                End at:
-              </label>
-              <select
-                id="endTime"
-                name="endTime"
-                value={updateForm.endTime}
-                onChange={handleChange}
-              >
-                <option value="">-- Choose --</option>
-                <option value="10.00 AM">10.00 AM</option>
-                <option value="12.00 AM">12.00 AM</option>
-                <option value="2.00 PM">2.00 PM</option>
-                <option value="4.00 PM">4.00 PM</option>
-                <option value="6.00 PM">6.00 PM</option>
-                <option value="8.00 PM">8.00 PM</option>
-              </select>
-            </div>
             <div className="imageUplaoding">
               <label className="uploadImage">Upload facility image:</label>
               <input

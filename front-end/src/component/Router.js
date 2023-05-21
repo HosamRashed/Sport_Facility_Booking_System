@@ -29,7 +29,7 @@ class Router extends Component {
             <Route path="/facility" element={<Facility />} />
             <Route path="/facility/create" element={<CreateFacility />} />
             <Route path="/students" element={<Students />} />
-            <Route path="/facility/timeTable" element={<TimeTable />} />
+            <Route path="/facility/:id/timeTable" element={<TimeTable />} />
           </Routes>
         </BrowserRouter>
       </div>

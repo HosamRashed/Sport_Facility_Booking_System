@@ -5,9 +5,10 @@ import Cookies from "universal-cookie";
 import "./TimeTable.css";
 import Slot from "./Slot/Slot";
 import Swal from "sweetalert2";
+import { useParams } from "react-router-dom";
 import { MdAirplanemodeActive } from "react-icons/md";
 
-export default function TimeTable() {
+export default function TimeTable({ location }) {
   const initialize = {
     availableFrom: "10",
     availableTo: "13",
@@ -16,11 +17,11 @@ export default function TimeTable() {
     calender: {},
   };
 
+  const params = useParams();
+  console.log(params.id);
   const [form, setForm] = useState(initialize);
-  const [next, setNext] = useState(false);
   const [error, setError] = useState("");
   const [visible, setVisible] = useState(false);
-  let numberOfSlots;
   let slots;
   const [content, setContent] = useState(false);
   const cookies = new Cookies();
@@ -95,7 +96,6 @@ export default function TimeTable() {
       }
     });
 
-    console.log(form);
     setContent(true);
   };
 
@@ -136,8 +136,8 @@ export default function TimeTable() {
     Object.keys(updatedCalender).forEach((dayName) => {
       const updatedSlots = updatedCalender[dayName].slots.map((slot) => {
         if (slot.time === time) {
-          if (type === "unavailable") {
-            return { ...slot, availability: "unavailable" };
+          if (type === "booked") {
+            return { ...slot, availability: "unavailable", type: "" };
           } else {
             return { ...slot, type, availability: "available" };
           }
@@ -154,7 +154,6 @@ export default function TimeTable() {
     }));
   };
 
-  console.log(form.calender);
   const Toast = Swal.mixin({
     toast: true,
     position: "top-end",
@@ -173,10 +172,11 @@ export default function TimeTable() {
   };
 
   const handleSubmit = (event) => {
-    // event.preventDefault();
+    event.preventDefault();
+    console.log(form);
     // const config = {
     //   method: "POST",
-    //   url: "http://localhost:9229/facility/create",
+    //   url: "http://localhost:3000/facility/create",
     //   data: {
     //     name: form.name,
     //     description: form.description,
@@ -339,15 +339,12 @@ export default function TimeTable() {
                       Sunday
                     </label>
                   </div>
-                  {!next ? (
-                    <button className="submitButton" onClick={handleNext}>
-                      Next
-                    </button>
-                  ) : (
-                    <button className="submitButton" type="submit">
-                      Save
-                    </button>
-                  )}
+                  <button className="submitButton" onClick={handleNext}>
+                    SET SLOTS TYPE
+                  </button>
+                  <button className="submitButtonSave" type="submit">
+                    Save
+                  </button>
                 </div>
                 {visible ? <p className="error">{error}</p> : ""}
               </form>
