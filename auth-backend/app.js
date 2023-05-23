@@ -293,7 +293,6 @@ app.post("/facility/create", (request, response) => {
 
 // retrive facility data
 app.get("/api/facility", (request, response) => {
-  console.log("hello");
   Facility.find({})
     .then((data) => {
       response.status(200).json({
@@ -309,7 +308,7 @@ app.get("/api/facility", (request, response) => {
     });
 });
 
-// update facility
+// update facility info
 app.put("/facility/:id", (req, res) => {
   const id = req.params.id;
   const { name, description, image } = req.body;
@@ -320,6 +319,35 @@ app.put("/facility/:id", (req, res) => {
       name: name,
       description: description,
       image: image,
+    },
+    { new: true }
+  )
+    .then((facility) => {
+      res.json(facility);
+    })
+    .catch((error) => {
+      res
+        .status(500)
+        .json({ message: "Error updating facility!", error: error });
+    });
+});
+
+// update facility
+app.put("/facility/:id/timeTable", (req, res) => {
+  const id = req.params.id;
+  const { duration, availableTo, availableFrom, selectedDays, calender } =
+    req.body;
+  console.log(Object.keys(calender));
+
+  // name, description, image,
+  Facility.findByIdAndUpdate(
+    { _id: id },
+    {
+      availableFrom: availableFrom,
+      availableTo: availableTo,
+      duration: duration,
+      selectedDays: selectedDays,
+      calender: calender,
     },
     { new: true }
   )
@@ -449,7 +477,6 @@ app.delete("/announcement/delete/:id", (request, response) => {
 
 // register endpoint
 app.post("/register", (request, response) => {
-  console.log("hello");
 
   // hash the password
   bcrypt

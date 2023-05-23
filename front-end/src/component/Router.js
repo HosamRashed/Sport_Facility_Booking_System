@@ -10,6 +10,7 @@ import Bookings from "./pages/Booking/Bookings";
 import Students from "./pages/Student/Students";
 import CreateFacility from "./pages/Facility/createFacility/CreateFacility";
 import TimeTable from "./pages/Facility/TimeTable/TimeTable";
+import ViewTimeTable from "./pages/Facility/TimeTable/viewTimeTable/ViewTimeTable";
 
 class Router extends Component {
   render() {
@@ -30,6 +31,10 @@ class Router extends Component {
             <Route path="/facility/create" element={<CreateFacility />} />
             <Route path="/students" element={<Students />} />
             <Route path="/facility/:id/timeTable" element={<TimeTable />} />
+            <Route
+              path="/facility/:id/viewTimeTable"
+              element={<ViewTimeTable />}
+            />
           </Routes>
         </BrowserRouter>
       </div>

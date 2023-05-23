@@ -8,17 +8,16 @@ import Swal from "sweetalert2";
 import { useParams } from "react-router-dom";
 import { MdAirplanemodeActive } from "react-icons/md";
 
-export default function TimeTable({ location }) {
+export default function TimeTable() {
   const initialize = {
-    availableFrom: "10",
-    availableTo: "13",
+    availableFrom: "",
+    availableTo: "",
     duration: "",
     selectedDays: [],
-    calender: {},
+    calender: [],
   };
 
   const params = useParams();
-  console.log(params.id);
   const [form, setForm] = useState(initialize);
   const [error, setError] = useState("");
   const [visible, setVisible] = useState(false);
@@ -79,23 +78,12 @@ export default function TimeTable({ location }) {
     slots = slotsDivide();
     const days = form.selectedDays.map((day) => {
       return {
-        [day]: {
-          slots,
-        },
+        day: day,
+        slots,
       };
     });
 
-    form.calender = form.calender || {};
-
-    days.forEach((day) => {
-      const dayName = Object.keys(day)[0];
-      if (!form.calender[dayName]) {
-        form.calender[dayName] = day[dayName];
-      } else {
-        form.calender[dayName].slots = slots;
-      }
-    });
-
+    form.calender = days;
     setContent(true);
   };
 
@@ -130,11 +118,10 @@ export default function TimeTable({ location }) {
       }));
     }
   };
-  const handleSlotTypeChange = (time, type) => {
-    const updatedCalender = { ...form.calender };
 
-    Object.keys(updatedCalender).forEach((dayName) => {
-      const updatedSlots = updatedCalender[dayName].slots.map((slot) => {
+  const handleSlotTypeChange = (time, type) => {
+    const updatedCalender = form.calender.map((day) => {
+      const updatedSlots = day.slots.map((slot) => {
         if (slot.time === time) {
           if (type === "booked") {
             return { ...slot, availability: "unavailable", type: "" };
@@ -145,7 +132,7 @@ export default function TimeTable({ location }) {
         return slot;
       });
 
-      updatedCalender[dayName].slots = updatedSlots;
+      return { ...day, slots: updatedSlots };
     });
 
     setForm((prevData) => ({
@@ -165,7 +152,7 @@ export default function TimeTable({ location }) {
 
   const alert = () => {
     Toast.fire({
-      title: "Facility has been created successfully",
+      title: "Facility has been updated successfully",
       background: "#18a146",
       color: "white",
     });
@@ -174,30 +161,29 @@ export default function TimeTable({ location }) {
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log(form);
-    // const config = {
-    //   method: "POST",
-    //   url: "http://localhost:3000/facility/create",
-    //   data: {
-    //     name: form.name,
-    //     description: form.description,
-    //     startTime: form.startTime,
-    //     endTime: form.endTime,
-    //     image: form.image,
-    //     duration: form.duration,
-    //     availableDays: form.selectedDays,
-    //   },
-    // };
-    // axios(config)
-    //   .then((response) => {
-    //     setForm(initialize);
-    //     alert();
-    // setTimeout(() => {
-    // window.location.href = "/facility";
-    // }, 3000);
-    // })
-    // .catch((error) => {
-    // console.log(error);
-    // });
+    const config = {
+      method: "PUT",
+
+      url: `http://localhost:3000/facility/${params.id}/timeTable`,
+      data: {
+        availableFrom: form.availableFrom,
+        availableTo: form.availableTo,
+        duration: form.duration,
+        selectedDays: form.selectedDays,
+        calender: form.calender,
+      },
+    };
+    axios(config)
+      .then((response) => {
+        console.log("success", response);
+        // alert();
+        // setTimeout(() => {
+        //   window.location.href = "/facility";
+        // }, 3000);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (

@@ -10,7 +10,7 @@ import "./Facility.css";
 import Swal from "sweetalert2";
 import EditFacility from "./editFaciity/EditFacility";
 
-const Facility = ({ history }) => {
+const Facility = () => {
   const [modal, setModal] = useState(false);
   const cookies = new Cookies();
   const token = cookies.get("TOKEN");
@@ -73,6 +73,7 @@ const Facility = ({ history }) => {
       .get("http://localhost:3000/api/facility")
       .then((response) => {
         setFacilities(response.data.data);
+        // console.log(response.data.data[0].calender.length > 0);
         setIsLoading(false); // Set isLoading to false when data is fetched
       })
       .catch((error) => {
@@ -81,6 +82,9 @@ const Facility = ({ history }) => {
   };
 
   const components = facilities.map((facility) => {
+    const calendar = facility.calender.length > 0 ? true : false;
+    console.log(facility);
+    console.log(calendar);
     return (
       <tr key={facility._id}>
         <td>
@@ -89,14 +93,25 @@ const Facility = ({ history }) => {
         <td>{facility.name}</td>
         <td>{facility.description}</td>
         <td>
-          <button
-            onClick={() => {
-              window.location.href = `/facility/${facility._id}/timeTable`;
-            }}
-            className="timetable"
-          >
-            Add Timetable
-          </button>
+          {calendar ? (
+            <button
+              onClick={() => {
+                window.location.href = `/facility/${facility._id}/viewTimeTable`;
+              }}
+              className="Viewtimetable"
+            >
+              View TimeTable
+            </button>
+          ) : (
+            <button
+              onClick={() => {
+                window.location.href = `/facility/${facility._id}/timeTable`;
+              }}
+              className="timetable"
+            >
+              Add Timetable
+            </button>
+          )}
         </td>
         <td>
           <Link to="#" className="icon">
