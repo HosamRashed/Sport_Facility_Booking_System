@@ -3,7 +3,7 @@
   width: 1120px;
   margin: 10px;
   background-color: white;
-  height: 360px;
+  height: 380px;
   display: flex;
   align-items: center;
   justify-content: start;
@@ -105,10 +105,12 @@ select {
 }
 
 .UpdateBtn {
+  color: white;
+  width: 200px;
   border: 1px solid rgb(80, 79, 79);
   font-size: 20px;
   padding: 10px 60px;
-  background-color: #cff3f3;
+  background-color: rgb(16, 175, 16);
   border-radius: 7px;
   cursor: pointer;
 }

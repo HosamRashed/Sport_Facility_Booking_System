@@ -33,9 +33,9 @@ app.use(bodyParser.json({ limit: "400kb" }));
 app.use(bodyParser.urlencoded({ extended: true }));
 var os = require("os");
 
-var networkInterfaces = os.networkInterfaces();
+// var networkInterfaces = os.networkInterfaces();
 
-console.log(networkInterfaces);
+// console.log(networkInterfaces);
 
 // create new student
 app.post("/students/create", (request, response) => {
@@ -308,6 +308,32 @@ app.get("/api/facility", (request, response) => {
     });
 });
 
+// retrive a specific facility by its id
+
+app.get("/facilities/:id", (request, response) => {
+  Facility.findOne({ _id: request.params.id })
+    .then((result) => {
+      if (result) {
+        response.status(200).send({
+          message:
+            "the following is the info of the facility with provided id:",
+          data: result,
+        });
+      } else {
+        response.status(201).send({
+          message: "there is no any facility with provided id:",
+        });
+      }
+    })
+    // catch error if password do not match
+    .catch((error) => {
+      response.status(400).send({
+        message: "",
+        error,
+      });
+    });
+});
+
 // update facility info
 app.put("/facility/:id", (req, res) => {
   const id = req.params.id;
@@ -477,7 +503,6 @@ app.delete("/announcement/delete/:id", (request, response) => {
 
 // register endpoint
 app.post("/register", (request, response) => {
-
   // hash the password
   bcrypt
     .hash(request.body.password, 10)

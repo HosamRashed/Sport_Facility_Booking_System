@@ -124,7 +124,7 @@ export default function TimeTable() {
       const updatedSlots = day.slots.map((slot) => {
         if (slot.time === time) {
           if (type === "booked") {
-            return { ...slot, availability: "unavailable", type: "" };
+            return { ...slot, availability: "booked", type: "" };
           } else {
             return { ...slot, type, availability: "available" };
           }
@@ -152,7 +152,7 @@ export default function TimeTable() {
 
   const alert = () => {
     Toast.fire({
-      title: "Facility has been updated successfully",
+      title: "Facility's calander is updated successfully",
       background: "#18a146",
       color: "white",
     });
@@ -176,10 +176,10 @@ export default function TimeTable() {
     axios(config)
       .then((response) => {
         console.log("success", response);
-        // alert();
-        // setTimeout(() => {
-        //   window.location.href = "/facility";
-        // }, 3000);
+        alert();
+        setTimeout(() => {
+          window.location.href = "/facility";
+        }, 3000);
       })
       .catch((error) => {
         console.log(error);
