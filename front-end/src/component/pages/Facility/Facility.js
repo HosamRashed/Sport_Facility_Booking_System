@@ -17,6 +17,7 @@ const Facility = () => {
   const [facilities, setFacilities] = useState([]);
   const [isLoading, setIsLoading] = useState(true); // Add isLoading state variable
   const [selectFacility, setSelectFacility] = useState(null);
+
   useEffect(() => {
     getData();
   }, []);
@@ -64,6 +65,7 @@ const Facility = () => {
     setModal(!modal);
   };
 
+  console.log(facilities);
   const delteFacility = (facility_id) => {
     alert(facility_id);
   };

@@ -1,66 +1,149 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../../Navbar/Navbar";
 import Cookies from "universal-cookie";
+import * as AiIcons from "react-icons/ai";
+import { Link } from "react-router-dom";
+import axios from "axios";
+import Swal from "sweetalert2";
 
 const Bookings = () => {
   const cookies = new Cookies();
   const token = cookies.get("TOKEN");
+  const [modal, setModal] = useState(false);
 
-  const WEEK_DAYS = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-  ];
-  const START_TIME = "08:00:00";
-  const END_TIME = "16:00:00";
-  const SLOT_DURATION = 30; // in minutes
+  const [students, setStudents] = useState([]);
+  const [selecStudent, setSelecStudent] = useState(null);
 
-  const [weekSlots, setWeekSlots] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const createSlots = () => {
-    const startDateTime = new Date();
-    startDateTime.setHours(parseInt(START_TIME.split(":")[0], 10));
-    startDateTime.setMinutes(parseInt(START_TIME.split(":")[1], 10));
-    startDateTime.setSeconds(parseInt(START_TIME.split(":")[2], 10));
-    startDateTime.setMilliseconds(0);
+  useEffect(() => {
+    getData();
+  }, []);
 
-    const endDateTime = new Date();
-    endDateTime.setHours(parseInt(END_TIME.split(":")[0], 10));
-    endDateTime.setMinutes(parseInt(END_TIME.split(":")[1], 10));
-    endDateTime.setSeconds(parseInt(END_TIME.split(":")[2], 10));
-    endDateTime.setMilliseconds(0);
+  const toggleModal = (student) => {
+    setSelecStudent(student);
+    setModal(!modal);
+  };
 
-    const timeSlots = [];
-    let currentDateTime = startDateTime;
-    while (currentDateTime < endDateTime) {
-      timeSlots.push(currentDateTime);
-      currentDateTime = new Date(
-        currentDateTime.getTime() + SLOT_DURATION * 60 * 1000
-      );
+  const findIndex = (student_id) => {
+    return students.findIndex((student) => student._id === student_id);
+  };
+
+  const updateStudentStatus = (studentId, newStatus) => {
+    const newStudents = [...students];
+    const studentIndex = findIndex(studentId);
+    if (studentIndex !== -1) {
+      newStudents[studentIndex].status = newStatus;
+      setStudents(newStudents);
     }
-
-    const weekSlots = WEEK_DAYS.map((day) => ({
-      day: day,
-      slots: timeSlots.map((slot) => ({ time: slot, status: "unavailable" })),
-    }));
-
-    setWeekSlots(weekSlots);
   };
 
-  const handleStatusChange = (dayIndex, slotIndex, newStatus) => {
-    const updatedWeekSlots = [...weekSlots];
-    updatedWeekSlots[dayIndex].slots[slotIndex].status = newStatus;
-    setWeekSlots(updatedWeekSlots);
+  const handleStatusChange = (studentId, currentStatus) => {
+    const newStatus = !currentStatus;
+    const message = newStatus ? "activate" : "bar";
+    const studentIndex = findIndex(studentId);
+
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: "btn btn-success",
+        cancelButton: "btn btn-danger",
+      },
+      buttonsStyling: false,
+    });
+
+    swalWithBootstrapButtons
+      .fire({
+        title: `Are you sure you want to ${message} this student?`,
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: `Yes, ${message} it!`,
+        cancelButtonText: "No, cancel!",
+        reverseButtons: true,
+      })
+      .then((result) => {
+        if (result.isConfirmed) {
+          const config = {
+            method: "DELETE",
+            url: `http://localhost:3000/facility/delete/`,
+          };
+          axios(config)
+            .then((response) => {
+              console.log(" The facility is deleted", response);
+              getData();
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+        }
+      });
   };
 
-  const formatTime = (time) => {
-    const date = new Date(time);
-    return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+  const getData = () => {
+    axios
+      .get("http://localhost:3000/api/students")
+      .then((response) => {
+        const initialStudents = response.data.data.map((student) => {
+          return {
+            ...student,
+            status: student.User_status === "active" ? true : false,
+          };
+        });
+        setStudents(initialStudents);
+        console.log(students);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.log("error", error);
+      });
   };
+
+  const deletebooking = () => {
+    console.log("clicked");
+  };
+
+  const components = students.map((student) => {
+    return (
+      <tr key={student._id}>
+        <td>{student.Full_Name}</td>
+        <td>{student.User_ID}</td>
+        <td>{student.User_Gender}</td>
+        <td>{student.User_Gender}</td>
+        <td>{student.User_Gender}</td>
+        <td>
+          <AiIcons.AiOutlineDelete
+            onClick={() => {
+              deletebooking();
+            }}
+          />
+        </td>
+        <td></td>
+      </tr>
+    );
+  });
+
+  const displayAnnouncement =
+    students.length > 0 ? (
+      <div className="facilityTable">
+        <table>
+          <caption>Bookings List</caption>
+          <thead>
+            <tr>
+              <th>Student Name</th>
+              <th>Facility Name</th>
+              <th>Booking Date</th>
+              <th>From</th>
+              <th>To</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>{components}</tbody>
+        </table>
+      </div>
+    ) : (
+      <p className="errorContainer"> There is no facility to be displayed</p>
+    );
 
   return (
     <>
@@ -68,50 +151,26 @@ const Bookings = () => {
         <div className="MainContainer">
           <Navbar />
           <div>
-            <button onClick={createSlots}>Create Slots</button>
-            {weekSlots.length > 0 && (
-              <table>
-                <thead>
-                  <tr>
-                    <th></th>
-                    {WEEK_DAYS.map((day, index) => (
-                      <th key={index}>{day}</th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {weekSlots[0].slots.map((time, index) => (
-                    <tr key={index}>
-                      <td>{formatTime(time)}</td>
-                      {weekSlots.map((day, index) => (
-                        <td key={index}>
-                          <select
-                            value={day.slots[index].status}
-                            onChange={(e) =>
-                              handleStatusChange(index, e.target.value)
-                            }
-                          >
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
-                            <option value="mix">Mix</option>
-                            <option value="unavailable">Unavailable</option>
-                          </select>
-                        </td>
-                      ))}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+            {isLoading ? (
+              <p className="errorContainer">Loading...</p>
+            ) : (
+              displayAnnouncement
             )}
           </div>
+          {/* {modal && (
+            <EditStudent
+              update={getData}
+              prevStudent={selecStudent}
+              clicked={toggleModal}
+            />
+          )} */}
         </div>
       ) : (
-        <p className="authorizedMessage">
+        <p className="errorContainer">
           You are not authorized to access this page you have to login first!
         </p>
       )}
     </>
   );
 };
-
 export default Bookings;

@@ -49,8 +49,6 @@ const Login = () => {
   return (
     <div className="LoginContainer">
       <img src={image} alt="mmu logo" className="mmuLogo" />
-      <h1 className="title1">Admin Portal</h1>
-      <h3 className="title2">LOG IN</h3>
 
       <form className="loginForm" onSubmit={submit}>
         <label htmlFor="userID" value="userID">

@@ -17,7 +17,6 @@ const ResetPassword = () => {
   const navigation = useNavigation();
   const initialize = {
     userID: "",
-    secretQuestion: "",
     answerQuestion: "",
     password: "",
     confirmPassword: "",
@@ -68,7 +67,7 @@ const ResetPassword = () => {
 
   function update() {
     if (checkPasswords()) {
-      const url = "http://10.112.216.161:9229/students/updatePassword";
+      const url = "http://192.168.0.7:3000/students/updatePassword";
       const data = {
         User_ID: formData.userID,
         Password: formData.password,
@@ -77,6 +76,7 @@ const ResetPassword = () => {
       axios
         .post(url, data)
         .then((res) => {
+          console.log(res);
           if (res.status === 200) {
             if (res.data.message === "Password updated successfully") {
               //   console.log("successful");
@@ -102,9 +102,9 @@ const ResetPassword = () => {
   }
 
   function submit() {
-    console.log("clicked");
+    console.log(formData);
     if (checkFields()) {
-      const url = "http://10.112.216.161:9229/students/resetPassword";
+      const url = "http://192.168.0.7:3000/students/resetPassword";
       const data = {
         User_ID: formData.userID,
         AnswerQuestion: formData.answerQuestion,
@@ -112,12 +112,12 @@ const ResetPassword = () => {
       axios
         .post(url, data)
         .then((res) => {
+          console.log("successful");
           if (res.data.message === "Successful") {
             console.log("successful");
             setVerified(true);
             setError("");
             setVisible(false);
-            // navigation.navigate("login");
           } else {
             setError(res.data.message);
             setVisible(true);

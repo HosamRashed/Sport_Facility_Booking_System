@@ -114,7 +114,7 @@ export default function EditAnnouncement(props) {
               />
             </div>
 
-            <button className="submitBtn" type="submit">
+            <button className="EditsubmitBtn" type="submit">
               Save
             </button>
           </form>

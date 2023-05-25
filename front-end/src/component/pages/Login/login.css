@@ -4,9 +4,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 10px auto;
+  margin: 10% auto;
   flex-direction: column;
   padding-block: 20px;
+  height: 100%;
 }
 
 .loginForm {
@@ -49,27 +50,6 @@
   background-color: #cfdcf3;
   border-radius: 7px;
   cursor: pointer;
-}
-
-.reset {
-  font-size: 20px;
-  text-decoration: none;
-}
-
-.title1 {
-  font-size: 35px;
-  color: #252525;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  font-weight: lighter;
-}
-
-.title2 {
-  text-shadow: 5px 5px 5px white;
-  font-size: 27px;
-  font-weight: lighter;
-  color: #252525;
-  border: 1px solid lightblack;
 }
 
 .errormessage {

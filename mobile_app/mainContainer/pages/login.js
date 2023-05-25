@@ -45,24 +45,33 @@ const Login = () => {
 
   function submit() {
     if (checkInputs()) {
-      const url = "http://10.112.216.161:9229/students/login";
+      const url = "http://169.254.114.126:3000/students/login";
       const data = {
         User_ID: formData.userID,
         Password: formData.password,
       };
-      axios
-        .post(url, data)
+      console.log(data, url);
+
+      fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      })
+        .then((response) => response.json())
         .then((res) => {
-          if (res.data.message === "Login Successful") {
+          console.log(res);
+          if (res.message === "Login Successful") {
             console.log("successful");
             navigation.navigate("mainPage");
           } else {
-            setError(res.data.message);
+            setError(res.message);
             setVisible(true);
           }
         })
         .catch((error) => {
-          setError(error.response.data.message);
+          setError(error.message);
           setVisible(true);
           console.log(error);
         });
@@ -98,7 +107,10 @@ const Login = () => {
           <Text style={styles.buttonText}>Log in</Text>
         </TouchableOpacity>
         <Text
-          onPress={() => navigation.navigate("resetPassword")}
+          onPress={() => {
+            setError("");
+            navigation.navigate("resetPassword");
+          }}
           style={styles.forget}
         >
           Forget Password?{" "}
@@ -110,9 +122,12 @@ const Login = () => {
           Don't have an account?{" "}
           <Text
             style={styles.effect}
-            onPress={() => navigation.navigate("signup")}
+            onPress={() => {
+              setError("");
+              navigation.navigate("signup");
+            }}
           >
-            Sign up
+            Sign Up
           </Text>
         </Text>
       </View>

@@ -13,6 +13,11 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen
+          name="mainPage"
+          component={MainPage}
+          options={{ headerShown: false, gestureEnabled: false }}
+        />
+        <Stack.Screen
           name="login"
           component={Login}
           options={{ headerShown: false }}
@@ -21,11 +26,6 @@ export default function App() {
           name="signup"
           component={Signup}
           options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="mainPage"
-          component={MainPage}
-          options={{ headerShown: false, gestureEnabled: false }}
         />
         <Stack.Screen
           name="resetPassword"

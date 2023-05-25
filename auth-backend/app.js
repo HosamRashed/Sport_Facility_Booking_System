@@ -9,6 +9,7 @@ const dbConnect = require("./db/dbConnect");
 const User = require("./db/userModel");
 const Students = require("./db/studentModel");
 const Facility = require("./db/facilityModel");
+const Bookings = require("./db/bookingsModel");
 const Announcement = require("./db/announcemnetModel");
 
 // execute database connection
@@ -38,54 +39,23 @@ var os = require("os");
 // console.log(networkInterfaces);
 
 // create new student
-app.post("/students/create", (request, response) => {
-  Students.findOne({ User_ID: request.body.User_ID })
+app.post("/bookings/create", (request, response) => {
+  const { Facility_ID, Student_ID, Booking_Date } = request.body;
+  const booking = new Bookings({
+    facility: Facility_ID,
+    student: Student_ID,
+    booking_date: Booking_Date,
+  });
+  booking
+    .save()
     .then((result) => {
-      console.log(result);
-      if (result) {
-        response.status(200).send({
-          message: "Duplicate",
-        });
-      } else {
-        bcrypt
-          .hash(request.body.Password, 10) // Hash the password
-          .then((hashedPassword) => {
-            const student = new Students({
-              User_ID: request.body.User_ID,
-              Full_Name: request.body.Full_Name,
-              SecretQuestion: request.body.SecretQuestion,
-              AnswerQuestion: request.body.AnswerQuestion,
-              Password: hashedPassword, // Assign the hashed password
-              ConfirmPassword: hashedPassword,
-              User_Gender: request.body.User_Gender,
-              User_status: "active",
-            });
-            student
-              .save()
-              .then((result) => {
-                console.log("successful"),
-                  response.status(200).send({
-                    message: "successful",
-                  });
-              })
-              .catch((error) => {
-                response.status(500).send({
-                  message: "Error creating new student user",
-                  error,
-                });
-              });
-          })
-          .catch((error) => {
-            response.status(500).send({
-              message: "Password was not hashed successfully",
-              error,
-            });
-          });
-      }
+      response.status(200).send({
+        message: "successful",
+      });
     })
     .catch((error) => {
-      response.status(501).send({
-        message: "Error with findOne function!",
+      response.status(500).send({
+        message: "Error creating new student user",
         error,
       });
     });
@@ -138,8 +108,11 @@ app.put("/students/:id", (request, res) => {
 
 // login endpoint
 app.post("/students/login", (request, response) => {
+  console.log("inside");
   Students.findOne({ User_ID: request.body.User_ID })
     .then((student) => {
+      console.log("inside");
+
       if (student) {
         bcrypt
           .compare(request.body.Password, student.Password)
@@ -363,7 +336,6 @@ app.put("/facility/:id/timeTable", (req, res) => {
   const id = req.params.id;
   const { duration, availableTo, availableFrom, selectedDays, calender } =
     req.body;
-  console.log(Object.keys(calender));
 
   // name, description, image,
   Facility.findByIdAndUpdate(
