@@ -6,6 +6,7 @@ import Signup from "./mainContainer/pages/signup";
 import ResetPassword from "./mainContainer/ResetPassword";
 import Login from "./mainContainer/pages/login";
 import MainPage from "./mainContainer/MainPage";
+import FacilityInfo from "./mainContainer/pages/facility/FacilityInfo";
 
 const Stack = createStackNavigator();
 export default function App() {
@@ -13,15 +14,16 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen
-          name="mainPage"
-          component={MainPage}
-          options={{ headerShown: false, gestureEnabled: false }}
-        />
-        <Stack.Screen
           name="login"
           component={Login}
           options={{ headerShown: false }}
         />
+        <Stack.Screen
+          name="mainPage"
+          component={MainPage}
+          options={{ headerShown: false, gestureEnabled: false }}
+        />
+
         <Stack.Screen
           name="signup"
           component={Signup}
@@ -30,6 +32,11 @@ export default function App() {
         <Stack.Screen
           name="resetPassword"
           component={ResetPassword}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="facilityInfo"
+          component={FacilityInfo}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

@@ -17,7 +17,8 @@
     "heroku": "^7.46.0",
     "ip": "^1.1.8",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.10.5"
+    "mongoose": "^5.10.5",
+    "react-native-fs": "^2.20.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.22"

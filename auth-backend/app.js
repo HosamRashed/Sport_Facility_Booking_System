@@ -111,8 +111,6 @@ app.post("/students/login", (request, response) => {
   console.log("inside");
   Students.findOne({ User_ID: request.body.User_ID })
     .then((student) => {
-      console.log("inside");
-
       if (student) {
         bcrypt
           .compare(request.body.Password, student.Password)

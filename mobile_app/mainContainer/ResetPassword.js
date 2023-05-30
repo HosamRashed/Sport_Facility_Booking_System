@@ -67,7 +67,8 @@ const ResetPassword = () => {
 
   function update() {
     if (checkPasswords()) {
-      const url = "http://192.168.0.7:3000/students/updatePassword";
+      const url =
+        "https://f532-2001-e68-5456-1e2e-b58b-4e3d-5cec-439e.ngrok-free.app/students/updatePassword";
       const data = {
         User_ID: formData.userID,
         Password: formData.password,
@@ -104,7 +105,8 @@ const ResetPassword = () => {
   function submit() {
     console.log(formData);
     if (checkFields()) {
-      const url = "http://192.168.0.7:3000/students/resetPassword";
+      const url =
+        "https://f532-2001-e68-5456-1e2e-b58b-4e3d-5cec-439e.ngrok-free.app/students/resetPassword";
       const data = {
         User_ID: formData.userID,
         AnswerQuestion: formData.answerQuestion,

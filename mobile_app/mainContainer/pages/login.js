@@ -10,7 +10,6 @@ import {
   Keyboard,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import axios from "axios";
 
 const Login = () => {
   const initialize = {
@@ -45,7 +44,8 @@ const Login = () => {
 
   function submit() {
     if (checkInputs()) {
-      const url = "http://169.254.114.126:3000/students/login";
+      const url =
+        "https://f532-2001-e68-5456-1e2e-b58b-4e3d-5cec-439e.ngrok-free.app/students/login";
       const data = {
         User_ID: formData.userID,
         Password: formData.password,
@@ -109,6 +109,7 @@ const Login = () => {
         <Text
           onPress={() => {
             setError("");
+            setFormData(initialize);
             navigation.navigate("resetPassword");
           }}
           style={styles.forget}
@@ -124,6 +125,7 @@ const Login = () => {
             style={styles.effect}
             onPress={() => {
               setError("");
+              setFormData(initialize);
               navigation.navigate("signup");
             }}
           >

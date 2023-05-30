@@ -52,7 +52,6 @@ function mainPage() {
           borderBottomWidth: 4,
           borderBottomColor: "#2b79ff",
           height: 50,
-          // borderRadius: 50,
         },
         showLabel: false,
         showIcon: true,

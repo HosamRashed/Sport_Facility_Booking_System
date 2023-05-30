@@ -12,35 +12,38 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import FacilityComponeent from "./FacilityComponeent";
+import FacilityInfo from "./FacilityInfo";
 
 const facility = () => {
-  // const [facility, setFacilities] = useState({});
-  // useEffect(() => {
-  //   getData();
-  // }, []);
-  // const getData = () => {
-  //   axios
-  //     .get("http://169.254.114.126:3000/api/facility")
-  //     .then((response) => {
-  //       setFacilities(response.data.data);
-  //       console.log("hello");
-  //       console.log(facility[0].name);
-  //       // setIsLoading(false); // Set isLoading to false when data is fetched
-  //     })
-  //     .catch((error) => {
-  //       console.log("error", error);
-  //     });
-  // };
+  const [facility, setFacilities] = useState([]);
+  // const []
+  useEffect(() => {
+    getData();
+  }, []);
+  const getData = () => {
+    axios
+      .get(
+        "https://f532-2001-e68-5456-1e2e-b58b-4e3d-5cec-439e.ngrok-free.app/api/facility"
+      )
+      .then((response) => {
+        setFacilities(response.data.data);
+      })
+      .catch((error) => {
+        console.log("error", error);
+      });
+  };
+  // console.log(facility);
+  const facilities = facility.map((facility, index) => (
+    <FacilityComponeent key={index} info={facility} />
+  ));
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <View style={styles.container}>
-        {/* <Text style={styles.inputLabel}>hello </Text> */}
-        <View style={styles.facilityContainer}>
-          <FacilityComponeent />
-          <FacilityComponeent />
-          <FacilityComponeent />
-          <FacilityComponeent />
-        </View>
+        <Image
+          source={require("../../../images/logo.png")}
+          style={styles.icons}
+        />
+        <View style={styles.facilityContainer}>{facilities}</View>
       </View>
     </TouchableWithoutFeedback>
   );
@@ -48,28 +51,31 @@ const facility = () => {
 
 const styles = StyleSheet.create({
   container: {
-    paddingtop: 20,
-
+    marginTop: 30,
     display: "flex",
     justifyContent: "start",
     alignItems: "center",
     height: "100%",
+
     paddingHorizontal: 40,
-    borderWidth: 2,
   },
-  facilityContainer: {
-    borderWidth: 2,
-  },
-  title: {
-    fontSize: 30,
-    fontWeight: "bold",
-    marginBottom: 10,
-  },
-  icon: {
-    marginTop: 20,
+
+  icons: {
+    height: "8%",
     width: 100,
   },
 
+  facilityContainer: {
+    marginTop: 10,
+  },
+  
+  title: {
+    fontFamily: "NunitoSans_10pt-Bold",
+    fontSize: 30,
+    // fontWeight: "bold",
+    // marginBottom: 10,
+    textAlign: "center",
+  },
   inputLabel: {
     marginLeft: 3,
     fontSize: 20,

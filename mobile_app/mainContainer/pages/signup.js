@@ -89,7 +89,8 @@ const Signup = () => {
 
   function submit() {
     if (checkFields()) {
-      const url = "http://10.112.216.161:9229/students/create";
+      const url =
+        "https://f532-2001-e68-5456-1e2e-b58b-4e3d-5cec-439e.ngrok-free.app/students/create";
       const data = {
         User_ID: formData.userID,
         Full_Name: formData.name,

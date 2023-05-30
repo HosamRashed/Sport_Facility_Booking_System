@@ -1,6 +1,7 @@
 const http = require("http");
 const app = require("./app");
 const ip = require("ip");
+
 const ipAddress = ip.address();
 
 const normalizePort = (val) => {
