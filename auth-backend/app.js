@@ -34,11 +34,7 @@ app.use(bodyParser.json({ limit: "400kb" }));
 app.use(bodyParser.urlencoded({ extended: true }));
 var os = require("os");
 
-// var networkInterfaces = os.networkInterfaces();
-
-// console.log(networkInterfaces);
-
-// create new student
+// book a slot of a facility
 app.post("/bookings/create", (request, response) => {
   const { Facility_ID, Student_ID, Booking_Date } = request.body;
   const booking = new Bookings({
@@ -59,6 +55,55 @@ app.post("/bookings/create", (request, response) => {
         error,
       });
     });
+});
+
+
+// create new student
+app.post("/students/create", async (request, response) => {
+  try {
+    const {
+      User_ID,
+      Full_Name,
+      SecretQuestion,
+      AnswerQuestion,
+      Password,
+      User_Gender,
+    } = request.body;
+
+    // Check if user already has an account
+    const existingUser = await Students.findOne({ User_ID });
+    if (existingUser) {
+      return response.status(200).send({
+        message: "Duplicate",
+      });
+    }
+
+    // Encrypt the password
+    const saltRounds = parseInt(User_ID);
+    const hashedPassword = await bcrypt.hash(Password, saltRounds);
+
+    const student = new Students({
+      User_ID: User_ID,
+      Full_Name: Full_Name,
+      SecretQuestion: SecretQuestion,
+      AnswerQuestion: AnswerQuestion,
+      Password: hashedPassword,
+      ConfirmPassword: hashedPassword,
+      User_Gender: User_Gender,
+      User_status: "active",
+    });
+
+    await student.save();
+
+    response.status(200).send({
+      message: "successful",
+    });
+  } catch (error) {
+    response.status(500).send({
+      message: "Error creating new student",
+      error: error.message,
+    });
+  }
 });
 
 // retrive students data
@@ -108,7 +153,6 @@ app.put("/students/:id", (request, res) => {
 
 // login endpoint
 app.post("/students/login", (request, response) => {
-  console.log("inside");
   Students.findOne({ User_ID: request.body.User_ID })
     .then((student) => {
       if (student) {

@@ -8,6 +8,7 @@ import {
   Image,
   TouchableWithoutFeedback,
   Keyboard,
+  ScrollView,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
@@ -43,7 +44,9 @@ const facility = () => {
           source={require("../../../images/logo.png")}
           style={styles.icons}
         />
-        <View style={styles.facilityContainer}>{facilities}</View>
+        <ScrollView style={styles.scrollContainer}>
+          <View style={styles.facilityContainer}>{facilities}</View>
+        </ScrollView>
       </View>
     </TouchableWithoutFeedback>
   );
@@ -56,8 +59,8 @@ const styles = StyleSheet.create({
     justifyContent: "start",
     alignItems: "center",
     height: "100%",
-
-    paddingHorizontal: 40,
+    paddingHorizontal: 10,
+    backgroundColor: "#f5deb3 ",
   },
 
   icons: {
@@ -68,7 +71,7 @@ const styles = StyleSheet.create({
   facilityContainer: {
     marginTop: 10,
   },
-  
+
   title: {
     fontFamily: "NunitoSans_10pt-Bold",
     fontSize: 30,

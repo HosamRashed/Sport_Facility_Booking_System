@@ -88,6 +88,7 @@ const Signup = () => {
   };
 
   function submit() {
+    setError("");
     if (checkFields()) {
       const url =
         "https://f532-2001-e68-5456-1e2e-b58b-4e3d-5cec-439e.ngrok-free.app/students/create";
@@ -100,6 +101,7 @@ const Signup = () => {
         ConfirmPassword: formData.confirmPassword,
         User_Gender: formData.gender,
       };
+      console.log(formData);
       axios
         .post(url, data)
         .then((res) => {

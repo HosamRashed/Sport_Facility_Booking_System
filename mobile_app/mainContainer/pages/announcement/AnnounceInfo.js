@@ -12,28 +12,22 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { useRoute } from "@react-navigation/native";
 
-const FacilityInfo = () => {
+const AnnounceInfo = () => {
   const route = useRoute();
-  const { facility } = route.params;
-  const image = facility.image;
+  const { announcement } = route.params;
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <View style={styles.container}>
-        <Image
+        {/* <Image
           style={styles.profilePicture}
           source={{
             uri: `${image}`,
           }}
-        />
-        <View style={styles.review}>
-          <Text style={styles.inputLabel}>3 reviews</Text>
-          <Text style={styles.inputLabel}></Text>
-        </View>
+        /> */}
 
         <View style={styles.content}>
-          <Text style={styles.name}>{facility.name.toUpperCase()}</Text>
-          <Text style={styles.inputLabel}>Description</Text>
-          <Text style={styles.inputLabel}>{facility.description}</Text>
+          <Text style={styles.name}>{announcement.title}</Text>
+          <Text style={styles.inputLabel}>{announcement.content}</Text>
         </View>
         <TouchableOpacity style={styles.bookText}>
           <Text style={styles.text}>BOOK A SLOT</Text>
@@ -89,4 +83,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default FacilityInfo;
+export default AnnounceInfo;

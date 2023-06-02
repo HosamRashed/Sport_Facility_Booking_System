@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -8,14 +8,78 @@ import {
   Image,
   TouchableWithoutFeedback,
   Keyboard,
+  ScrollView,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import axios from "axios";
+import AnnounceComponent from "./AnnounceComponent";
+// import FacilityInfo from "./FacilityInfo";
 
-const announcement = () => {
+const Announcement = () => {
+  const [announcement, setAnnouncement] = useState([]);
+  const [validClicked, setValidClicked] = useState(true);
+  const [archivedClicked, setArchivedClicked] = useState(false);
+
+  const handleValidClick = () => {
+    setValidClicked(true);
+    setArchivedClicked(false);
+  };
+
+  const handleArchivedClick = () => {
+    setValidClicked(false);
+    setArchivedClicked(true);
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  const getData = () => {
+    axios
+      .get(
+        "https://f532-2001-e68-5456-1e2e-b58b-4e3d-5cec-439e.ngrok-free.app/api/announcements"
+      )
+      .then((response) => {
+        setAnnouncement(response.data.data);
+      })
+      .catch((error) => {
+        console.log("error", error);
+      });
+  };
+
+  const announcements = announcement.map((announcement, index) => (
+    <AnnounceComponent key={index} info={announcement} />
+  ));
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <View style={styles.container}>
-        <Text style={styles.inputLabel}>announcement </Text>
+        <Image
+          source={require("../../../images/logo.png")}
+          style={styles.icons}
+        />
+        <View style={styles.buttons}>
+          <TouchableOpacity
+            style={[
+              styles.bookText,
+              validClicked && { backgroundColor: "#b0e0e6" },
+            ]}
+            onPress={handleValidClick}
+          >
+            <Text style={styles.text}>Valid</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[
+              styles.bookText,
+              archivedClicked && { backgroundColor: "#b0e0e6" },
+            ]}
+            onPress={handleArchivedClick}
+          >
+            <Text style={styles.text}>Archieved</Text>
+          </TouchableOpacity>
+        </View>
+        <ScrollView style={styles.scrollContainer}>
+          <View style={styles.announcementContainer}>{announcements}</View>
+        </ScrollView>
       </View>
     </TouchableWithoutFeedback>
   );
@@ -23,21 +87,35 @@ const announcement = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: "center",
+    marginTop: 30,
+    display: "flex",
+    justifyContent: "start",
     alignItems: "center",
-    paddingHorizontal: 40,
+    height: "100%",
+    paddingHorizontal: 10,
   },
-  title: {
-    fontSize: 30,
-    fontWeight: "bold",
-    marginBottom: 10,
+  scrollContainer: {
+    // borderWidth: 1,
+    // flex: 1,
+    marginTop: 10,
   },
-  icon: {
-    marginTop: 20,
+
+  icons: {
+    height: "8%",
     width: 100,
   },
 
+  announcementContainer: {
+    marginTop: 10,
+  },
+
+  title: {
+    fontFamily: "NunitoSans_10pt-Bold",
+    fontSize: 30,
+    // fontWeight: "bold",
+    // marginBottom: 10,
+    textAlign: "center",
+  },
   inputLabel: {
     marginLeft: 3,
     fontSize: 20,
@@ -52,19 +130,28 @@ const styles = StyleSheet.create({
     borderColor: "#ccc",
   },
 
-  button: {
-    color: "black",
-    width: 380,
-    height: 60,
-    backgroundColor: "#2b79ff",
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 50,
+  buttons: {
+    paddingHorizontal: 40,
     marginTop: 20,
-    shadowColor: "#171717",
-    shadowOffset: { width: 3, height: 7 },
-    shadowOpacity: 0.2,
-    shadowRadius: 3,
+    display: "flex",
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    // borderWidth: 1,
+  },
+
+  bookText: {
+    width: 150,
+    backgroundColor: "white",
+    borderRadius: 50,
+    borderWidth: 1,
+    padding: 10,
+    paddingHorizontal: 30,
+  },
+
+  text: {
+    fontSize: 20,
+    textAlign: "center",
   },
   error: {
     fontSize: 17,
@@ -87,4 +174,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default announcement;
+export default Announcement;
