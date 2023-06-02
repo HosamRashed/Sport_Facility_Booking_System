@@ -9,7 +9,6 @@ import "./Announcements.css";
 import Swal from "sweetalert2";
 import EditAnnouncement from "./editAnnouncement/EditAnnouncement";
 
-
 const Announcement = () => {
   const cookies = new Cookies();
   const token = cookies.get("TOKEN");
@@ -127,7 +126,17 @@ const Announcement = () => {
         </button>
       </div>
     ) : (
-      <p className="errorContainer"> There is no facility to be displayed</p>
+      <div className="empty">
+        <p className="errorContainer"> There is no facility to be displayed</p>
+        <button
+          className="btnCreate"
+          onClick={() => {
+            window.location.href = "/announcements/create";
+          }}
+        >
+          POST A NEW ANNOUNCEMENT
+        </button>
+      </div>
     );
 
   return (
@@ -139,7 +148,7 @@ const Announcement = () => {
             {isLoading ? (
               <p className="errorContainer">Loading...</p>
             ) : (
-                displayAnnouncement
+              displayAnnouncement
             )}
           </div>
           {modal && (

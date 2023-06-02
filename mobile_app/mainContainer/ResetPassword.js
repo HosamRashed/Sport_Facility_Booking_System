@@ -77,14 +77,13 @@ const ResetPassword = () => {
       axios
         .post(url, data)
         .then((res) => {
-          console.log(res);
           if (res.status === 200) {
             if (res.data.message === "Password updated successfully") {
-              //   console.log("successful");
+              console.log("successful");
               setVerified(true);
               setError("");
               setVisible(false);
-              navigation.navigate("login");
+              navigation.navigate("Login");
             } else {
               setError(res.data.message);
               setVisible(true);
@@ -103,7 +102,6 @@ const ResetPassword = () => {
   }
 
   function submit() {
-    console.log(formData);
     if (checkFields()) {
       const url =
         "https://f532-2001-e68-5456-1e2e-b58b-4e3d-5cec-439e.ngrok-free.app/students/resetPassword";

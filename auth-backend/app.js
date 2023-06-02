@@ -57,7 +57,6 @@ app.post("/bookings/create", (request, response) => {
     });
 });
 
-
 // create new student
 app.post("/students/create", async (request, response) => {
   try {

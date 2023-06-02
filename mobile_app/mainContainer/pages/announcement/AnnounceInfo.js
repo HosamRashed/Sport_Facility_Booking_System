@@ -15,6 +15,15 @@ import { useRoute } from "@react-navigation/native";
 const AnnounceInfo = () => {
   const route = useRoute();
   const { announcement } = route.params;
+  const dateData = announcement.date;
+  const date = new Date(dateData);
+
+  const day = date.getDate();
+  const month = date.getMonth() + 1; // Note: Months are zero-based, so we add 1 to get the correct month value
+  const year = date.getFullYear();
+
+  const formattedDate = `${day}/${month}/${year}`;
+  console.log(formattedDate); // Output: 2/6/2023
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <View style={styles.container}>

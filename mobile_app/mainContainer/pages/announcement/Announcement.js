@@ -9,14 +9,17 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   ScrollView,
+  RefreshControl,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import AnnounceComponent from "./AnnounceComponent";
-// import FacilityInfo from "./FacilityInfo";
 
 const Announcement = () => {
   const [announcement, setAnnouncement] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
+
+  let validAnnouncements = [];
+  let archivedAnnouncements = [];
   const [validClicked, setValidClicked] = useState(true);
   const [archivedClicked, setArchivedClicked] = useState(false);
 
@@ -44,12 +47,37 @@ const Announcement = () => {
       })
       .catch((error) => {
         console.log("error", error);
+      })
+      .finally(() => {
+        setRefreshing(false);
       });
   };
 
-  const announcements = announcement.map((announcement, index) => (
-    <AnnounceComponent key={index} info={announcement} />
-  ));
+  const onRefresh = () => {
+    setRefreshing(true);
+    getData();
+  };
+
+  const today = new Date();
+  announcement.forEach((announce) => {
+    const announcementDate = new Date(announce.date);
+    const timeDiff = Math.abs(today.getTime() - announcementDate.getTime());
+    const diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+    if (diffDays > 30) {
+      archivedAnnouncements.push(announce);
+    } else {
+      validAnnouncements.push(announce);
+    }
+  });
+
+  const announcements = validClicked
+    ? validAnnouncements.map((announcement, index) => (
+        <AnnounceComponent key={index} info={announcement} />
+      ))
+    : archivedAnnouncements.map((announcement, index) => (
+        <AnnounceComponent key={index} info={announcement} />
+      ));
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <View style={styles.container}>
@@ -74,10 +102,15 @@ const Announcement = () => {
             ]}
             onPress={handleArchivedClick}
           >
-            <Text style={styles.text}>Archieved</Text>
+            <Text style={styles.text}>Archived</Text>
           </TouchableOpacity>
         </View>
-        <ScrollView style={styles.scrollContainer}>
+        <ScrollView
+          style={styles.scrollContainer}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
+        >
           <View style={styles.announcementContainer}>{announcements}</View>
         </ScrollView>
       </View>
@@ -95,8 +128,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   scrollContainer: {
-    // borderWidth: 1,
-    // flex: 1,
     marginTop: 10,
   },
 
@@ -112,8 +143,7 @@ const styles = StyleSheet.create({
   title: {
     fontFamily: "NunitoSans_10pt-Bold",
     fontSize: 30,
-    // fontWeight: "bold",
-    // marginBottom: 10,
+
     textAlign: "center",
   },
   inputLabel: {
@@ -131,7 +161,7 @@ const styles = StyleSheet.create({
   },
 
   buttons: {
-    paddingHorizontal: 40,
+    paddingHorizontal: 30,
     marginTop: 20,
     display: "flex",
     width: "100%",

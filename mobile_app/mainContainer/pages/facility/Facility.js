@@ -15,7 +15,7 @@ import axios from "axios";
 import FacilityComponeent from "./FacilityComponeent";
 import FacilityInfo from "./FacilityInfo";
 
-const facility = () => {
+const Facility = () => {
   const [facility, setFacilities] = useState([]);
   // const []
   useEffect(() => {
@@ -75,8 +75,7 @@ const styles = StyleSheet.create({
   title: {
     fontFamily: "NunitoSans_10pt-Bold",
     fontSize: 30,
-    // fontWeight: "bold",
-    // marginBottom: 10,
+
     textAlign: "center",
   },
   inputLabel: {
@@ -128,4 +127,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default facility;
+export default Facility;

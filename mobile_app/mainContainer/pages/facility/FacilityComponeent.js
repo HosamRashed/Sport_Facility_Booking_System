@@ -17,7 +17,7 @@ const FacilityComponent = (props) => {
   const informaion = props.info;
 
   const handleDetailsPress = () => {
-    navigation.navigate("facilityInfo", { facility: informaion });
+    navigation.navigate("FacilityInfo", { facility: informaion });
   };
 
   return (
@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
   },
 
   bookText: {
-    backgroundColor: "#b0e0e6",
+    backgroundColor: "#90ee90",
     borderRadius: 50,
     borderWidth: 1,
     padding: 10,

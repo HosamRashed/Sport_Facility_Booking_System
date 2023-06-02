@@ -64,7 +64,7 @@ const Login = () => {
           console.log(res);
           if (res.message === "Login Successful") {
             console.log("successful");
-            navigation.navigate("mainPage");
+            navigation.navigate("MainPage");
           } else {
             setError(res.message);
             setVisible(true);
@@ -110,7 +110,7 @@ const Login = () => {
           onPress={() => {
             setError("");
             setFormData(initialize);
-            navigation.navigate("resetPassword");
+            navigation.navigate("ResetPassword");
           }}
           style={styles.forget}
         >
@@ -126,7 +126,7 @@ const Login = () => {
             onPress={() => {
               setError("");
               setFormData(initialize);
-              navigation.navigate("signup");
+              navigation.navigate("Signup");
             }}
           >
             Sign Up

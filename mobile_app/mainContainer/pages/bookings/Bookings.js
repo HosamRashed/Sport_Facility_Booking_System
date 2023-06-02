@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
-const bookoings = () => {
+const Bookings = () => {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <View style={styles.container}>
@@ -87,4 +87,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default bookoings;
+export default Bookings;

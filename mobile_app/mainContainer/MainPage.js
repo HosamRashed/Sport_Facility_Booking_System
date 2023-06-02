@@ -13,28 +13,28 @@ import Facility from "./pages/facility/Facility";
 import UserDashboard from "./pages/userDashboard/UserDashboard";
 
 // Screen names
-const announcement = "Announcement";
-const bookings = "Bookings";
-const facility = "Facility";
-const userDashboard = "User";
+const AnnouncementScreen = "Announcement";
+const BookingsScreen = "Bookings";
+const FacilityScreen = "Facility";
+const UserDashboardScreen = "User";
 
 const Tab = createBottomTabNavigator();
 
-function mainPage() {
+function MainPage() {
   return (
     <Tab.Navigator
-      initialRouteName={facility}
+      initialRouteName={FacilityScreen}
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
 
-          if (route.name === announcement) {
+          if (route.name === AnnouncementScreen) {
             iconName = focused ? "megaphone" : "megaphone-outline";
-          } else if (route.name === bookings) {
+          } else if (route.name === BookingsScreen) {
             iconName = focused ? "list" : "list-outline";
-          } else if (route.name === facility) {
+          } else if (route.name === FacilityScreen) {
             iconName = focused ? "location" : "location-outline";
-          } else if (route.name === userDashboard) {
+          } else if (route.name === UserDashboardScreen) {
             iconName = focused ? "person" : "person-outline";
           }
 
@@ -58,22 +58,22 @@ function mainPage() {
       }}
     >
       <Tab.Screen
-        name={facility}
+        name={FacilityScreen}
         component={Facility}
         options={{ headerShown: false }}
       />
       <Tab.Screen
-        name={bookings}
+        name={BookingsScreen}
         component={Bookings}
         options={{ headerShown: false }}
       />
       <Tab.Screen
-        name={announcement}
+        name={AnnouncementScreen}
         component={Announcement}
         options={{ headerShown: false }}
       />
       <Tab.Screen
-        name={userDashboard}
+        name={UserDashboardScreen}
         component={UserDashboard}
         options={{ headerShown: false }}
       />
@@ -81,4 +81,4 @@ function mainPage() {
   );
 }
 
-export default mainPage;
+export default MainPage;

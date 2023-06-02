@@ -15,29 +15,29 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen
-          name="mainPage"
+          name="MainPage"
           component={MainPage}
           options={{ headerShown: false, gestureEnabled: false }}
         />
 
         <Stack.Screen
-          name="login"
+          name="Login"
           component={Login}
           options={{ headerShown: false }}
         />
 
         <Stack.Screen
-          name="signup"
+          name="Signup"
           component={Signup}
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="resetPassword"
+          name="ResetPassword"
           component={ResetPassword}
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="facilityInfo"
+          name="FacilityInfo"
           component={FacilityInfo}
           options={{ headerShown: false }}
         />

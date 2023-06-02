@@ -113,7 +113,7 @@ const Signup = () => {
               setVisible(true);
             } else if (res.data.message === "successful") {
               console.log("successful");
-              navigation.navigate("login");
+              navigation.navigate("Login");
             }
           } else if (res.status === 500 || res.status === 501) {
             setError("Error creating a new student");

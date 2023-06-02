@@ -15,7 +15,19 @@ import axios from "axios";
 const AnnounceComponent = (props) => {
   const navigation = useNavigation();
   const informaion = props.info;
-  console.log(informaion.title);
+
+  const dateData = informaion.date;
+  const date = new Date(dateData);
+
+  const day = date.getDate();
+  const month = date.getMonth() + 1;
+  const year = date.getFullYear();
+
+  const formattedDate = `${day}/${month}/${year}`;
+
+  const sentence = informaion.title;
+  const capitalizedSentence =
+    sentence.charAt(0).toUpperCase() + sentence.slice(1);
 
   const handleDetailsPress = () => {
     navigation.navigate("AnnounceInfo", { announcement: informaion });
@@ -24,10 +36,13 @@ const AnnounceComponent = (props) => {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <View style={styles.container}>
-        <Text style={styles.inputLabel}>{informaion.title} </Text>
-        <Text style={styles.date}>Date: </Text>
+        <Text style={styles.inputLabel}>{capitalizedSentence} </Text>
+        <Text style={styles.date}>Date: {formattedDate}</Text>
 
-        <TouchableOpacity style={styles.bookText} onPress={handleDetailsPress}>
+        <TouchableOpacity
+          style={styles.detailsBtn}
+          onPress={handleDetailsPress}
+        >
           <Text>Details</Text>
         </TouchableOpacity>
       </View>
@@ -56,7 +71,7 @@ const styles = StyleSheet.create({
     shadowRadius: 3,
   },
 
-  bookText: {
+  detailsBtn: {
     backgroundColor: "#90ee90",
     borderRadius: 50,
     borderWidth: 1,
@@ -67,6 +82,7 @@ const styles = StyleSheet.create({
     right: 20,
     marginLeft: "auto",
   },
+
   inputLabel: {
     maxWidth: 250,
     marginTop: 5,

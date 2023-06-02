@@ -11,11 +11,28 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
-const userDashboard = () => {
+const UserDashboard = () => {
+  const navigation = useNavigation();
+
+  const handleDetailsPress = () => {
+    navigation.reset({
+      index: 0,
+      routes: [{ name: "Login" }],
+    });
+  };
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <View style={styles.container}>
-        <Text style={styles.inputLabel}>userDashboard </Text>
+        <Image
+          source={require("../../../images/logo.png")}
+          style={styles.icons}
+        />
+        <View style={styles.content}>{/* <Text>hello</Text> */}</View>
+        {/* onPress={handleDetailsPress} */}
+        <TouchableOpacity style={styles.signOut} onPress={handleDetailsPress}>
+          <Text style={styles.text}>Sign Out</Text>
+        </TouchableOpacity>
       </View>
     </TouchableWithoutFeedback>
   );
@@ -23,11 +40,41 @@ const userDashboard = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    paddingHorizontal: 40,
+    paddingHorizontal: 10,
+    height: "100%",
   },
+  content: {
+    backgroundColor: "white",
+    borderRadius: 20,
+    marginTop: 20,
+    borderWidth: 1,
+    width: 350,
+    height: 500,
+  },
+  icons: {
+    height: "8%",
+    width: 100,
+  },
+  signOut: {
+    backgroundColor: "#dc143c",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    width: 200,
+    height: 60,
+    // backgroundColor: "white",
+    borderRadius: 20,
+    marginTop: 20,
+    borderWidth: 1,
+  },
+
+  text: {
+    color: "white",
+    fontSize: 20,
+  },
+
   title: {
     fontSize: 30,
     fontWeight: "bold",
@@ -87,4 +134,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default userDashboard;
+export default UserDashboard;
