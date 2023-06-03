@@ -3,6 +3,8 @@ import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { LogBox } from "react-native";
+import { useSelector } from "react-redux";
+
 LogBox.ignoreLogs(["Warning: ..."]);
 LogBox.ignoreAllLogs();
 
@@ -21,6 +23,7 @@ const UserDashboardScreen = "User";
 const Tab = createBottomTabNavigator();
 
 function MainPage() {
+  
   return (
     <Tab.Navigator
       initialRouteName={FacilityScreen}

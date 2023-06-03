@@ -9,6 +9,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from "react-native";
+import { useDispatch } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 
 const Login = () => {
@@ -20,6 +21,7 @@ const Login = () => {
   const [error, setError] = useState({});
   const [visible, setVisible] = useState(false);
 
+  const dispatch = useDispatch();
   const navigation = useNavigation();
 
   const handleInputChange = (name, value) => {
@@ -30,19 +32,19 @@ const Login = () => {
   };
 
   const checkInputs = () => {
-    if (formData.password == "" || formData.userID == "") {
+    if (formData.password === "" || formData.userID === "") {
       setError("All inputs are required!");
       setVisible(true);
       return false;
     } else if (formData.userID.length !== 10) {
-      setError("The length of USER ID should 10 be exactly numbers ");
+      setError("The length of USER ID should be exactly 10 numbers");
       setVisible(true);
       return false;
     }
     return true;
   };
 
-  function submit() {
+  const submit = () => {
     if (checkInputs()) {
       const url =
         "https://f532-2001-e68-5456-1e2e-b58b-4e3d-5cec-439e.ngrok-free.app/students/login";
@@ -50,7 +52,6 @@ const Login = () => {
         User_ID: formData.userID,
         Password: formData.password,
       };
-      console.log(data, url);
 
       fetch(url, {
         method: "POST",
@@ -61,9 +62,9 @@ const Login = () => {
       })
         .then((response) => response.json())
         .then((res) => {
-          console.log(res);
           if (res.message === "Login Successful") {
             console.log("successful");
+            dispatch({ type: "SET_USER_ID", payload: res.student }); // Dispatch action to set the userID value in Redux store
             navigation.navigate("MainPage");
           } else {
             setError(res.message);
@@ -76,7 +77,7 @@ const Login = () => {
           console.log(error);
         });
     }
-  }
+  };
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>

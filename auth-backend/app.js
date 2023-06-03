@@ -32,7 +32,6 @@ app.use((req, res, next) => {
 // body parser configuration
 app.use(bodyParser.json({ limit: "400kb" }));
 app.use(bodyParser.urlencoded({ extended: true }));
-var os = require("os");
 
 // book a slot of a facility
 app.post("/bookings/create", (request, response) => {
@@ -150,6 +149,24 @@ app.put("/students/:id", (request, res) => {
     });
 });
 
+// retrive a specific student
+app.get("/api/student", (request, response) => {
+  Students.findOne({ User_ID: request.body.User_ID })
+    .then((student) => {
+      console.log(student);
+      response.status(200).json({
+        message: "the following are students data in the database: ",
+        data: student,
+      });
+    })
+    .catch((error) => {
+      response.status(500).send({
+        message: "the following error occurred: ",
+        error: error,
+      });
+    });
+});
+
 // login endpoint
 app.post("/students/login", (request, response) => {
   Students.findOne({ User_ID: request.body.User_ID })
@@ -161,6 +178,7 @@ app.post("/students/login", (request, response) => {
             if (passwordCheck) {
               response.status(200).send({
                 message: "Login Successful",
+                student: student,
               });
             } else {
               response.status(400).send({

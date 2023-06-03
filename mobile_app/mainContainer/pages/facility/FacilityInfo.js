@@ -16,6 +16,8 @@ const FacilityInfo = () => {
   const route = useRoute();
   const { facility } = route.params;
   const image = facility.image;
+
+  
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <View style={styles.container}>

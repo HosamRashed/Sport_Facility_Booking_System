@@ -13,7 +13,6 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import FacilityComponeent from "./FacilityComponeent";
-import FacilityInfo from "./FacilityInfo";
 
 const Facility = () => {
   const [facility, setFacilities] = useState([]);
