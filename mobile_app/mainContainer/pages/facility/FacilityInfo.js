@@ -17,7 +17,6 @@ const FacilityInfo = () => {
   const { facility } = route.params;
   const image = facility.image;
 
-  
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <View style={styles.container}>
@@ -55,9 +54,12 @@ const styles = StyleSheet.create({
 
   profilePicture: {
     borderRadius: 20,
-    borderWidth: 2,
     width: "100%",
     height: "50%",
+    shadowOffset: { width: 0, height: 0 },
+    shadowColor: "#171717",
+    shadowOpacity: 0.5,
+    shadowRadius: 3,
   },
   review: {
     marginTop: 5,
@@ -67,10 +69,13 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   bookText: {
+    shadowOffset: { width: 0, height: 0 },
+    shadowColor: "#171717",
+    shadowOpacity: 0.5,
+    shadowRadius: 3,
     marginLeft: 35,
     backgroundColor: "#3cb371",
     borderRadius: 35,
-    borderWidth: 1,
     padding: 15,
     paddingHorizontal: 80,
     marginTop: 35,

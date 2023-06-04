@@ -9,7 +9,6 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
 import { useRoute } from "@react-navigation/native";
 
 const AnnounceInfo = () => {
@@ -59,6 +58,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     width: "100%",
     height: "50%",
+    
   },
   review: {
     marginTop: 5,
@@ -75,6 +75,7 @@ const styles = StyleSheet.create({
     padding: 15,
     paddingHorizontal: 80,
     marginTop: 35,
+    
   },
   text: {
     color: "white",

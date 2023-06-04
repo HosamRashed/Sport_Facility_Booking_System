@@ -53,7 +53,7 @@ const AnnounceComponent = (props) => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "white",
-    borderWidth: 1,
+    // borderWidth: 1,
     margin: 10,
     width: 370,
     borderRadius: 10,
@@ -74,13 +74,16 @@ const styles = StyleSheet.create({
   detailsBtn: {
     backgroundColor: "#90ee90",
     borderRadius: 50,
-    borderWidth: 1,
     padding: 10,
     paddingHorizontal: 30,
     position: "absolute",
     top: 40,
     right: 20,
     marginLeft: "auto",
+    shadowOffset: { width: 0, height: 0 },
+    shadowColor: "#171717",
+    shadowOpacity: 0.3,
+    shadowRadius: 3,
   },
 
   inputLabel: {

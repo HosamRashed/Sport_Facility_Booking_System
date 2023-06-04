@@ -1,5 +1,4 @@
 import React from "react";
-
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { LogBox } from "react-native";
@@ -23,7 +22,6 @@ const UserDashboardScreen = "User";
 const Tab = createBottomTabNavigator();
 
 function MainPage() {
-  
   return (
     <Tab.Navigator
       initialRouteName={FacilityScreen}
@@ -46,18 +44,25 @@ function MainPage() {
         },
       })}
       tabBarOptions={{
-        tabBarStyle: { fontSize: 50 },
-
-        activeTintColor: "#2b79ff",
-        inactiveTintColor: "grey",
-        labelStyle: { fontSize: 14 },
-        tabStyle: {
-          borderBottomWidth: 4,
-          borderBottomColor: "#2b79ff",
-          height: 50,
+        screenOptions: {
+          tabBarActiveTintColor: "#2b79ff",
+          tabBarInactiveTintColor: "grey",
+          tabBarShowLabel: false,
+          tabBarLabelStyle: {
+            fontSize: 15,
+          },
+          tabBarItemStyle: {
+            borderBottomWidth: 4,
+            borderBottomColor: "#2b79ff",
+            height: 50,
+          },
+          tabBarStyle: [
+            {
+              display: "flex",
+            },
+            null,
+          ],
         },
-        showLabel: false,
-        showIcon: true,
       }}
     >
       <Tab.Screen

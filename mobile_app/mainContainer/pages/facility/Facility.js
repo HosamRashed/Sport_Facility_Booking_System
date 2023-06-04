@@ -23,7 +23,7 @@ const Facility = () => {
   const getData = () => {
     axios
       .get(
-        "https://f532-2001-e68-5456-1e2e-b58b-4e3d-5cec-439e.ngrok-free.app/api/facility"
+        "https://0662-2001-e68-5456-21-d5ba-a7c2-799a-ca2c.ngrok-free.app/api/facility"
       )
       .then((response) => {
         setFacilities(response.data.data);

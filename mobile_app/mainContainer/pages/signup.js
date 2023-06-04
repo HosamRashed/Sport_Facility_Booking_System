@@ -91,7 +91,7 @@ const Signup = () => {
     setError("");
     if (checkFields()) {
       const url =
-        "https://f532-2001-e68-5456-1e2e-b58b-4e3d-5cec-439e.ngrok-free.app/students/create";
+        "https://0662-2001-e68-5456-21-d5ba-a7c2-799a-ca2c.ngrok-free.app/students/create";
       const data = {
         User_ID: formData.userID,
         Full_Name: formData.name,
@@ -132,6 +132,7 @@ const Signup = () => {
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <View style={styles.container}>
         <View>
+          <Text style={styles.Label}>Registration Form </Text>
           <Text style={styles.inputLabel}>User ID: </Text>
           <TextInput
             keyboardType="numeric"
@@ -243,16 +244,27 @@ const Signup = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     justifyContent: "center",
     alignItems: "center",
     paddingHorizontal: 40,
-    marginTop: 40,
+    height: "100%",
+    borderWidth: 1,
   },
   title: {
     fontSize: 30,
     fontWeight: "bold",
     marginBottom: 10,
+  },
+  Label: {
+    color: "#2b79ff",
+    fontSize: 30,
+    marginBottom: 20,
+    fontWeight: "bold",
+    marginLeft: 3,
+    shadowOffset: { width: 2, height: 5 },
+    shadowColor: "#171717",
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
   },
   inputLabel: {
     marginLeft: 3,

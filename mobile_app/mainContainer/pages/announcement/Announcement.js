@@ -40,7 +40,7 @@ const Announcement = () => {
   const getData = () => {
     axios
       .get(
-        "https://f532-2001-e68-5456-1e2e-b58b-4e3d-5cec-439e.ngrok-free.app/api/announcements"
+        "https://0662-2001-e68-5456-21-d5ba-a7c2-799a-ca2c.ngrok-free.app/api/announcements"
       )
       .then((response) => {
         setAnnouncement(response.data.data);
@@ -174,7 +174,10 @@ const styles = StyleSheet.create({
     width: 150,
     backgroundColor: "white",
     borderRadius: 50,
-    borderWidth: 1,
+    shadowOffset: { width: 0, height: 0 },
+    shadowColor: "#171717",
+    shadowOpacity: 0.3,
+    shadowRadius: 3,
     padding: 10,
     paddingHorizontal: 30,
   },

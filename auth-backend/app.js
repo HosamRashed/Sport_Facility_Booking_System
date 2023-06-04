@@ -121,6 +121,24 @@ app.get("/api/students", (request, response) => {
     });
 });
 
+app.get("/api/students/:id", (request, response) => {
+  const id = request.params.id;
+
+  Students.find({ _id: id })
+    .then((data) => {
+      response.status(200).json({
+        message: "the following are students data in the database: ",
+        data: data,
+      });
+    })
+    .catch((error) => {
+      response.status(500).send({
+        message: "the following error occurred: ",
+        error: error,
+      });
+    });
+});
+
 // update the status of the student
 app.put("/students/:id", (request, res) => {
   const id = request.params.id;
@@ -149,21 +167,27 @@ app.put("/students/:id", (request, res) => {
     });
 });
 
-// retrive a specific student
-app.get("/api/student", (request, response) => {
-  Students.findOne({ User_ID: request.body.User_ID })
+// update student's information from mobile app
+app.put("/students/update/:id", (request, res) => {
+  console.log("hello inside update function");
+  const id = request.params.id;
+
+  Students.findByIdAndUpdate(
+    id,
+    {
+      Full_Name: request.body.Full_Name,
+      AnswerQuestion: request.body.AnswerQuestion,
+      User_Gender: request.body.User_Gender,
+    },
+    { new: true }
+  )
     .then((student) => {
-      console.log(student);
-      response.status(200).json({
-        message: "the following are students data in the database: ",
-        data: student,
-      });
+      res.json(student);
     })
     .catch((error) => {
-      response.status(500).send({
-        message: "the following error occurred: ",
-        error: error,
-      });
+      res
+        .status(502)
+        .json({ message: "Error updating student status!", error: error });
     });
 });
 

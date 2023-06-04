@@ -47,7 +47,7 @@ const Login = () => {
   const submit = () => {
     if (checkInputs()) {
       const url =
-        "https://f532-2001-e68-5456-1e2e-b58b-4e3d-5cec-439e.ngrok-free.app/students/login";
+        "https://0662-2001-e68-5456-21-d5ba-a7c2-799a-ca2c.ngrok-free.app/students/login";
       const data = {
         User_ID: formData.userID,
         Password: formData.password,
@@ -63,7 +63,6 @@ const Login = () => {
         .then((response) => response.json())
         .then((res) => {
           if (res.message === "Login Successful") {
-            console.log("successful");
             dispatch({ type: "SET_USER_ID", payload: res.student }); // Dispatch action to set the userID value in Redux store
             navigation.navigate("MainPage");
           } else {
