@@ -143,9 +143,9 @@ const styles = StyleSheet.create({
   title: {
     fontFamily: "NunitoSans_10pt-Bold",
     fontSize: 30,
-
     textAlign: "center",
   },
+  
   inputLabel: {
     marginLeft: 3,
     fontSize: 20,

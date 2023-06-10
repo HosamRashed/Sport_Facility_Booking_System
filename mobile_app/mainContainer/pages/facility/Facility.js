@@ -124,6 +124,7 @@ const styles = StyleSheet.create({
   effect: {
     color: "blue",
   },
+
 });
 
 export default Facility;

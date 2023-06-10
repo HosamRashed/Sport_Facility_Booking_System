@@ -34,7 +34,7 @@ const AnnounceInfo = () => {
         /> */}
 
         <View style={styles.content}>
-          <Text style={styles.name}>{announcement.title}</Text>
+          <Text style={styles.name}>{announcement.title.toUpperCase()}</Text>
           <Text style={styles.inputLabel}>{announcement.content}</Text>
         </View>
         <TouchableOpacity style={styles.bookText}>
@@ -58,7 +58,6 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     width: "100%",
     height: "50%",
-    
   },
   review: {
     marginTop: 5,
@@ -75,7 +74,6 @@ const styles = StyleSheet.create({
     padding: 15,
     paddingHorizontal: 80,
     marginTop: 35,
-    
   },
   text: {
     color: "white",

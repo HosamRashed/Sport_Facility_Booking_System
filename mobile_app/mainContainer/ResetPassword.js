@@ -68,7 +68,7 @@ const ResetPassword = () => {
   function update() {
     if (checkPasswords()) {
       const url =
-        "https://f532-2001-e68-5456-1e2e-b58b-4e3d-5cec-439e.ngrok-free.app/students/updatePassword";
+        "https://0662-2001-e68-5456-21-d5ba-a7c2-799a-ca2c.ngrok-free.app/students/updatePassword";
       const data = {
         User_ID: formData.userID,
         Password: formData.password,
@@ -104,7 +104,7 @@ const ResetPassword = () => {
   function submit() {
     if (checkFields()) {
       const url =
-        "hhttps://0662-2001-e68-5456-21-d5ba-a7c2-799a-ca2c.ngrok-free.app/students/resetPassword";
+        "https://0662-2001-e68-5456-21-d5ba-a7c2-799a-ca2c.ngrok-free.app/students/resetPassword";
       const data = {
         User_ID: formData.userID,
         AnswerQuestion: formData.answerQuestion,

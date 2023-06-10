@@ -63,7 +63,7 @@ const Login = () => {
         .then((response) => response.json())
         .then((res) => {
           if (res.message === "Login Successful") {
-            dispatch({ type: "SET_USER_ID", payload: res.student }); // Dispatch action to set the userID value in Redux store
+            dispatch({ type: "SET_USER_ID", payload: res.student }); 
             navigation.navigate("MainPage");
           } else {
             setError(res.message);

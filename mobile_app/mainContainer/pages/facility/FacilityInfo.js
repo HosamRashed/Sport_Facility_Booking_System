@@ -15,7 +15,14 @@ import { useRoute } from "@react-navigation/native";
 const FacilityInfo = () => {
   const route = useRoute();
   const { facility } = route.params;
+
+  console.log(facility);
   const image = facility.image;
+  const navigation = useNavigation();
+
+  const handleDetailsPress = () => {
+    navigation.navigate("BookDetails", { info: facility });
+  };
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
@@ -36,7 +43,7 @@ const FacilityInfo = () => {
           <Text style={styles.inputLabel}>Description</Text>
           <Text style={styles.inputLabel}>{facility.description}</Text>
         </View>
-        <TouchableOpacity style={styles.bookText}>
+        <TouchableOpacity style={styles.bookText} onPress={handleDetailsPress}>
           <Text style={styles.text}>BOOK A SLOT</Text>
         </TouchableOpacity>
       </View>

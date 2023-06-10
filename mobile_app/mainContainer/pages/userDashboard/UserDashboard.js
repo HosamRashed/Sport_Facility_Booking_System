@@ -52,7 +52,6 @@ const UserDashboard = () => {
   const handleEditProfile = () => {
     setVisible(true);
     setEditedProfile({
-      // Initialize edited profile data with the initial profile data
       Full_Name: currentStudentInfo.Full_Name,
       User_Gender: currentStudentInfo.User_Gender,
       AnswerQuestion: currentStudentInfo.AnswerQuestion,

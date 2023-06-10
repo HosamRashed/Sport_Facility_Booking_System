@@ -10,7 +10,6 @@ import {
 } from "react-native";
 
 import { useNavigation } from "@react-navigation/native";
-import axios from "axios";
 
 const FacilityComponent = (props) => {
   const navigation = useNavigation();

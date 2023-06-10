@@ -10,6 +10,7 @@ import Login from "./mainContainer/pages/login";
 import MainPage from "./mainContainer/MainPage";
 import FacilityInfo from "./mainContainer/pages/facility/FacilityInfo";
 import AnnounceInfo from "./mainContainer/pages/announcement/AnnounceInfo";
+import BookDetails from "./mainContainer/pages/facility/BookDetails";
 
 const Stack = createStackNavigator();
 
@@ -23,12 +24,12 @@ export default function App() {
             component={Login}
             options={{ headerShown: false }}
           />
+
           <Stack.Screen
             name="MainPage"
             component={MainPageWrapper}
             options={{ headerShown: false, gestureEnabled: false }}
           />
-
           <Stack.Screen
             name="Signup"
             component={Signup}
@@ -47,6 +48,12 @@ export default function App() {
           <Stack.Screen
             name="AnnounceInfo"
             component={AnnounceInfo}
+            options={{ headerShown: false }}
+          />
+
+          <Stack.Screen
+            name="BookDetails"
+            component={BookDetails}
             options={{ headerShown: false }}
           />
         </Stack.Navigator>
