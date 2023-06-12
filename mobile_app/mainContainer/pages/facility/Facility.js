@@ -9,6 +9,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   ScrollView,
+  RefreshControl,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
@@ -16,22 +17,34 @@ import FacilityComponeent from "./FacilityComponeent";
 
 const Facility = () => {
   const [facility, setFacilities] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
+
   // const []
   useEffect(() => {
     getData();
   }, []);
+
   const getData = () => {
     axios
       .get(
-        "https://0662-2001-e68-5456-21-d5ba-a7c2-799a-ca2c.ngrok-free.app/api/facility"
+        "https://4f5b-2001-e68-7000-1-9888-d524-2691-9d4a.ngrok-free.app/api/facility"
       )
       .then((response) => {
         setFacilities(response.data.data);
       })
       .catch((error) => {
         console.log("error", error);
+      })
+      .finally(() => {
+        setRefreshing(false);
       });
   };
+
+  const onRefresh = () => {
+    setRefreshing(true);
+    getData();
+  };
+
   // console.log(facility);
   const facilities = facility.map((facility, index) => (
     <FacilityComponeent key={index} info={facility} />
@@ -43,7 +56,12 @@ const Facility = () => {
           source={require("../../../images/logo.png")}
           style={styles.icons}
         />
-        <ScrollView style={styles.scrollContainer}>
+        <ScrollView
+          style={styles.scrollContainer}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
+        >
           <View style={styles.facilityContainer}>{facilities}</View>
         </ScrollView>
       </View>
@@ -124,7 +142,6 @@ const styles = StyleSheet.create({
   effect: {
     color: "blue",
   },
-
 });
 
 export default Facility;

@@ -414,6 +414,28 @@ app.put("/facility/:id", (req, res) => {
     });
 });
 
+// update specific facility calender from mobile app
+app.put("/facilities/update/:id", (request, res) => {
+  console.log(request);
+  const id = request.params.id;
+  const updatedCalendar = request.body.calender;
+
+  Facility.findOneAndUpdate(
+    { _id: id },
+    { $set: { calender: updatedCalendar } },
+    { new: true, useFindAndModify: false }
+  )
+    .then((facility) => {
+      // console.log(facility);
+      res.json(facility);
+    })
+    .catch((error) => {
+      res
+        .status(502)
+        .json({ message: "Error updating facility's calendar!", error: error });
+    });
+});
+
 // update facility
 app.put("/facility/:id/timeTable", (req, res) => {
   const id = req.params.id;

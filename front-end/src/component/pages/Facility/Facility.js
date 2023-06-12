@@ -65,7 +65,6 @@ const Facility = () => {
     setModal(!modal);
   };
 
-  console.log(facilities);
   const delteFacility = (facility_id) => {
     alert(facility_id);
   };
@@ -84,8 +83,8 @@ const Facility = () => {
   };
 
   const components = facilities.map((facility) => {
-    const calendar = facility.calender.length > 0 ? true : false;
-    return (
+    const calendar = facility.calender ? true : false;
+    return calendar ? (
       <tr key={facility._id}>
         <td>
           <img src={facility.image} height="50px" width="50px" alt="" />
@@ -93,25 +92,45 @@ const Facility = () => {
         <td>{facility.name}</td>
         <td>{facility.description}</td>
         <td>
-          {calendar ? (
-            <button
+          <button
+            onClick={() => {
+              window.location.href = `/facility/${facility._id}/viewTimeTable`;
+            }}
+            className="Viewtimetable"
+          >
+            View TimeTable
+          </button>
+        </td>
+        <td>
+          <Link to="#" className="icon">
+            <AiIcons.AiOutlineDelete
               onClick={() => {
-                window.location.href = `/facility/${facility._id}/viewTimeTable`;
+                delteFacility(facility._id);
               }}
-              className="Viewtimetable"
-            >
-              View TimeTable
-            </button>
-          ) : (
-            <button
-              onClick={() => {
-                window.location.href = `/facility/${facility._id}/timeTable`;
-              }}
-              className="timetable"
-            >
-              Add Timetable
-            </button>
-          )}
+            />
+          </Link>
+          <Link to="#" className="icon">
+            <FiIcons.FiEdit onClick={() => toggleModal(facility)} />
+          </Link>
+        </td>
+        <td></td>
+      </tr>
+    ) : (
+      <tr key={facility._id}>
+        <td>
+          <img src={facility.image} height="50px" width="50px" alt="" />
+        </td>
+        <td>{facility.name}</td>
+        <td>{facility.description}</td>
+        <td>
+          <button
+            onClick={() => {
+              window.location.href = `/facility/${facility._id}/timeTable`;
+            }}
+            className="timetable"
+          >
+            Add Timetable
+          </button>
         </td>
         <td>
           <Link to="#" className="icon">

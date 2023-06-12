@@ -12,6 +12,7 @@ import {
 import { useRoute } from "@react-navigation/native";
 import { useNavigation } from "@react-navigation/native";
 import { connect } from "react-redux";
+import axios from "axios";
 
 let calenderIndex;
 let newFacility;
@@ -158,11 +159,11 @@ const BookDetails = (props) => {
 
   const handleBookSlot = () => {
     if (calenderIndex !== undefined && selectedSlot !== null) {
-      const updatedFacility = { ...facility }; // Create a copy of the facility object
-      const updatedCalender = [...updatedFacility.calender]; // Create a copy of the calender array
+      const updatedFacility = { ...facility };
+      const updatedCalender = [...updatedFacility.calender];
 
-      const selectedDayCalender = { ...updatedCalender[calenderIndex] }; // Get the selected day's calender object
-      const updatedSlots = [...selectedDayCalender.slots]; // Create a copy of the slots array
+      const selectedDayCalender = { ...updatedCalender[calenderIndex] };
+      const updatedSlots = [...selectedDayCalender.slots];
 
       // Find the index of the selected slot in the slots array
       const selectedSlotIndex = updatedSlots.findIndex(
@@ -177,30 +178,45 @@ const BookDetails = (props) => {
           type: "",
         };
 
-        // Update the slots array in the selected day's calender object
         selectedDayCalender.slots = updatedSlots;
 
-        // Update the calender array in the facility object
         updatedCalender[calenderIndex] = selectedDayCalender;
 
-        // Update the facility object with the updated calender
         updatedFacility.calender = updatedCalender;
 
-        // Save the updated facility object to the main object
-        // (Replace 'mainObject' with the appropriate state or variable that holds the main facility object)
+        // Save the updated facility object to the main facility object
         const mainObject = { ...updatedFacility };
 
-        // Close the confirmation modal and update the state
-        console.log(mainObject);
+        // Close the confirmation modal and send updated calender to the backend
         newFacility = mainObject;
+        // console.log(newFacility.calender[0].slots);
         setShowConfirmation(false);
-        navigatation();
+        updateDatabase();
       }
     }
   };
 
-  const navigatation = () => {
-    // console.log(newFacility);
+  const updateDatabase = () => {
+    console.log(newFacility.calender);
+
+    const config = {
+      method: "PUT",
+      url: `https://4f5b-2001-e68-7000-1-9888-d524-2691-9d4a.ngrok-free.app/facilities/update/${newFacility._id}`,
+      data: {
+        calender: newFacility.calender,
+      },
+    };
+
+    axios(config)
+      .then((response) => {
+        console.log(
+          "facility's calender has been updated successfully!"
+          // response.data
+        );
+      })
+      .catch((error) => {
+        console.log(error);
+      });
     navigation.navigate("FacilityInfo", { facility: newFacility });
   };
 
@@ -498,11 +514,11 @@ const styles = StyleSheet.create({
   mixed: {
     width: 20,
     height: 20,
-    backgroundColor: "#E3F261",
+    backgroundColor: "#EAA048",
     borderRadius: 5,
   },
   mixedBackground: {
-    backgroundColor: "#E3F261",
+    backgroundColor: "#EAA048",
   },
   maleContainer: {
     marginTop: 10,

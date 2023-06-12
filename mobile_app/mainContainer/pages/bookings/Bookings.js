@@ -39,7 +39,7 @@ const Bookings = () => {
   const getData = () => {
     axios
       .get(
-        "https://0662-2001-e68-5456-21-d5ba-a7c2-799a-ca2c.ngrok-free.app/api/bookings"
+        "https://4f5b-2001-e68-7000-1-9888-d524-2691-9d4a.ngrok-free.app/api/bookings"
       )
       .then((response) => {
         setAnnouncement(response.data.data);
@@ -183,7 +183,7 @@ const styles = StyleSheet.create({
 
   text: {
     width: 180,
-    fontSize: 18,
+    fontSize: 17,
     textAlign: "center",
   },
   error: {

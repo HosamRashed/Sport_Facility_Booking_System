@@ -16,7 +16,6 @@ const FacilityInfo = () => {
   const route = useRoute();
   const { facility } = route.params;
 
-  console.log(facility);
   const image = facility.image;
   const navigation = useNavigation();
 
@@ -40,8 +39,8 @@ const FacilityInfo = () => {
 
         <View style={styles.content}>
           <Text style={styles.name}>{facility.name.toUpperCase()}</Text>
-          <Text style={styles.inputLabel}>Description</Text>
-          <Text style={styles.inputLabel}>{facility.description}</Text>
+          <Text style={styles.name}>Description:</Text>
+          <Text style={styles.contentText}>{facility.description}</Text>
         </View>
         <TouchableOpacity style={styles.bookText} onPress={handleDetailsPress}>
           <Text style={styles.text}>BOOK A SLOT</Text>
@@ -60,9 +59,11 @@ const styles = StyleSheet.create({
   },
 
   profilePicture: {
+    left: "auto",
+    right: "auto",
     borderRadius: 20,
-    width: "100%",
-    height: "50%",
+    width: 380,
+    height: 200,
     shadowOffset: { width: 0, height: 0 },
     shadowColor: "#171717",
     shadowOpacity: 0.5,
@@ -76,6 +77,9 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   bookText: {
+    position: "absolute",
+    top: 600,
+    left: 15,
     shadowOffset: { width: 0, height: 0 },
     shadowColor: "#171717",
     shadowOpacity: 0.5,
@@ -97,7 +101,14 @@ const styles = StyleSheet.create({
   inputLabel: {
     fontSize: 20,
   },
+  contentText: {
+    // borderWidth: 1,
+    maxWidth: "100%",
+    fontSize: 20,
+    textAlign: "justify",
+  },
   name: {
+    marginBottom: 5,
     color: "#2b79ff",
     fontSize: 25,
   },
