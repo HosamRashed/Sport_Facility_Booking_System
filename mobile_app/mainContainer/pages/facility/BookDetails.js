@@ -176,6 +176,8 @@ const BookDetails = (props) => {
           ...selectedSlot,
           availability: "booked",
           type: "",
+          userID: userID.User_ID,
+          prevType: selectedSlot.type,
         };
 
         selectedDayCalender.slots = updatedSlots;
@@ -189,7 +191,6 @@ const BookDetails = (props) => {
 
         // Close the confirmation modal and send updated calender to the backend
         newFacility = mainObject;
-        // console.log(newFacility.calender[0].slots);
         setShowConfirmation(false);
         updateDatabase();
       }
@@ -197,8 +198,6 @@ const BookDetails = (props) => {
   };
 
   const updateDatabase = () => {
-    console.log(newFacility.calender);
-
     const config = {
       method: "PUT",
       url: `https://4f5b-2001-e68-7000-1-9888-d524-2691-9d4a.ngrok-free.app/facilities/update/${newFacility._id}`,
@@ -238,15 +237,26 @@ const BookDetails = (props) => {
               >
                 <Text style={styles.text}>Select a day</Text>
               </TouchableOpacity>
-              <TouchableOpacity
-                style={[
-                  styles.button,
-                  slotSelected && { backgroundColor: "#90ee90" },
-                ]}
-                onPress={handleSlotClick}
-              >
-                <Text style={styles.text}>Select a slot</Text>
-              </TouchableOpacity>
+              {selectedDay ? (
+                <TouchableOpacity
+                  style={[
+                    styles.button,
+                    slotSelected && { backgroundColor: "#90ee90" },
+                  ]}
+                  onPress={handleSlotClick}
+                >
+                  <Text style={styles.text}>Select a slot</Text>
+                </TouchableOpacity>
+              ) : (
+                <TouchableOpacity
+                  style={[
+                    styles.button,
+                    slotSelected && { backgroundColor: "#90ee90" },
+                  ]}
+                >
+                  <Text style={styles.text}>Select a slot</Text>
+                </TouchableOpacity>
+              )}
             </View>
           </View>
           <View style={styles.contentContainer}>

@@ -26,6 +26,7 @@ const FacilityInfo = () => {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <View style={styles.container}>
+
         <Image
           style={styles.profilePicture}
           source={{

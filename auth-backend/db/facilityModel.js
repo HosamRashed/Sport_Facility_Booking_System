@@ -13,12 +13,15 @@ const FacilitySchema = new mongoose.Schema({
   calender: {
     type: [
       {
+        date: { type: "string" },
         day: { type: "string" },
         slots: [
           {
             time: [Number],
             availability: { type: "string" },
             type: { type: "string" },
+            userID: { type: Number },
+            prevType: { type: "string" },
           },
         ],
       },

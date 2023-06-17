@@ -82,8 +82,9 @@ const Facility = () => {
       });
   };
 
+
   const components = facilities.map((facility) => {
-    const calendar = facility.calender ? true : false;
+    const calendar = facility.calender.length > 0 ? true : false;
     return calendar ? (
       <tr key={facility._id}>
         <td>

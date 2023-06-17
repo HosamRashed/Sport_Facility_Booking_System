@@ -17,6 +17,16 @@ export default function TimeTable() {
     calender: [],
   };
 
+  const daysOfWeek = [
+    "saturday",
+    "sunday",
+    "monday",
+    "tuesday",
+    "wednesday",
+    "thursday",
+    "friday",
+  ];
+
   const params = useParams();
   const [form, setForm] = useState(initialize);
   const [error, setError] = useState("");
@@ -74,14 +84,68 @@ export default function TimeTable() {
     return availableSlots;
   };
 
+  const getCurrentDayInfo = function () {
+    const today = new Date();
+
+    const options = { weekday: "long" };
+    const dayName = today.toLocaleDateString("en-US", options);
+
+    const date = today.getDate();
+    const month = today.getMonth() + 1;
+
+    return [dayName, date, month];
+  };
+
+  const findDayIndex = function (currentDay) {
+    return daysOfWeek.findIndex(
+      (day) => day.toLowerCase() === currentDay.toLowerCase()
+    );
+  };
+
+  const findDifference = function (today, selectedDay) {
+    const todayIndex = findDayIndex(today.toLowerCase());
+    const selectedDayIndex = findDayIndex(selectedDay.toLowerCase());
+
+    if (todayIndex === -1 || selectedDayIndex === -1) {
+      console.error("Invalid day entered!");
+      return -1;
+    }
+
+    if (todayIndex === selectedDayIndex) {
+      return 0;
+    } else if (selectedDayIndex > todayIndex) {
+      return selectedDayIndex - todayIndex;
+    } else {
+      return daysOfWeek.length - Math.abs(selectedDayIndex - todayIndex);
+    }
+  };
+
   const prepareContent = () => {
     slots = slotsDivide();
-    const days = form.selectedDays.map((day) => {
-      return {
-        day: day,
-        slots,
-      };
-    });
+    const [TodayName, date, month] = getCurrentDayInfo();
+    const days = form.selectedDays
+      .map((selectedDay) => {
+        const differenceDays = findDifference(TodayName, selectedDay);
+        if (differenceDays === -1) {
+          return null;
+        } else if (differenceDays === 0) {
+          return {
+            date: `${date}/${month}`,
+            day: selectedDay,
+            slots,
+          };
+        } else {
+          const selectedDate = date + differenceDays;
+          const formattedDate =
+            selectedDate < 10 ? `0${selectedDate}` : selectedDate;
+          return {
+            date: `${formattedDate}/${month}`,
+            day: selectedDay,
+            slots,
+          };
+        }
+      })
+      .filter((day) => day !== null);
 
     form.calender = days;
     setContent(true);

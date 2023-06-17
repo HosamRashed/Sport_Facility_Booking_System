@@ -416,17 +416,21 @@ app.put("/facility/:id", (req, res) => {
 
 // update specific facility calender from mobile app
 app.put("/facilities/update/:id", (request, res) => {
-  console.log(request);
   const id = request.params.id;
   const updatedCalendar = request.body.calender;
 
   Facility.findOneAndUpdate(
     { _id: id },
-    { $set: { calender: updatedCalendar } },
+    {
+      $set: {
+        calender: updatedCalendar,
+        userID: request.body.userID,
+        prevType: request.body.prevType,
+      },
+    },
     { new: true, useFindAndModify: false }
   )
     .then((facility) => {
-      // console.log(facility);
       res.json(facility);
     })
     .catch((error) => {
