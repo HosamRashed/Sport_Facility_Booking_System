@@ -33,29 +33,6 @@ app.use((req, res, next) => {
 app.use(bodyParser.json({ limit: "400kb" }));
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// book a slot of a facility
-app.post("/bookings/create", (request, response) => {
-  const { Facility_ID, Student_ID, Booking_Date } = request.body;
-  const booking = new Bookings({
-    facility: Facility_ID,
-    student: Student_ID,
-    booking_date: Booking_Date,
-  });
-  booking
-    .save()
-    .then((result) => {
-      response.status(200).send({
-        message: "successful",
-      });
-    })
-    .catch((error) => {
-      response.status(500).send({
-        message: "Error creating new student user",
-        error,
-      });
-    });
-});
-
 // create new student
 app.post("/students/create", async (request, response) => {
   try {
@@ -71,33 +48,32 @@ app.post("/students/create", async (request, response) => {
     // Check if user already has an account
     const existingUser = await Students.findOne({ User_ID });
     if (existingUser) {
-      return response.status(200).send({
+      return response.status(200).json({
         message: "Duplicate",
       });
+    } else {
+      const hashedPassword = await bcrypt.hash(Password, 10);
+
+      const student = new Students({
+        User_ID: User_ID,
+        Full_Name: Full_Name,
+        SecretQuestion: SecretQuestion,
+        AnswerQuestion: AnswerQuestion,
+        Password: hashedPassword,
+        ConfirmPassword: hashedPassword,
+        User_Gender: User_Gender,
+        User_status: "active",
+      });
+
+      await student.save();
+
+      console.log("inside");
+      response.status(200).json({
+        message: "successful",
+      });
     }
-
-    // Encrypt the password
-    const saltRounds = parseInt(User_ID);
-    const hashedPassword = await bcrypt.hash(Password, saltRounds);
-
-    const student = new Students({
-      User_ID: User_ID,
-      Full_Name: Full_Name,
-      SecretQuestion: SecretQuestion,
-      AnswerQuestion: AnswerQuestion,
-      Password: hashedPassword,
-      ConfirmPassword: hashedPassword,
-      User_Gender: User_Gender,
-      User_status: "active",
-    });
-
-    await student.save();
-
-    response.status(200).send({
-      message: "successful",
-    });
   } catch (error) {
-    response.status(500).send({
+    response.status(500).json({
       message: "Error creating new student",
       error: error.message,
     });
@@ -169,7 +145,6 @@ app.put("/students/:id", (request, res) => {
 
 // update student's information from mobile app
 app.put("/students/update/:id", (request, res) => {
-  console.log("hello inside update function");
   const id = request.params.id;
 
   Students.findByIdAndUpdate(
@@ -302,6 +277,47 @@ app.post("/students/updatePassword", (request, response) => {
       });
     });
 });
+
+// create a new facility
+app.post("/bookings/create", (request, response) => {
+  const booking = new Bookings({
+    student: request.body.student,
+    facility: request.body.facility,
+    slot_ID: request.body.slot_ID,
+  });
+
+  booking
+    .save()
+    .then((result) => {
+      response.status(201).send({
+        message: "Booking is added successfully!",
+        result,
+      });
+    })
+    .catch((error) => {
+      response.status(500).send({
+        message: "Error inserting the booking to the system",
+        error: error.message,
+      });
+    });
+});
+
+app.get("/api/bookings", (request, response) => {
+  Bookings.find({})
+    .then((data) => {
+      response.status(200).json({
+        message: "the following are students bookings database: ",
+        data: data,
+      });
+    })
+    .catch((error) => {
+      response.status(500).send({
+        message: "the following error occurred: ",
+        error: error,
+      });
+    });
+});
+
 // create a new facility
 app.post("/facility/create", (request, response) => {
   Facility.findOne({ name: request.body.name })
@@ -679,7 +695,6 @@ app.post("/login", (request, response) => {
 app.post("/facilities", (request, response) => {
   Facility.findOne({ name: request.body.name })
 
-    // if there is another facility with the same name
     .then((result) => {
       if (result) {
         response.status(200).send({
@@ -695,14 +710,12 @@ app.post("/facilities", (request, response) => {
 
         facility
           .save()
-          // return success if the new user is added to the database successfully
           .then((result) => {
             response.status(201).send({
               message: "facility hass been Created Successfully",
               result,
             });
           })
-          // catch erroe if the new user wasn't added successfully to the database
           .catch((error) => {
             response.status(500).send({
               message: "Error creating new facility",
@@ -711,7 +724,6 @@ app.post("/facilities", (request, response) => {
           });
       }
     })
-    // catch error if password do not match
     .catch((error) => {
       response.status(400).send({
         message: "",

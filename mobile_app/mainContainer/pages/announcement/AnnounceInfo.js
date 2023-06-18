@@ -18,28 +18,22 @@ const AnnounceInfo = () => {
   const date = new Date(dateData);
 
   const day = date.getDate();
-  const month = date.getMonth() + 1; // Note: Months are zero-based, so we add 1 to get the correct month value
+  const month = date.getMonth() + 1;
   const year = date.getFullYear();
 
   const formattedDate = `${day}/${month}/${year}`;
-  console.log(formattedDate); // Output: 2/6/2023
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <View style={styles.container}>
-        {/* <Image
-          style={styles.profilePicture}
-          source={{
-            uri: `${image}`,
-          }}
-        /> */}
+        <Image
+          source={require("../../../images/maintanance.png")}
+          style={styles.image}
+        />
 
         <View style={styles.content}>
           <Text style={styles.name}>{announcement.title.toUpperCase()}</Text>
           <Text style={styles.inputLabel}>{announcement.content}</Text>
         </View>
-        <TouchableOpacity style={styles.bookText}>
-          <Text style={styles.text}>BOOK A SLOT</Text>
-        </TouchableOpacity>
       </View>
     </TouchableWithoutFeedback>
   );
@@ -88,6 +82,12 @@ const styles = StyleSheet.create({
   name: {
     color: "#2b79ff",
     fontSize: 25,
+  },
+  image: {
+    marginLeft: "auto",
+    marginRight: "auto",
+    height: 100,
+    width: 200,
   },
 });
 

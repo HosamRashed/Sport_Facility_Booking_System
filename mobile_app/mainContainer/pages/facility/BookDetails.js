@@ -48,6 +48,8 @@ const BookDetails = (props) => {
   const days = sortedDays
     .filter((day) => facility.selectedDays.includes(day))
     .map((day, index) => {
+      const calendarDay =
+        facility.calender && facility.calender.find((item) => item.day == day);
       if (facility.selectedDays.length - 1 === index && index % 2 === 0) {
         return (
           <TouchableOpacity
@@ -64,7 +66,7 @@ const BookDetails = (props) => {
                 selectedDay === day && { color: "white" },
               ]}
             >
-              {day}
+              {calendarDay.day} {"\n"} {calendarDay.date}
             </Text>
           </TouchableOpacity>
         );
@@ -84,7 +86,7 @@ const BookDetails = (props) => {
                 selectedDay === day && { color: "white" },
               ]}
             >
-              {day}
+              {calendarDay.day} {"\n"} {calendarDay.date}
             </Text>
           </TouchableOpacity>
         );
@@ -133,7 +135,7 @@ const BookDetails = (props) => {
     }
 
     if (calender) {
-      setSlots(generateSlots(calender)); // Assuming you have a state variable 'slots' to store the generated slots
+      setSlots(generateSlots(calender));
     }
 
     setDaySelected(false);
@@ -192,7 +194,7 @@ const BookDetails = (props) => {
         // Close the confirmation modal and send updated calender to the backend
         newFacility = mainObject;
         setShowConfirmation(false);
-        updateDatabase();
+        updateBookings();
       }
     }
   };
@@ -200,7 +202,7 @@ const BookDetails = (props) => {
   const updateDatabase = () => {
     const config = {
       method: "PUT",
-      url: `https://4f5b-2001-e68-7000-1-9888-d524-2691-9d4a.ngrok-free.app/facilities/update/${newFacility._id}`,
+      url: `https://f3e9-2001-e68-5456-acfd-186e-fb15-e26b-6ba1.ngrok-free.app/facilities/update/${newFacility._id}`,
       data: {
         calender: newFacility.calender,
       },
@@ -208,15 +210,34 @@ const BookDetails = (props) => {
 
     axios(config)
       .then((response) => {
-        console.log(
-          "facility's calender has been updated successfully!"
-          // response.data
-        );
+        console.log("facility's calender has been updated successfully!");
       })
       .catch((error) => {
         console.log(error);
       });
+
     navigation.navigate("FacilityInfo", { facility: newFacility });
+  };
+
+  const updateBookings = () => {
+    const config = {
+      method: "POST",
+      url: `https://f3e9-2001-e68-5456-acfd-186e-fb15-e26b-6ba1.ngrok-free.app/bookings/create`,
+      data: {
+        student: userID._id,
+        facility: facility._id,
+        slot_ID: selectedSlot._id,
+      },
+    };
+
+    axios(config)
+      .then((response) => {
+        console.log("booking is added to the database!");
+        updateDatabase();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (

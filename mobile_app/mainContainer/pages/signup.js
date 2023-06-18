@@ -91,7 +91,7 @@ const Signup = () => {
     setError("");
     if (checkFields()) {
       const url =
-        "https://4f5b-2001-e68-7000-1-9888-d524-2691-9d4a.ngrok-free.app/students/create";
+        "https://f3e9-2001-e68-5456-acfd-186e-fb15-e26b-6ba1.ngrok-free.app/students/create";
       const data = {
         User_ID: formData.userID,
         Full_Name: formData.name,
@@ -101,7 +101,6 @@ const Signup = () => {
         ConfirmPassword: formData.confirmPassword,
         User_Gender: formData.gender,
       };
-      console.log(formData);
       axios
         .post(url, data)
         .then((res) => {
@@ -256,11 +255,11 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   Label: {
+    textAlign: "center",
     color: "#2b79ff",
     fontSize: 30,
     marginBottom: 20,
     fontWeight: "bold",
-    marginLeft: 3,
     shadowOffset: { width: 2, height: 5 },
     shadowColor: "#171717",
     shadowOpacity: 0.2,

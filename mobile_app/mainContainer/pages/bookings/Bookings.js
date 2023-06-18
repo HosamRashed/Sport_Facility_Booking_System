@@ -14,7 +14,7 @@ import {
 import axios from "axios";
 
 const Bookings = () => {
-  const [announcement, setAnnouncement] = useState([]);
+  const [bookings, setBookings] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
 
   let validAnnouncements = [];
@@ -39,10 +39,10 @@ const Bookings = () => {
   const getData = () => {
     axios
       .get(
-        "https://4f5b-2001-e68-7000-1-9888-d524-2691-9d4a.ngrok-free.app/api/bookings"
+        "https://f3e9-2001-e68-5456-acfd-186e-fb15-e26b-6ba1.ngrok-free.app/api/bookings"
       )
       .then((response) => {
-        setAnnouncement(response.data.data);
+        setBookings(response.data.data);
       })
       .catch((error) => {
         console.log("error", error);
@@ -57,25 +57,11 @@ const Bookings = () => {
     getData();
   };
 
-  // const today = new Date();
-  // announcement.forEach((announce) => {
-  //   const announcementDate = new Date(announce.date);
-  //   const timeDiff = Math.abs(today.getTime() - announcementDate.getTime());
-  //   const diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
-  //   if (diffDays > 30) {
-  //     archivedAnnouncements.push(announce);
-  //   } else {
-  //     validAnnouncements.push(announce);
-  //   }
-  // });
-
-  // const announcements = validClicked
-  //   ? validAnnouncements.map((announcement, index) => (
-  //       <AnnounceComponent key={index} info={announcement} />
-  //     ))
-  //   : archivedAnnouncements.map((announcement, index) => (
-  //       <AnnounceComponent key={index} info={announcement} />
-  //     ));
+  const bookingsData = bookings.map((booking, index) => (
+    <View>
+      <Text>hello</Text>
+    </View>
+  ));
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
@@ -110,7 +96,7 @@ const Bookings = () => {
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }
         >
-          {/* <View style={styles.announcementContainer}>{announcements}</View> */}
+          <View style={styles.announcementContainer}>{bookingsData}</View>
         </ScrollView>
       </View>
     </TouchableWithoutFeedback>
