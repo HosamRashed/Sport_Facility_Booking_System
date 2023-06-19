@@ -30,6 +30,7 @@ export default function App() {
             component={MainPageWrapper}
             options={{ headerShown: false, gestureEnabled: false }}
           />
+
           <Stack.Screen
             name="Signup"
             component={Signup}

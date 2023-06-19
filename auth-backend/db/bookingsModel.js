@@ -13,6 +13,10 @@ const BookingsSchema = new mongoose.Schema({
     type: String,
     required: [true, "Please provide a slot ID"],
   },
+  day: {
+    type: String,
+    required: [true, "Please provide the booked day"],
+  },
 });
 
 module.exports =

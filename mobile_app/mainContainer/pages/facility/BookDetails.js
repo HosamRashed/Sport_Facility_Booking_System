@@ -202,7 +202,7 @@ const BookDetails = (props) => {
   const updateDatabase = () => {
     const config = {
       method: "PUT",
-      url: `https://f3e9-2001-e68-5456-acfd-186e-fb15-e26b-6ba1.ngrok-free.app/facilities/update/${newFacility._id}`,
+      url: `https://f04f-2001-e68-5456-acfd-186e-fb15-e26b-6ba1.ngrok-free.app/facilities/update/${newFacility._id}`,
       data: {
         calender: newFacility.calender,
       },
@@ -211,25 +211,24 @@ const BookDetails = (props) => {
     axios(config)
       .then((response) => {
         console.log("facility's calender has been updated successfully!");
+        navigation.navigate("FacilityInfo", { facility: newFacility });
       })
       .catch((error) => {
         console.log(error);
       });
-
-    navigation.navigate("FacilityInfo", { facility: newFacility });
   };
 
   const updateBookings = () => {
     const config = {
       method: "POST",
-      url: `https://f3e9-2001-e68-5456-acfd-186e-fb15-e26b-6ba1.ngrok-free.app/bookings/create`,
+      url: `https://f04f-2001-e68-5456-acfd-186e-fb15-e26b-6ba1.ngrok-free.app/bookings/create`,
       data: {
         student: userID._id,
         facility: facility._id,
         slot_ID: selectedSlot._id,
+        day: newFacility.calender[calenderIndex].day,
       },
     };
-
     axios(config)
       .then((response) => {
         console.log("booking is added to the database!");

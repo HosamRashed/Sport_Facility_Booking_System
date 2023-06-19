@@ -47,7 +47,7 @@ const Login = () => {
   const submit = () => {
     if (checkInputs()) {
       const url =
-        "https://f3e9-2001-e68-5456-acfd-186e-fb15-e26b-6ba1.ngrok-free.app/students/login";
+        "https://f04f-2001-e68-5456-acfd-186e-fb15-e26b-6ba1.ngrok-free.app/students/login";
       const data = {
         User_ID: formData.userID,
         Password: formData.password,
@@ -63,7 +63,7 @@ const Login = () => {
         .then((response) => response.json())
         .then((res) => {
           if (res.message === "Login Successful") {
-            dispatch({ type: "SET_USER_ID", payload: res.student }); 
+            dispatch({ type: "SET_USER_ID", payload: res.student });
             navigation.navigate("MainPage");
           } else {
             setError(res.message);

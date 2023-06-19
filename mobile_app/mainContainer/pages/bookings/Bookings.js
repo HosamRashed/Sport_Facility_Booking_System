@@ -12,6 +12,7 @@ import {
   RefreshControl,
 } from "react-native";
 import axios from "axios";
+import BookingComponent from "./BookingComponent";
 
 const Bookings = () => {
   const [bookings, setBookings] = useState([]);
@@ -36,10 +37,12 @@ const Bookings = () => {
     getData();
   }, []);
 
+  console.log(bookings.length);
   const getData = () => {
+    console.log("retrive");
     axios
       .get(
-        "https://f3e9-2001-e68-5456-acfd-186e-fb15-e26b-6ba1.ngrok-free.app/api/bookings"
+        "https://f04f-2001-e68-5456-acfd-186e-fb15-e26b-6ba1.ngrok-free.app/api/bookings"
       )
       .then((response) => {
         setBookings(response.data.data);
@@ -57,9 +60,13 @@ const Bookings = () => {
     getData();
   };
 
+  const onDelete = () => {
+    getData();
+  };
+
   const bookingsData = bookings.map((booking, index) => (
     <View>
-      <Text>hello</Text>
+      <BookingComponent key={index} info={booking} onDelete={onDelete} />
     </View>
   ));
 

@@ -1,2 +1,2 @@
-* finish booking and user front and backend 
+* finish booking and user front and backend.
 * display current announcements available in the system make somthing similar to the faility page.

@@ -284,6 +284,7 @@ app.post("/bookings/create", (request, response) => {
     student: request.body.student,
     facility: request.body.facility,
     slot_ID: request.body.slot_ID,
+    day: request.body.day,
   });
 
   booking
@@ -314,6 +315,28 @@ app.get("/api/bookings", (request, response) => {
       response.status(500).send({
         message: "the following error occurred: ",
         error: error,
+      });
+    });
+});
+
+app.delete("/bookings/delete/:id", (request, response) => {
+  const bookingID = request.params.id;
+
+  Bookings.findOneAndDelete({ _id: bookingID }) // Use findOneAndDelete to find and delete the booking
+    .then((deletedBooking) => {
+      if (!deletedBooking) {
+        return response.status(404).send({
+          data: "Booking not found",
+        });
+      }
+      response.status(200).send({
+        data: "Deleted",
+      });
+    })
+    .catch((err) => {
+      response.status(500).send({
+        Error: err.message,
+        data: "Error",
       });
     });
 });
@@ -381,7 +404,6 @@ app.get("/api/facility", (request, response) => {
 });
 
 // retrive a specific facility by its id
-
 app.get("/facilities/:id", (request, response) => {
   Facility.findOne({ _id: request.params.id })
     .then((result) => {
