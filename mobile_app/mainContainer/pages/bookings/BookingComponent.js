@@ -17,7 +17,8 @@ let newFacility;
 const BookingComponent = (props) => {
   const { info, userID, onDelete } = props;
   const [facility, setFacility] = useState(null);
-  const [showConfirmation, setShowConfirmation] = useState(false); // State to control the visibility of the confirmation pop-up
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [showEditConfirmation, setShowEditConfirmation] = useState(false);
 
   useEffect(() => {
     getData();
@@ -49,7 +50,7 @@ const BookingComponent = (props) => {
   }
 
   const handleDelete = () => {
-    setShowConfirmation(true); // Show the confirmation pop-up when the delete button is clicked
+    setShowConfirmation(true);
   };
 
   const confirmDelete = () => {
@@ -58,7 +59,6 @@ const BookingComponent = (props) => {
     const updatedFacility = { ...facility };
     const updatedCalender = [...updatedFacility.calender];
 
-    // Find the index of the selected day in the calender array
     const calenderIndex = updatedCalender.findIndex(
       (calender) => calender.day === bookedCalender.day
     );
@@ -67,12 +67,10 @@ const BookingComponent = (props) => {
       const selectedDayCalender = { ...updatedCalender[calenderIndex] };
       const updatedSlots = [...selectedDayCalender.slots];
 
-      // Find the index of the selected slot in the slots array
       const selectedSlotIndex = updatedSlots.findIndex(
         (slot) => slot._id === bookedSlot._id
       );
 
-      // Update the availability of the selected slot to "available"
       if (selectedSlotIndex !== -1) {
         updatedSlots[selectedSlotIndex] = {
           ...bookedSlot,
@@ -88,12 +86,9 @@ const BookingComponent = (props) => {
 
         updatedFacility.calender = updatedCalender;
 
-        // Save the updated facility object to the main facility object
         const mainObject = { ...updatedFacility };
         newFacility = mainObject;
-        console.log(mainObject.calender[0].slots);
 
-        // Close the confirmation modal and send updated calender to the backend
         setFacility(mainObject);
         updateBookings();
       }
@@ -135,7 +130,11 @@ const BookingComponent = (props) => {
   };
 
   const handleEdit = () => {
-    // Perform the edit operation here
+    setShowEditConfirmation(true);
+  };
+
+  const confirmEdit = () => {
+    console.log("confrim");
   };
 
   return (
@@ -162,43 +161,72 @@ const BookingComponent = (props) => {
             <TouchableOpacity style={styles.editButton} onPress={handleEdit}>
               <Ionicons name="create" size={20} color="white" />
             </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.deleteButton}
-              onPress={handleDelete}
-            >
-              <Ionicons name="trash" size={20} color="white" />
-            </TouchableOpacity>
           </>
         ) : (
           <Text style={styles.inputLabel}>Slot not available</Text>
         )}
 
-        {/* Confirmation Modal */}
-        <Modal
-          visible={showConfirmation}
-          animationType="slide"
-          transparent={true}
-        >
-          <View style={styles.modalContainer}>
-            <Text style={styles.modalText}>
-              Are you sure you want to delete?
-            </Text>
-            <View style={styles.buttonContainer}>
-              <TouchableOpacity
-                style={[styles.button, styles.confirmButton]}
-                onPress={confirmDelete}
-              >
-                <Text style={styles.buttonText}>Confirm</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={[styles.button, styles.cancelButton]}
-                onPress={() => setShowConfirmation(false)}
-              >
-                <Text style={styles.buttonText}>Cancel</Text>
-              </TouchableOpacity>
+        <TouchableOpacity style={styles.deleteButton} onPress={handleDelete}>
+          <Ionicons name="trash" size={20} color="white" />
+          <Modal
+            visible={showConfirmation}
+            animationType="fade"
+            transparent={true}
+          >
+            <View style={styles.modalContainer}>
+              <View style={styles.insideContainer}>
+                <Text style={styles.modalText}>
+                  Are you sure you want {"\n"}to delete this booking?
+                </Text>
+                <View style={styles.buttonContainer}>
+                  <TouchableOpacity
+                    style={[styles.button, styles.confirmButton]}
+                    onPress={confirmDelete}
+                  >
+                    <Text style={styles.buttonText}>Confirm</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={[styles.button, styles.cancelButton]}
+                    onPress={() => setShowConfirmation(false)}
+                  >
+                    <Text style={styles.buttonText}>Cancel</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
             </View>
-          </View>
-        </Modal>
+          </Modal>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.deleteButton} onPress={handleEdit}>
+          <Ionicons name="create" size={20} color="white" />
+          <Modal
+            visible={showEditConfirmation}
+            animationType="fade"
+            transparent={true}
+          >
+            <View style={styles.modalContainer}>
+              <View style={styles.insideContainer}>
+                <Text style={styles.modalText}>
+                  Are you sure you want {"\n"}to change your booking slot?
+                </Text>
+                <View style={styles.buttonContainer}>
+                  <TouchableOpacity
+                    style={[styles.button, styles.confirmButton]}
+                    onPress={confirmEdit}
+                  >
+                    <Text style={styles.buttonText}>Confirm</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={[styles.button, styles.cancelButton]}
+                    onPress={() => setShowEditConfirmation(false)}
+                  >
+                    <Text style={styles.buttonText}>Cancel</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </View>
+          </Modal>
+        </TouchableOpacity>
       </View>
     </TouchableWithoutFeedback>
   );
@@ -258,14 +286,27 @@ const styles = StyleSheet.create({
   },
   modalContainer: {
     flex: 1,
+    marginLeft: "auto",
+    marginRight: "auto",
     backgroundColor: "rgba(0, 0, 0, 0.5)",
+    width: "100%",
+    padding: 10,
     justifyContent: "center",
     alignItems: "center",
   },
+  insideContainer: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 20,
+    borderRadius: 20,
+    backgroundColor: "white",
+  },
   modalText: {
+    textAlign: "center",
     fontSize: 20,
-    marginBottom: 20,
-    color: "white",
+    marginBottom: 10,
+    color: "black",
   },
   button: {
     paddingVertical: 10,
@@ -274,9 +315,11 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
   },
   confirmButton: {
+    borderRadius: 30,
     backgroundColor: "green",
   },
   cancelButton: {
+    borderRadius: 30,
     backgroundColor: "red",
   },
   buttonText: {

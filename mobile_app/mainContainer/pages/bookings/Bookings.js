@@ -39,7 +39,7 @@ const Bookings = () => {
 
   console.log(bookings.length);
   const getData = () => {
-    console.log("retrive");
+    console.log("retrieve");
     axios
       .get(
         "https://f04f-2001-e68-5456-acfd-186e-fb15-e26b-6ba1.ngrok-free.app/api/bookings"
@@ -65,48 +65,54 @@ const Bookings = () => {
   };
 
   const bookingsData = bookings.map((booking, index) => (
-    <View>
-      <BookingComponent key={index} info={booking} onDelete={onDelete} />
+    <View key={index}>
+      <BookingComponent info={booking} onDelete={onDelete} />
     </View>
   ));
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-      <View style={styles.container}>
-        <Image
-          source={require("../../../images/logo.png")}
-          style={styles.icons}
-        />
-        <View style={styles.buttons}>
-          <TouchableOpacity
-            style={[
-              styles.bookText,
-              validClicked && { backgroundColor: "#b0e0e6" },
-            ]}
-            onPress={handleValidClick}
+    <View style={styles.container}>
+      <Image
+        source={require("../../../images/logo.png")}
+        style={styles.icons}
+      />
+      <TouchableWithoutFeedback
+        contentContainerStyle={styles.scrollViewContent}
+        onPress={Keyboard.dismiss}
+        accessible={false}
+      >
+        <View style={styles.scrollContainer}>
+          <ScrollView
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }
           >
-            <Text style={styles.text}>Upcoming Bookings</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[
-              styles.bookText,
-              archivedClicked && { backgroundColor: "#b0e0e6" },
-            ]}
-            onPress={handleArchivedClick}
-          >
-            <Text style={styles.text}>Completed Bookings</Text>
-          </TouchableOpacity>
+            <View style={styles.buttons}>
+              <TouchableOpacity
+                style={[
+                  styles.bookText,
+                  validClicked && { backgroundColor: "#b0e0e6" },
+                ]}
+                onPress={handleValidClick}
+              >
+                <Text style={styles.text}>Upcoming Bookings</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[
+                  styles.bookText,
+                  archivedClicked && { backgroundColor: "#b0e0e6" },
+                ]}
+                onPress={handleArchivedClick}
+              >
+                <Text style={styles.text}>Completed Bookings</Text>
+              </TouchableOpacity>
+            </View>
+
+            <View style={styles.announcementContainer}>{bookingsData}</View>
+          </ScrollView>
         </View>
-        <ScrollView
-          style={styles.scrollContainer}
-          refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-          }
-        >
-          <View style={styles.announcementContainer}>{bookingsData}</View>
-        </ScrollView>
-      </View>
-    </TouchableWithoutFeedback>
+      </TouchableWithoutFeedback>
+    </View>
   );
 };
 
@@ -120,38 +126,23 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   scrollContainer: {
-    marginTop: 10,
+    position: "fixed",
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
   },
-
+  scrollViewContent: {
+    flexGrow: 1,
+    paddingBottom: 20,
+  },
   icons: {
     height: "8%",
     width: 100,
   },
-
   announcementContainer: {
     marginTop: 10,
   },
-
-  title: {
-    fontFamily: "NunitoSans_10pt-Bold",
-    fontSize: 30,
-
-    textAlign: "center",
-  },
-  inputLabel: {
-    marginLeft: 3,
-    fontSize: 20,
-  },
-  input: {
-    fontSize: 20,
-    width: 370,
-    height: 35,
-    marginVertical: 10,
-    marginHorizontal: 5,
-    borderBottomWidth: 2,
-    borderColor: "#ccc",
-  },
-
   buttons: {
     paddingHorizontal: 0,
     marginTop: 20,
@@ -159,9 +150,7 @@ const styles = StyleSheet.create({
     width: "100%",
     flexDirection: "row",
     justifyContent: "space-around",
-    // borderWidth: 1,
   },
-
   bookText: {
     width: 180,
     backgroundColor: "white",
@@ -171,9 +160,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 3,
     paddingVertical: 10,
-    // paddingHorizontal: ,
   },
-
   text: {
     width: 180,
     fontSize: 17,
