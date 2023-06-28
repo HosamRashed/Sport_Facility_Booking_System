@@ -44,24 +44,19 @@ function MainPage() {
         },
       })}
       tabBarOptions={{
-        screenOptions: {
-          tabBarActiveTintColor: "#2b79ff",
-          tabBarInactiveTintColor: "grey",
-          tabBarShowLabel: false,
-          tabBarLabelStyle: {
-            fontSize: 15,
-          },
-          tabBarItemStyle: {
-            borderBottomWidth: 4,
-            borderBottomColor: "#2b79ff",
-            height: 50,
-          },
-          tabBarStyle: [
-            {
-              display: "flex",
-            },
-            null,
-          ],
+        tabBarActiveTintColor: "#2b79ff",
+        tabBarInactiveTintColor: "grey",
+        tabBarShowLabel: false,
+        tabBarLabelStyle: {
+          fontSize: 15,
+        },
+        tabBarItemStyle: {
+          borderBottomWidth: 4,
+          borderBottomColor: "#2b79ff",
+          height: 50,
+        },
+        tabBarStyle: {
+          display: "flex",
         },
       }}
     >

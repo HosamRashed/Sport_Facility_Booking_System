@@ -20,13 +20,15 @@ const FacilityInfo = () => {
   const navigation = useNavigation();
 
   const handleDetailsPress = () => {
-    navigation.navigate("BookDetails", { info: facility });
+    navigation.navigate("BookDetails", {
+      info: facility,
+      returnToBooking: false,
+    });
   };
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <View style={styles.container}>
-
         <Image
           style={styles.profilePicture}
           source={{

@@ -12,9 +12,12 @@ import {
 import axios from "axios";
 import { connect } from "react-redux";
 import { Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
 let newFacility;
+let delteOrEditIndicator;
 const BookingComponent = (props) => {
+  const navigation = useNavigation();
   const { info, userID, onDelete } = props;
   const [facility, setFacility] = useState(null);
   const [showConfirmation, setShowConfirmation] = useState(false);
@@ -57,7 +60,6 @@ const BookingComponent = (props) => {
 
   const confirmDelete = () => {
     setShowConfirmation(false); // Hide the confirmation pop-up
-    console.log("delete");
     const updatedFacility = { ...facility };
     const updatedCalender = [...updatedFacility.calender];
 
@@ -92,6 +94,7 @@ const BookingComponent = (props) => {
         newFacility = mainObject;
 
         setFacility(mainObject);
+        delteOrEditIndicator = 0;
         updateBookings();
       }
     }
@@ -105,7 +108,7 @@ const BookingComponent = (props) => {
     axios(config)
       .then((response) => {
         console.log("The booking is deleted");
-        updateDatabase();
+        delteOrEditIndicator == 0 ? updateDatabase() : updateDatabaseEdit();
         onDelete();
       })
       .catch((error) => {
@@ -131,12 +134,72 @@ const BookingComponent = (props) => {
       });
   };
 
+  const updateDatabaseEdit = () => {
+    const config = {
+      method: "PUT",
+      url: `https://62ec-2001-e68-5456-198-c858-14b9-931b-aefb.ngrok-free.app/facilities/update/${info.facilityID}`,
+      data: {
+        calender: newFacility.calender,
+      },
+    };
+
+    axios(config)
+      .then((response) => {
+        console.log("facility's calender has been updated successfully!");
+        navigation.navigate("BookDetails", {
+          info: newFacility,
+          returnToBooking: true,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   const handleEdit = () => {
     setShowEditConfirmation(true);
   };
 
   const confirmEdit = () => {
-    console.log("confrim");
+    setShowEditConfirmation(false);
+    const updatedFacility = { ...facility };
+    const updatedCalender = [...updatedFacility.calender];
+
+    const calenderIndex = updatedCalender.findIndex(
+      (calender) => calender.day === bookedCalender.day
+    );
+
+    if (calenderIndex !== -1) {
+      const selectedDayCalender = { ...updatedCalender[calenderIndex] };
+      const updatedSlots = [...selectedDayCalender.slots];
+
+      const selectedSlotIndex = updatedSlots.findIndex(
+        (slot) => slot._id === bookedSlot._id
+      );
+
+      if (selectedSlotIndex !== -1) {
+        updatedSlots[selectedSlotIndex] = {
+          ...bookedSlot,
+          availability: "available",
+          type: bookedSlot.prevType,
+          userID: null,
+          prevType: null,
+        };
+
+        selectedDayCalender.slots = updatedSlots;
+
+        updatedCalender[calenderIndex] = selectedDayCalender;
+
+        updatedFacility.calender = updatedCalender;
+
+        const mainObject = { ...updatedFacility };
+        newFacility = mainObject;
+
+        setFacility(mainObject);
+        delteOrEditIndicator = 1;
+        updateBookings();
+      }
+    }
   };
 
   return (

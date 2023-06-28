@@ -38,7 +38,6 @@ const Bookings = () => {
   }, []);
 
   const getData = () => {
-    console.log("retrieve");
     axios
       .get(
         "https://62ec-2001-e68-5456-198-c858-14b9-931b-aefb.ngrok-free.app/api/bookings"

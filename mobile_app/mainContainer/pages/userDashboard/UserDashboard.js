@@ -59,7 +59,6 @@ const UserDashboard = () => {
   };
 
   const handleSubmitProfile = () => {
-    console.log(editedProfile);
     const config = {
       method: "PUT",
       url: `https://62ec-2001-e68-5456-198-c858-14b9-931b-aefb.ngrok-free.app/students/update/${User._id}`,

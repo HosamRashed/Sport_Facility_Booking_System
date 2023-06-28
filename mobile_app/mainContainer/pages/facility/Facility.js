@@ -45,7 +45,6 @@ const Facility = () => {
     getData();
   };
 
-  // console.log(facility);
   const facilities = facility.map((facility, index) => (
     <FacilityComponeent key={index} info={facility} />
   ));

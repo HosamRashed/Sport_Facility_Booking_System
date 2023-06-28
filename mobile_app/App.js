@@ -7,7 +7,7 @@ import store, { setUserID } from "./mainContainer/store"; // Import your Redux s
 import Signup from "./mainContainer/pages/signup";
 import ResetPassword from "./mainContainer/ResetPassword";
 import Login from "./mainContainer/pages/login";
-import MainPage from "./mainContainer/MainPage";
+import MainPageWrapper from "./mainContainer/MainWrapper";
 import FacilityInfo from "./mainContainer/pages/facility/FacilityInfo";
 import AnnounceInfo from "./mainContainer/pages/announcement/AnnounceInfo";
 import BookDetails from "./mainContainer/pages/facility/BookDetails";
@@ -61,15 +61,4 @@ export default function App() {
       </NavigationContainer>
     </Provider>
   );
-}
-
-function MainPageWrapper() {
-  const userID = useSelector((state) => state.userID);
-  const dispatch = useDispatch();
-
-  const handleSetUserID = (userID) => {
-    dispatch(setUserID(userID));
-  };
-
-  return <MainPage userID={userID} setUserID={handleSetUserID} />;
 }

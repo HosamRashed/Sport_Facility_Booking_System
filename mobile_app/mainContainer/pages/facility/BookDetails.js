@@ -23,7 +23,7 @@ const BookDetails = (props) => {
 
   const { userID } = props;
 
-  const { info } = route.params;
+  const { info, returnToBooking } = route.params;
   const [facility, setFacility] = useState(info);
 
   const [daySelected, setDaySelected] = useState(true);
@@ -114,7 +114,17 @@ const BookDetails = (props) => {
         <TouchableOpacity onPress={() => checkSelection(slot)} key={index}>
           <View style={[styles.slot, styles[type + "Background"]]}>
             <Text style={styles.slotText}>
-              From {slot.time[0]} To {slot.time[1]}
+              {slot.time[0] === 12
+                ? slot.time[0] + " pm"
+                : slot.time[0] > 12
+                ? slot.time[0] - 12 + " pm"
+                : slot.time[0] + " am"}{" "}
+              -{" "}
+              {slot.time[1] === 12
+                ? slot.time[1] + " pm"
+                : slot.time[1] > 12
+                ? slot.time[1] - 12 + " pm"
+                : slot.time[1] + " am"}
             </Text>
           </View>
         </TouchableOpacity>
@@ -160,7 +170,6 @@ const BookDetails = (props) => {
   };
 
   const handleBookSlot = () => {
-    console.log("hello");
     if (calenderIndex !== undefined && selectedSlot !== null) {
       const updatedFacility = { ...facility };
       const updatedCalender = [...updatedFacility.calender];
@@ -212,7 +221,9 @@ const BookDetails = (props) => {
     axios(config)
       .then((response) => {
         console.log("facility's calender has been updated successfully!");
-        navigation.navigate("FacilityInfo", { facility: newFacility });
+        returnToBooking
+          ? navigation.navigate("Bookings")
+          : navigation.navigate("FacilityInfo", { facility: newFacility });
       })
       .catch((error) => {
         console.log(error);
