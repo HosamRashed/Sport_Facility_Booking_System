@@ -37,12 +37,11 @@ const Bookings = () => {
     getData();
   }, []);
 
-  console.log(bookings.length);
   const getData = () => {
     console.log("retrieve");
     axios
       .get(
-        "https://f04f-2001-e68-5456-acfd-186e-fb15-e26b-6ba1.ngrok-free.app/api/bookings"
+        "https://62ec-2001-e68-5456-198-c858-14b9-931b-aefb.ngrok-free.app/api/bookings"
       )
       .then((response) => {
         setBookings(response.data.data);

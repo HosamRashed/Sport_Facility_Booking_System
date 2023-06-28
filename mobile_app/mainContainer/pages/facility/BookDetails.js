@@ -160,6 +160,7 @@ const BookDetails = (props) => {
   };
 
   const handleBookSlot = () => {
+    console.log("hello");
     if (calenderIndex !== undefined && selectedSlot !== null) {
       const updatedFacility = { ...facility };
       const updatedCalender = [...updatedFacility.calender];
@@ -202,7 +203,7 @@ const BookDetails = (props) => {
   const updateDatabase = () => {
     const config = {
       method: "PUT",
-      url: `https://f04f-2001-e68-5456-acfd-186e-fb15-e26b-6ba1.ngrok-free.app/facilities/update/${newFacility._id}`,
+      url: `https://62ec-2001-e68-5456-198-c858-14b9-931b-aefb.ngrok-free.app/facilities/update/${newFacility._id}`,
       data: {
         calender: newFacility.calender,
       },
@@ -221,12 +222,16 @@ const BookDetails = (props) => {
   const updateBookings = () => {
     const config = {
       method: "POST",
-      url: `https://f04f-2001-e68-5456-acfd-186e-fb15-e26b-6ba1.ngrok-free.app/bookings/create`,
+      url: `https://62ec-2001-e68-5456-198-c858-14b9-931b-aefb.ngrok-free.app/bookings/create`,
       data: {
-        student: userID._id,
-        facility: facility._id,
+        studentID: userID._id,
+        facilityID: facility._id,
+        studentName: userID.Full_Name,
+        facilityName: facility.name,
         slot_ID: selectedSlot._id,
-        day: newFacility.calender[calenderIndex].day,
+        slotTime: selectedSlot.time,
+        slotDate: newFacility.calender[calenderIndex].date,
+        slotDay: newFacility.calender[calenderIndex].day,
       },
     };
     axios(config)

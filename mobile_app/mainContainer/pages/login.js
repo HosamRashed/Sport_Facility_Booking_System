@@ -47,7 +47,7 @@ const Login = () => {
   const submit = () => {
     if (checkInputs()) {
       const url =
-        "https://f04f-2001-e68-5456-acfd-186e-fb15-e26b-6ba1.ngrok-free.app/students/login";
+        "https://62ec-2001-e68-5456-198-c858-14b9-931b-aefb.ngrok-free.app/students/login";
       const data = {
         User_ID: formData.userID,
         Password: formData.password,

@@ -29,7 +29,7 @@ const UserDashboard = () => {
   const getData = () => {
     axios
       .get(
-        `https://f04f-2001-e68-5456-acfd-186e-fb15-e26b-6ba1.ngrok-free.app/api/students/${User._id}`
+        `https://62ec-2001-e68-5456-198-c858-14b9-931b-aefb.ngrok-free.app/api/students/${User._id}`
       )
       .then((response) => {
         setCurrentStudentInfo(response.data.data[0]);
@@ -62,7 +62,7 @@ const UserDashboard = () => {
     console.log(editedProfile);
     const config = {
       method: "PUT",
-      url: `https://f04f-2001-e68-5456-acfd-186e-fb15-e26b-6ba1.ngrok-free.app/students/update/${User._id}`,
+      url: `https://62ec-2001-e68-5456-198-c858-14b9-931b-aefb.ngrok-free.app/students/update/${User._id}`,
       data: {
         Full_Name: editedProfile.Full_Name,
         AnswerQuestion: editedProfile.AnswerQuestion,

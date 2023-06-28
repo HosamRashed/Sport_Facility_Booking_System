@@ -52,14 +52,6 @@ const Students = () => {
       buttonsStyling: false,
     });
 
-    /*       User_ID: request.body.User_ID,
-      Full_Name: request.body.Full_Name,
-      SecretQuestion: request.body.SecretQuestion,
-      AnswerQuestion: request.body.AnswerQuestion,
-      Password: request.body.Password,
-      ConfirmPassword: request.body.Password,
-      User_Gender: request.body.User_Gender,
-      User_status: "active",*/
     swalWithBootstrapButtons
       .fire({
         title: `Are you sure you want to ${message} this student?`,

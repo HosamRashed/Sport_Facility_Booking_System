@@ -1,11 +1,19 @@
 const mongoose = require("mongoose");
 
 const BookingsSchema = new mongoose.Schema({
-  student: {
+  studentID: {
     type: "string",
-    required: [true, "Please provide a student!"],
+    required: [true, "Please provide a student ID!"],
   },
-  facility: {
+  facilityID: {
+    type: "string",
+    required: [true, "Please provide a facility!"],
+  },
+  studentName: {
+    type: "string",
+    required: [true, "Please provide a student name!"],
+  },
+  facilityName: {
     type: "string",
     required: [true, "Please provide a facility!"],
   },
@@ -13,9 +21,17 @@ const BookingsSchema = new mongoose.Schema({
     type: String,
     required: [true, "Please provide a slot ID"],
   },
-  day: {
+  slotTime: {
+    type: [Number],
+    required: [true, "Please provide a slot time as an array"],
+  }, 
+  slotDate: {
     type: String,
-    required: [true, "Please provide the booked day"],
+    required: [true, "Please provide the booked slot date"],
+  },
+  slotDay: {
+    type: String,
+    required: [true, "Please provide the booked slot day"],
   },
 });
 

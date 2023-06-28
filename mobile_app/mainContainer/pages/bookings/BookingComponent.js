@@ -27,7 +27,7 @@ const BookingComponent = (props) => {
   const getData = () => {
     axios
       .get(
-        `https://f04f-2001-e68-5456-acfd-186e-fb15-e26b-6ba1.ngrok-free.app/facilities/${info.facility}`
+        `https://62ec-2001-e68-5456-198-c858-14b9-931b-aefb.ngrok-free.app/facilities/${info.facilityID}`
       )
       .then((response) => {
         setFacility(response.data.data);
@@ -39,9 +39,11 @@ const BookingComponent = (props) => {
 
   let bookedCalender;
   let bookedSlot;
-  if (facility && facility.calender && info.day && info.slot_ID) {
+  if (facility && facility.calender && info.slotDay && info.slot_ID) {
     const calenders = facility.calender;
-    bookedCalender = calenders.find((calender) => calender.day === info.day);
+    bookedCalender = calenders.find(
+      (calender) => calender.day === info.slotDay
+    );
     if (bookedCalender) {
       bookedSlot = bookedCalender.slots.find(
         (slot) => slot._id === info.slot_ID
@@ -98,7 +100,7 @@ const BookingComponent = (props) => {
   const updateBookings = () => {
     const config = {
       method: "DELETE",
-      url: `https://f04f-2001-e68-5456-acfd-186e-fb15-e26b-6ba1.ngrok-free.app/bookings/delete/${info._id}`,
+      url: `https://62ec-2001-e68-5456-198-c858-14b9-931b-aefb.ngrok-free.app/bookings/delete/${info._id}`,
     };
     axios(config)
       .then((response) => {
@@ -114,7 +116,7 @@ const BookingComponent = (props) => {
   const updateDatabase = () => {
     const config = {
       method: "PUT",
-      url: `https://f04f-2001-e68-5456-acfd-186e-fb15-e26b-6ba1.ngrok-free.app/facilities/update/${info.facility}`,
+      url: `https://62ec-2001-e68-5456-198-c858-14b9-931b-aefb.ngrok-free.app/facilities/update/${info.facilityID}`,
       data: {
         calender: newFacility.calender,
       },
@@ -158,9 +160,6 @@ const BookingComponent = (props) => {
                 : bookedSlot.time[1] + " am"}{" "}
               {"  "} {bookedCalender.date}
             </Text>
-            <TouchableOpacity style={styles.editButton} onPress={handleEdit}>
-              <Ionicons name="create" size={20} color="white" />
-            </TouchableOpacity>
           </>
         ) : (
           <Text style={styles.inputLabel}>Slot not available</Text>
@@ -197,7 +196,7 @@ const BookingComponent = (props) => {
           </Modal>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.deleteButton} onPress={handleEdit}>
+        <TouchableOpacity style={styles.editButton} onPress={handleEdit}>
           <Ionicons name="create" size={20} color="white" />
           <Modal
             visible={showEditConfirmation}

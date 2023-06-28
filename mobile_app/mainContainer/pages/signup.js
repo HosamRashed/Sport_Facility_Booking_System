@@ -91,7 +91,7 @@ const Signup = () => {
     setError("");
     if (checkFields()) {
       const url =
-        "https://f04f-2001-e68-5456-acfd-186e-fb15-e26b-6ba1.ngrok-free.app/students/create";
+        "https://62ec-2001-e68-5456-198-c858-14b9-931b-aefb.ngrok-free.app/students/create";
       const data = {
         User_ID: formData.userID,
         Full_Name: formData.name,

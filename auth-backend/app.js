@@ -281,10 +281,14 @@ app.post("/students/updatePassword", (request, response) => {
 // create a new facility
 app.post("/bookings/create", (request, response) => {
   const booking = new Bookings({
-    student: request.body.student,
-    facility: request.body.facility,
+    studentID: request.body.studentID,
+    facilityID: request.body.facilityID,
+    studentName: request.body.studentName,
+    facilityName: request.body.facilityName,
     slot_ID: request.body.slot_ID,
-    day: request.body.day,
+    slotTime: request.body.slotTime,
+    slotDate: request.body.slotDate,
+    slotDay: request.body.slotDay,
   });
 
   booking

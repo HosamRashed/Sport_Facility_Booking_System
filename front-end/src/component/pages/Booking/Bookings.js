@@ -11,8 +11,8 @@ const Bookings = () => {
   const token = cookies.get("TOKEN");
   const [modal, setModal] = useState(false);
 
-  const [students, setStudents] = useState([]);
-  const [selecStudent, setSelecStudent] = useState(null);
+  const [bookings, setBookings] = useState([]);
+  const [selecBookings, setSelecBookings] = useState(null);
 
   const [isLoading, setIsLoading] = useState(true);
 
@@ -21,28 +21,11 @@ const Bookings = () => {
   }, []);
 
   const toggleModal = (student) => {
-    setSelecStudent(student);
-    setModal(!modal);
-  };
-
-  const findIndex = (student_id) => {
-    return students.findIndex((student) => student._id === student_id);
-  };
-
-  const updateStudentStatus = (studentId, newStatus) => {
-    const newStudents = [...students];
-    const studentIndex = findIndex(studentId);
-    if (studentIndex !== -1) {
-      newStudents[studentIndex].status = newStatus;
-      setStudents(newStudents);
-    }
+    // setSelecStudent(student);
+    // setModal(!modal);
   };
 
   const handleStatusChange = (studentId, currentStatus) => {
-    const newStatus = !currentStatus;
-    const message = newStatus ? "activate" : "bar";
-    const studentIndex = findIndex(studentId);
-
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
         confirmButton: "btn btn-success",
@@ -53,11 +36,11 @@ const Bookings = () => {
 
     swalWithBootstrapButtons
       .fire({
-        title: `Are you sure you want to ${message} this student?`,
+        title: `Are you sure you want delete this booking?`,
         text: "You won't be able to revert this!",
         icon: "warning",
         showCancelButton: true,
-        confirmButtonText: `Yes, ${message} it!`,
+        confirmButtonText: `Yes, deleteit!`,
         cancelButtonText: "No, cancel!",
         reverseButtons: true,
       })
@@ -82,16 +65,10 @@ const Bookings = () => {
 
   const getData = () => {
     axios
-      .get("http://localhost:3000/api/students")
+      .get("http://localhost:3000/api/bookings")
       .then((response) => {
-        const initialStudents = response.data.data.map((student) => {
-          return {
-            ...student,
-            status: student.User_status === "active" ? true : false,
-          };
-        });
-        setStudents(initialStudents);
-        console.log(students);
+        setBookings(response.data.data);
+        console.log(bookings);
         setIsLoading(false);
       })
       .catch((error) => {
@@ -103,14 +80,14 @@ const Bookings = () => {
     console.log("clicked");
   };
 
-  const components = students.map((student) => {
+  const components = bookings.map((booking) => {
     return (
-      <tr key={student._id}>
-        <td>{student.Full_Name}</td>
-        <td>{student.User_ID}</td>
-        <td>{student.User_Gender}</td>
-        <td>{student.User_Gender}</td>
-        <td>{student.User_Gender}</td>
+      <tr key={booking._id}>
+        <td>{booking.studentName}</td>
+        <td>{booking.facilityName}</td>
+        <td>{booking.slotDate}</td>
+        <td>{booking.slotTime[0]}</td>
+        <td>{booking.slotTime[1]}</td>
         <td>
           <AiIcons.AiOutlineDelete
             onClick={() => {
@@ -124,7 +101,7 @@ const Bookings = () => {
   });
 
   const displayAnnouncement =
-    students.length > 0 ? (
+    bookings.length > 0 ? (
       <div className="facilityTable">
         <table>
           <caption>Bookings List</caption>
@@ -142,7 +119,10 @@ const Bookings = () => {
         </table>
       </div>
     ) : (
-      <p className="errorContainer"> There is no facility to be displayed</p>
+      <p className="errorContainer">
+        {" "}
+        There is no any bookings to be displayed
+      </p>
     );
 
   return (
