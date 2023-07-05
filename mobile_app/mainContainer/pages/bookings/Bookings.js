@@ -13,13 +13,17 @@ import {
 } from "react-native";
 import axios from "axios";
 import BookingComponent from "./BookingComponent";
+import CompletedBookingComponent from "./CompletedBookings";
+import { useSelector } from "react-redux";
 
 const Bookings = () => {
+  const url = useSelector((state) => state.url);
   const [bookings, setBookings] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
 
-  let validAnnouncements = [];
-  let archivedAnnouncements = [];
+  let completedBookings = [];
+  let currentBookings = [];
+
   const [validClicked, setValidClicked] = useState(true);
   const [archivedClicked, setArchivedClicked] = useState(false);
 
@@ -39,9 +43,7 @@ const Bookings = () => {
 
   const getData = () => {
     axios
-      .get(
-        "https://62ec-2001-e68-5456-198-c858-14b9-931b-aefb.ngrok-free.app/api/bookings"
-      )
+      .get(`${url}/api/bookings`)
       .then((response) => {
         setBookings(response.data.data);
       })
@@ -62,11 +64,21 @@ const Bookings = () => {
     getData();
   };
 
-  const bookingsData = bookings.map((booking, index) => (
-    <View key={index}>
-      <BookingComponent info={booking} onDelete={onDelete} />
-    </View>
-  ));
+  bookings.map((booking, index) => {
+    if (booking.status === "new") {
+      currentBookings.push(booking);
+    } else {
+      completedBookings.push(booking);
+    }
+  });
+
+  const bookingsData = archivedClicked
+    ? completedBookings.map((booking) => (
+        <CompletedBookingComponent info={booking} onDelete={onDelete} />
+      ))
+    : currentBookings.map((booking) => (
+        <BookingComponent info={booking} onDelete={onDelete} />
+      ));
 
   return (
     <View style={styles.container}>

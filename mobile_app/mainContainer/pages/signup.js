@@ -12,8 +12,11 @@ import {
   Keyboard,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { useSelector } from "react-redux";
 
 const Signup = () => {
+  const url = useSelector((state) => state.url);
+
   const navigation = useNavigation();
   const initialize = {
     userID: "",
@@ -90,8 +93,7 @@ const Signup = () => {
   function submit() {
     setError("");
     if (checkFields()) {
-      const url =
-        "https://62ec-2001-e68-5456-198-c858-14b9-931b-aefb.ngrok-free.app/students/create";
+      const completeUrl = `${url}/students/create`;
       const data = {
         User_ID: formData.userID,
         Full_Name: formData.name,
@@ -102,7 +104,7 @@ const Signup = () => {
         User_Gender: formData.gender,
       };
       axios
-        .post(url, data)
+        .post(completeUrl, data)
         .then((res) => {
           if (res.status === 200) {
             if (res.data.message === "Duplicate") {

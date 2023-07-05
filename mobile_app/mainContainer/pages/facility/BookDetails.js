@@ -13,11 +13,13 @@ import { useRoute } from "@react-navigation/native";
 import { useNavigation } from "@react-navigation/native";
 import { connect } from "react-redux";
 import axios from "axios";
+import { useSelector } from "react-redux";
 
 let calenderIndex;
 let newFacility;
 
 const BookDetails = (props) => {
+  const url = useSelector((state) => state.url);
   const route = useRoute();
   const navigation = useNavigation();
 
@@ -49,7 +51,7 @@ const BookDetails = (props) => {
     .filter((day) => facility.selectedDays.includes(day))
     .map((day, index) => {
       const calendarDay =
-        facility.calender && facility.calender.find((item) => item.day == day);
+        facility.calendar && facility.calendar.find((item) => item.day == day);
       if (facility.selectedDays.length - 1 === index && index % 2 === 0) {
         return (
           <TouchableOpacity
@@ -103,8 +105,8 @@ const BookDetails = (props) => {
     setSlotSelected(true);
   };
 
-  const generateSlots = (calender) => {
-    return calender.slots.map((slot, index) => {
+  const generateSlots = (calendar) => {
+    return calendar.slots.map((slot, index) => {
       let type = "";
       if (slot.type === "female") type = "female";
       else if (slot.type === "male") type = "male";
@@ -134,18 +136,18 @@ const BookDetails = (props) => {
 
   const handleDaySelectedClick = (index) => {
     setselectedDay(index);
-    let calender;
+    let calendar;
 
-    for (let i = 0; i < facility.calender.length; i++) {
-      if (facility.calender[i].day == index) {
-        calender = facility.calender[i];
+    for (let i = 0; i < facility.calendar.length; i++) {
+      if (facility.calendar[i].day == index) {
+        calendar = facility.calendar[i];
         calenderIndex = i;
         break;
       }
     }
 
-    if (calender) {
-      setSlots(generateSlots(calender));
+    if (calendar) {
+      setSlots(generateSlots(calendar));
     }
 
     setDaySelected(false);
@@ -172,7 +174,7 @@ const BookDetails = (props) => {
   const handleBookSlot = () => {
     if (calenderIndex !== undefined && selectedSlot !== null) {
       const updatedFacility = { ...facility };
-      const updatedCalender = [...updatedFacility.calender];
+      const updatedCalender = [...updatedFacility.calendar];
 
       const selectedDayCalender = { ...updatedCalender[calenderIndex] };
       const updatedSlots = [...selectedDayCalender.slots];
@@ -196,44 +198,47 @@ const BookDetails = (props) => {
 
         updatedCalender[calenderIndex] = selectedDayCalender;
 
-        updatedFacility.calender = updatedCalender;
+        updatedFacility.calendar = updatedCalender;
 
         // Save the updated facility object to the main facility object
         const mainObject = { ...updatedFacility };
 
-        // Close the confirmation modal and send updated calender to the backend
+        // Close the confirmation modal and send updated calendar to the backend
         newFacility = mainObject;
         setShowConfirmation(false);
-        updateBookings();
+        updateBookings(newFacility);
       }
     }
   };
 
-  const updateDatabase = () => {
+  const updateDatabase = (Facility) => {
+    console.log(Facility.calendar);
+    console.log(Facility._id);
+
     const config = {
       method: "PUT",
-      url: `https://62ec-2001-e68-5456-198-c858-14b9-931b-aefb.ngrok-free.app/facilities/update/${newFacility._id}`,
+      url: `${url}/facilities/update/${Facility._id}`,
       data: {
-        calender: newFacility.calender,
+        calendar: Facility.calendar,
       },
     };
 
     axios(config)
       .then((response) => {
-        console.log("facility's calender has been updated successfully!");
+        console.log("facility's calendar has been updated successfully!");
         returnToBooking
           ? navigation.navigate("Bookings")
-          : navigation.navigate("FacilityInfo", { facility: newFacility });
+          : navigation.navigate("FacilityInfo", { facility: Facility });
       })
       .catch((error) => {
         console.log(error);
       });
   };
 
-  const updateBookings = () => {
+  const updateBookings = (newFacility) => {
     const config = {
       method: "POST",
-      url: `https://62ec-2001-e68-5456-198-c858-14b9-931b-aefb.ngrok-free.app/bookings/create`,
+      url: `${url}/bookings/create`,
       data: {
         studentID: userID._id,
         facilityID: facility._id,
@@ -241,14 +246,14 @@ const BookDetails = (props) => {
         facilityName: facility.name,
         slot_ID: selectedSlot._id,
         slotTime: selectedSlot.time,
-        slotDate: newFacility.calender[calenderIndex].date,
-        slotDay: newFacility.calender[calenderIndex].day,
+        slotDate: newFacility.calendar[calenderIndex].date,
+        slotDay: newFacility.calendar[calenderIndex].day,
       },
     };
     axios(config)
       .then((response) => {
         console.log("booking is added to the database!");
-        updateDatabase();
+        updateDatabase(newFacility);
       })
       .catch((error) => {
         console.log(error);
@@ -344,10 +349,17 @@ const BookDetails = (props) => {
                 Are you sure you want to book this slot:
               </Text>
               <Text style={styles.modalSlotText}>
-                <Text style={styles.modalSlotText}>
-                  {selectedSlot && selectedSlot.time && selectedSlot.time[0]} -{" "}
-                  {selectedSlot && selectedSlot.time && selectedSlot.time[1]}
-                </Text>
+                {selectedSlot?.time && selectedSlot.time[0] === 12
+                  ? selectedSlot.time[0] + " pm"
+                  : selectedSlot?.time?.[0] > 12
+                  ? selectedSlot.time[0] - 12 + " pm"
+                  : selectedSlot?.time?.[0] + " am"}{" "}
+                -{" "}
+                {selectedSlot?.time && selectedSlot.time[1] === 12
+                  ? selectedSlot.time[1] + " pm"
+                  : selectedSlot?.time?.[1] > 12
+                  ? selectedSlot.time[1] - 12 + " pm"
+                  : selectedSlot?.time?.[1] + " am"}
               </Text>
               <View style={styles.modalButtonsContainer}>
                 <TouchableOpacity

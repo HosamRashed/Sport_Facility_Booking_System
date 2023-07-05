@@ -11,12 +11,15 @@ import {
 } from "react-native";
 import { useDispatch } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
+import { useSelector } from "react-redux";
 
 const Login = () => {
   const initialize = {
     userID: "",
     password: "",
   };
+  const url = useSelector((state) => state.url);
+
   const [formData, setFormData] = useState(initialize);
   const [error, setError] = useState({});
   const [visible, setVisible] = useState(false);
@@ -46,14 +49,14 @@ const Login = () => {
 
   const submit = () => {
     if (checkInputs()) {
-      const url =
-        "https://62ec-2001-e68-5456-198-c858-14b9-931b-aefb.ngrok-free.app/students/login";
+      const completeUrl = `${url}/students/login`;
+
       const data = {
         User_ID: formData.userID,
         Password: formData.password,
       };
 
-      fetch(url, {
+      fetch(completeUrl, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -234,7 +234,7 @@ export default function TimeTable() {
         availableTo: form.availableTo,
         duration: form.duration,
         selectedDays: form.selectedDays,
-        calender: form.calender,
+        calendar: form.calender,
       },
     };
     axios(config)

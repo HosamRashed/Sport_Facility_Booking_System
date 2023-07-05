@@ -3,6 +3,7 @@ import { createStore } from "redux";
 // Define initial state
 const initialState = {
   userID: "",
+  url: "https://bcea-2001-e68-5456-acfd-3825-b151-ebe2-76e0.ngrok-free.app",
 };
 
 // Define action types
@@ -14,6 +15,13 @@ export const setUserID = (userID) => ({
   payload: userID,
 });
 
+const SET_URL = "SET_URL";
+
+export const setURL = (url) => ({
+  type: SET_URL,
+  payload: url,
+});
+
 // Define reducer function
 const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -21,6 +29,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         userID: action.payload,
+      };
+    case SET_URL:
+      return {
+        ...state,
+        url: action.payload,
       };
     default:
       return state;

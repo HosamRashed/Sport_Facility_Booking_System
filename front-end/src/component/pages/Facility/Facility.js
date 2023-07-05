@@ -74,7 +74,6 @@ const Facility = () => {
       .get("http://localhost:3000/api/facility")
       .then((response) => {
         setFacilities(response.data.data);
-        // console.log(response.data.data[0].calender.length > 0);
         setIsLoading(false); // Set isLoading to false when data is fetched
       })
       .catch((error) => {
@@ -82,9 +81,8 @@ const Facility = () => {
       });
   };
 
-
   const components = facilities.map((facility) => {
-    const calendar = facility.calender.length > 0 ? true : false;
+    const calendar = facility.calendar?.length > 0 ? true : false;
     return calendar ? (
       <tr key={facility._id}>
         <td>
@@ -151,7 +149,7 @@ const Facility = () => {
   });
 
   const displayFacility =
-    facilities.length > 0 ? (
+    facilities?.length > 0 ? (
       <div className="facilityTable">
         <table>
           <caption>Available Facilities</caption>
@@ -174,7 +172,17 @@ const Facility = () => {
         </button>
       </div>
     ) : (
-      <p className="errorContainer"> There is no facility to be displayed</p>
+      <div className="empty">
+        <p className="errorContainer"> There is no facility to be displayed</p>
+        <button
+          className="btnCreate"
+          onClick={() => {
+            window.location.href = "/facility/create";
+          }}
+        >
+          Create a new facility
+        </button>
+      </div>
     );
 
   return (

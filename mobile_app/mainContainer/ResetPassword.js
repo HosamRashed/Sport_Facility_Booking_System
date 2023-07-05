@@ -12,8 +12,11 @@ import {
   Image,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { useSelector } from "react-redux";
+
 
 const ResetPassword = () => {
+  const url = useSelector((state) => state.url);
   const navigation = useNavigation();
   const initialize = {
     userID: "",
@@ -67,15 +70,15 @@ const ResetPassword = () => {
 
   function update() {
     if (checkPasswords()) {
-      const url =
-        "https://62ec-2001-e68-5456-198-c858-14b9-931b-aefb.ngrok-free.app/students/updatePassword";
+      const completeUrl =
+      `${url}/students/updatePassword`;
       const data = {
         User_ID: formData.userID,
         Password: formData.password,
         ConfirmPassword: formData.confirmPassword,
       };
       axios
-        .post(url, data)
+        .post(completeUrl, data)
         .then((res) => {
           if (res.status === 200) {
             if (res.data.message === "Password updated successfully") {
@@ -103,14 +106,14 @@ const ResetPassword = () => {
 
   function submit() {
     if (checkFields()) {
-      const url =
-        "https://62ec-2001-e68-5456-198-c858-14b9-931b-aefb.ngrok-free.app/students/resetPassword";
+      const completeUrl =
+      `${url}/students/resetPassword`;
       const data = {
         User_ID: formData.userID,
         AnswerQuestion: formData.answerQuestion,
       };
       axios
-        .post(url, data)
+        .post(completeUrl, data)
         .then((res) => {
           console.log("successful");
           if (res.data.message === "Successful") {

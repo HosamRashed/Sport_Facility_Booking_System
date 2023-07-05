@@ -24,7 +24,7 @@ const BookingsSchema = new mongoose.Schema({
   slotTime: {
     type: [Number],
     required: [true, "Please provide a slot time as an array"],
-  }, 
+  },
   slotDate: {
     type: String,
     required: [true, "Please provide the booked slot date"],
@@ -32,6 +32,10 @@ const BookingsSchema = new mongoose.Schema({
   slotDay: {
     type: String,
     required: [true, "Please provide the booked slot day"],
+  },
+  status: {
+    type: String,
+    required: [true, "please provide the status of the booking"],
   },
 });
 

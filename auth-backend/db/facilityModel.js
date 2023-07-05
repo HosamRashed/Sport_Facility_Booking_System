@@ -8,9 +8,21 @@ const FacilitySchema = new mongoose.Schema({
   availableFrom: { type: "string" },
   availableTo: { type: "string" },
   duration: { type: "string" },
-
+  slotTime: {
+    type: [Number],
+  },
+  rating: [
+    {
+      userID: {
+        type: "string",
+      },
+      value: {
+        type: Number,
+      },
+    },
+  ],
   selectedDays: [],
-  calender: {
+  calendar: {
     type: [
       {
         date: { type: "string" },
@@ -29,5 +41,4 @@ const FacilitySchema = new mongoose.Schema({
   },
 });
 
-module.exports =
-  mongoose.model.Facility || mongoose.model("facility", FacilitySchema);
+module.exports = mongoose.model("Facility", FacilitySchema);

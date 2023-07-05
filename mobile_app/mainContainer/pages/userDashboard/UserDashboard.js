@@ -19,6 +19,9 @@ const UserDashboard = () => {
   const [editedProfile, setEditedProfile] = useState(null);
   const navigation = useNavigation();
   const User = useSelector((state) => state.userID);
+  const url = useSelector((state) => state.url);
+  
+  console.log(url);
   const [currentStudentInfo, setCurrentStudentInfo] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -29,7 +32,7 @@ const UserDashboard = () => {
   const getData = () => {
     axios
       .get(
-        `https://62ec-2001-e68-5456-198-c858-14b9-931b-aefb.ngrok-free.app/api/students/${User._id}`
+        `${url}/api/students/${User._id}`
       )
       .then((response) => {
         setCurrentStudentInfo(response.data.data[0]);
@@ -61,7 +64,7 @@ const UserDashboard = () => {
   const handleSubmitProfile = () => {
     const config = {
       method: "PUT",
-      url: `https://62ec-2001-e68-5456-198-c858-14b9-931b-aefb.ngrok-free.app/students/update/${User._id}`,
+      url: `${url}/students/update/${User._id}`,
       data: {
         Full_Name: editedProfile.Full_Name,
         AnswerQuestion: editedProfile.AnswerQuestion,

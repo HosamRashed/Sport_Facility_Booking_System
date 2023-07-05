@@ -67,7 +67,6 @@ app.post("/students/create", async (request, response) => {
 
       await student.save();
 
-      console.log("inside");
       response.status(200).json({
         message: "successful",
       });
@@ -289,6 +288,7 @@ app.post("/bookings/create", (request, response) => {
     slotTime: request.body.slotTime,
     slotDate: request.body.slotDate,
     slotDay: request.body.slotDay,
+    status: "new",
   });
 
   booking
@@ -360,6 +360,7 @@ app.post("/facility/create", (request, response) => {
           name: request.body.name,
           description: request.body.description,
           image: request.body.image,
+          rating: [],
           reservationTimes: 0,
         });
 
@@ -459,15 +460,13 @@ app.put("/facility/:id", (req, res) => {
 // update specific facility calender from mobile app
 app.put("/facilities/update/:id", (request, res) => {
   const id = request.params.id;
-  const updatedCalendar = request.body.calender;
+  const updatedCalendar = request.body.calendar;
 
   Facility.findOneAndUpdate(
     { _id: id },
     {
       $set: {
-        calender: updatedCalendar,
-        userID: request.body.userID,
-        prevType: request.body.prevType,
+        calendar: updatedCalendar,
       },
     },
     { new: true, useFindAndModify: false }
@@ -482,10 +481,41 @@ app.put("/facilities/update/:id", (request, res) => {
     });
 });
 
+// update specific facility calender from mobile app
+app.put("/facilities/updateRating/:id", (request, res) => {
+  const id = request.params.id;
+  const userID = request.body.userID;
+  const rating = request.body.rating;
+
+  Facility.findOne({ _id: id })
+    .then((facility) => {
+      if (!facility) {
+        throw new Error("Facility not found.");
+      }
+
+      const existingRating = facility.rating.find((r) => r.userID === userID);
+      if (existingRating) {
+        existingRating.value = rating;
+      } else {
+        facility.rating.push({ userID, value: rating });
+      }
+
+      return facility.save();
+    })
+    .then((updatedFacility) => {
+      res.json(updatedFacility);
+    })
+    .catch((error) => {
+      res
+        .status(502)
+        .json({ message: "Error updating facility's rating!", error: error });
+    });
+});
+
 // update facility
 app.put("/facility/:id/timeTable", (req, res) => {
   const id = req.params.id;
-  const { duration, availableTo, availableFrom, selectedDays, calender } =
+  const { duration, availableTo, availableFrom, selectedDays, calendar } =
     req.body;
 
   // name, description, image,
@@ -496,7 +526,7 @@ app.put("/facility/:id/timeTable", (req, res) => {
       availableTo: availableTo,
       duration: duration,
       selectedDays: selectedDays,
-      calender: calender,
+      calendar: calendar,
     },
     { new: true }
   )
@@ -627,6 +657,7 @@ app.delete("/announcement/delete/:id", (request, response) => {
 // register endpoint
 app.post("/register", (request, response) => {
   // hash the password
+  console.log("hello");
   bcrypt
     .hash(request.body.password, 10)
     .then((hashedPassword) => {

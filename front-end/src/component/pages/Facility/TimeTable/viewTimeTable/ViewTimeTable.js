@@ -93,7 +93,7 @@ export default function ViewTimeTable() {
               <div className="slotsContainer">
                 <h3 className="slotTitle">Slots:</h3>
                 <div className="slots">
-                  {facility.calender[0].slots.map((slot, index) => {
+                  {facility.calendar[0].slots.map((slot, index) => {
                     return (
                       <div className="slot">
                         From{" "}

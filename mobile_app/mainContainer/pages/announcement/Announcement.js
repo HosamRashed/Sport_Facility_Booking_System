@@ -13,8 +13,10 @@ import {
 } from "react-native";
 import axios from "axios";
 import AnnounceComponent from "./AnnounceComponent";
+import { useSelector } from "react-redux";
 
 const Announcement = () => {
+  const url = useSelector((state) => state.url);
   const [announcement, setAnnouncement] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
 
@@ -39,9 +41,7 @@ const Announcement = () => {
 
   const getData = () => {
     axios
-      .get(
-        "https://62ec-2001-e68-5456-198-c858-14b9-931b-aefb.ngrok-free.app/api/announcements"
-      )
+      .get(`${url}/api/announcements`)
       .then((response) => {
         setAnnouncement(response.data.data);
       })
@@ -59,6 +59,7 @@ const Announcement = () => {
   };
 
   const today = new Date();
+  
   announcement.forEach((announce) => {
     const announcementDate = new Date(announce.date);
     const timeDiff = Math.abs(today.getTime() - announcementDate.getTime());

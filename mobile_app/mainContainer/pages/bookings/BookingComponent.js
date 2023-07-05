@@ -13,15 +13,20 @@ import axios from "axios";
 import { connect } from "react-redux";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import { useSelector } from "react-redux";
 
 let newFacility;
 let delteOrEditIndicator;
 const BookingComponent = (props) => {
+  const url = useSelector((state) => state.url);
   const navigation = useNavigation();
   const { info, userID, onDelete } = props;
   const [facility, setFacility] = useState(null);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [showEditConfirmation, setShowEditConfirmation] = useState(false);
+  const [showDoneConfirmation, setshowDoneConfirmation] = useState(false);
+  const [showErrorDoneConfirmation, setshowErrorDoneConfirmation] =
+    useState(false);
 
   useEffect(() => {
     getData();
@@ -29,9 +34,7 @@ const BookingComponent = (props) => {
 
   const getData = () => {
     axios
-      .get(
-        `https://62ec-2001-e68-5456-198-c858-14b9-931b-aefb.ngrok-free.app/facilities/${info.facilityID}`
-      )
+      .get(`${url}/facilities/${info.facilityID}`)
       .then((response) => {
         setFacility(response.data.data);
       })
@@ -42,10 +45,10 @@ const BookingComponent = (props) => {
 
   let bookedCalender;
   let bookedSlot;
-  if (facility && facility.calender && info.slotDay && info.slot_ID) {
-    const calenders = facility.calender;
+  if (facility && facility.calendar && info.slotDay && info.slot_ID) {
+    const calenders = facility.calendar;
     bookedCalender = calenders.find(
-      (calender) => calender.day === info.slotDay
+      (calendar) => calendar.day === info.slotDay
     );
     if (bookedCalender) {
       bookedSlot = bookedCalender.slots.find(
@@ -61,10 +64,10 @@ const BookingComponent = (props) => {
   const confirmDelete = () => {
     setShowConfirmation(false); // Hide the confirmation pop-up
     const updatedFacility = { ...facility };
-    const updatedCalender = [...updatedFacility.calender];
+    const updatedCalender = [...updatedFacility.calendar];
 
     const calenderIndex = updatedCalender.findIndex(
-      (calender) => calender.day === bookedCalender.day
+      (calendar) => calendar.day === bookedCalender.day
     );
 
     if (calenderIndex !== -1) {
@@ -88,7 +91,7 @@ const BookingComponent = (props) => {
 
         updatedCalender[calenderIndex] = selectedDayCalender;
 
-        updatedFacility.calender = updatedCalender;
+        updatedFacility.calendar = updatedCalender;
 
         const mainObject = { ...updatedFacility };
         newFacility = mainObject;
@@ -103,7 +106,7 @@ const BookingComponent = (props) => {
   const updateBookings = () => {
     const config = {
       method: "DELETE",
-      url: `https://62ec-2001-e68-5456-198-c858-14b9-931b-aefb.ngrok-free.app/bookings/delete/${info._id}`,
+      url: `${url}/bookings/delete/${info._id}`,
     };
     axios(config)
       .then((response) => {
@@ -119,15 +122,15 @@ const BookingComponent = (props) => {
   const updateDatabase = () => {
     const config = {
       method: "PUT",
-      url: `https://62ec-2001-e68-5456-198-c858-14b9-931b-aefb.ngrok-free.app/facilities/update/${info.facilityID}`,
+      url: `${url}/facilities/update/${info.facilityID}`,
       data: {
-        calender: newFacility.calender,
+        calendar: newFacility.calendar,
       },
     };
 
     axios(config)
       .then((response) => {
-        console.log("facility's calender has been updated successfully!");
+        console.log("facility's calendar has been updated successfully!");
       })
       .catch((error) => {
         console.log(error);
@@ -137,15 +140,15 @@ const BookingComponent = (props) => {
   const updateDatabaseEdit = () => {
     const config = {
       method: "PUT",
-      url: `https://62ec-2001-e68-5456-198-c858-14b9-931b-aefb.ngrok-free.app/facilities/update/${info.facilityID}`,
+      url: `${url}/facilities/update/${info.facilityID}`,
       data: {
-        calender: newFacility.calender,
+        calendar: newFacility.calendar,
       },
     };
 
     axios(config)
       .then((response) => {
-        console.log("facility's calender has been updated successfully!");
+        console.log("facility's calendar has been updated successfully!");
         navigation.navigate("BookDetails", {
           info: newFacility,
           returnToBooking: true,
@@ -163,10 +166,10 @@ const BookingComponent = (props) => {
   const confirmEdit = () => {
     setShowEditConfirmation(false);
     const updatedFacility = { ...facility };
-    const updatedCalender = [...updatedFacility.calender];
+    const updatedCalender = [...updatedFacility.calendar];
 
     const calenderIndex = updatedCalender.findIndex(
-      (calender) => calender.day === bookedCalender.day
+      (calendar) => calendar.day === bookedCalender.day
     );
 
     if (calenderIndex !== -1) {
@@ -190,13 +193,77 @@ const BookingComponent = (props) => {
 
         updatedCalender[calenderIndex] = selectedDayCalender;
 
-        updatedFacility.calender = updatedCalender;
+        updatedFacility.calendar = updatedCalender;
 
         const mainObject = { ...updatedFacility };
         newFacility = mainObject;
 
         setFacility(mainObject);
         delteOrEditIndicator = 1;
+        updateBookings();
+      }
+    }
+  };
+  const checkBookingTime = () => {
+    const currentDateTime = new Date(); // Get the current date and time
+    const currentDay = currentDateTime.getDate();
+    const currentMonth = currentDateTime.getMonth() + 1; // Adding 1 because getMonth() returns zero-based index
+    const [bookedDay, bookedMonth] = info.slotDate.split("/").map(Number);
+
+    if (currentDay === bookedDay && currentMonth === bookedMonth) {
+      console.log("Booking is on the correct date. Accepted.");
+      return true;
+    }
+    return false;
+  };
+
+  const handleDone = () => {
+    if (checkBookingTime()) setshowDoneConfirmation(true);
+    else {
+      setshowErrorDoneConfirmation(true);
+      setTimeout(() => {
+        setshowErrorDoneConfirmation(false);
+      }, 1500);
+    }
+  };
+
+  const confirmDone = () => {
+    setShowConfirmation(false); // Hide the confirmation pop-up
+    const updatedFacility = { ...facility };
+    const updatedCalender = [...updatedFacility.calendar];
+
+    const calenderIndex = updatedCalender.findIndex(
+      (calendar) => calendar.day === bookedCalender.day
+    );
+
+    if (calenderIndex !== -1) {
+      const selectedDayCalender = { ...updatedCalender[calenderIndex] };
+      const updatedSlots = [...selectedDayCalender.slots];
+
+      const selectedSlotIndex = updatedSlots.findIndex(
+        (slot) => slot._id === bookedSlot._id
+      );
+
+      if (selectedSlotIndex !== -1) {
+        updatedSlots[selectedSlotIndex] = {
+          ...bookedSlot,
+          availability: "available",
+          type: bookedSlot.prevType,
+          userID: null,
+          prevType: null,
+        };
+
+        selectedDayCalender.slots = updatedSlots;
+
+        updatedCalender[calenderIndex] = selectedDayCalender;
+
+        updatedFacility.calendar = updatedCalender;
+
+        const mainObject = { ...updatedFacility };
+        newFacility = mainObject;
+
+        setFacility(mainObject);
+        delteOrEditIndicator = 0;
         updateBookings();
       }
     }
@@ -225,7 +292,7 @@ const BookingComponent = (props) => {
             </Text>
           </>
         ) : (
-          <Text style={styles.inputLabel}>Slot not available</Text>
+          <Text style={styles.inputLabel}></Text>
         )}
 
         <TouchableOpacity style={styles.deleteButton} onPress={handleDelete}>
@@ -254,6 +321,51 @@ const BookingComponent = (props) => {
                     <Text style={styles.buttonText}>Cancel</Text>
                   </TouchableOpacity>
                 </View>
+              </View>
+            </View>
+          </Modal>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.DoneButton} onPress={handleDone}>
+          <Ionicons name="checkmark-done" size={20} color="white" />
+          <Modal
+            visible={showDoneConfirmation}
+            animationType="fade"
+            transparent={true}
+          >
+            <View style={styles.modalContainer}>
+              <View style={styles.insideContainer}>
+                <Text style={styles.modalText}>
+                  Are you sure you want {"\n"}to delete this booking?
+                </Text>
+                <View style={styles.buttonContainer}>
+                  <TouchableOpacity
+                    style={[styles.button, styles.confirmButton]}
+                    onPress={confirmDelete}
+                  >
+                    <Text style={styles.buttonText}>Confirm</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={[styles.button, styles.cancelButton]}
+                    onPress={() => setshowDoneConfirmation(false)}
+                  >
+                    <Text style={styles.buttonText}>Cancel</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </View>
+          </Modal>
+
+          <Modal
+            visible={showErrorDoneConfirmation}
+            animationType="fade"
+            transparent={true}
+          >
+            <View style={styles.modalContainer}>
+              <View style={styles.insideContainer}>
+                <Text style={styles.modalText}>
+                  The booked time slot does not match the current time.
+                </Text>
               </View>
             </View>
           </Modal>
@@ -334,6 +446,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 3,
   },
+
   deleteButton: {
     position: "absolute",
     top: 50,
@@ -346,6 +459,20 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 3,
   },
+
+  DoneButton: {
+    position: "absolute",
+    top: 50,
+    right: 105,
+    backgroundColor: "#1EC233",
+    padding: 8,
+    borderRadius: 5,
+    shadowOffset: { width: 0, height: 0 },
+    shadowColor: "#171717",
+    shadowOpacity: 0.3,
+    shadowRadius: 3,
+  },
+
   modalContainer: {
     flex: 1,
     marginLeft: "auto",
@@ -383,6 +510,14 @@ const styles = StyleSheet.create({
   cancelButton: {
     borderRadius: 30,
     backgroundColor: "red",
+  },
+  OkButton: {
+    borderRadius: 30,
+    // backgroundColor: "red",
+  },
+  OkbuttonText: {
+    color: "black",
+    fontSize: 16,
   },
   buttonText: {
     color: "white",
