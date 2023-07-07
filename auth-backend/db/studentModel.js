@@ -8,6 +8,12 @@ const StudentSchema = new mongoose.Schema({
     unique: [true, "User_ID Exist"],
   },
 
+  User_Email: {
+    type: String,
+    required: [true, "Please provide your email!"],
+    unique: false,
+  },
+
   Full_Name: {
     type: String,
     required: [true, "Please provide your name!"],

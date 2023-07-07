@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
 
+let newFacility;
 const Bookings = () => {
   const cookies = new Cookies();
   const token = cookies.get("TOKEN");
@@ -20,11 +21,6 @@ const Bookings = () => {
   useEffect(() => {
     getData();
   }, []);
-
-  // const toggleModal = (student) => {
-  //   setSelecStudent(student);
-  //   setModal(!modal);
-  // };
 
   const alert = (booking) => {
     const swalWithBootstrapButtons = Swal.mixin({
@@ -71,9 +67,28 @@ const Bookings = () => {
       .get(`http://localhost:3000/facilities/${facility}`)
       .then((response) => {
         setFacility(response.data.data);
+        return;
       })
       .catch((error) => {
         console.log("error", error);
+      });
+  };
+
+  const updateDatabase = () => {
+    const config = {
+      method: "PUT",
+      url: `http://localhost:3000/facilities/update/${newFacility._id}`,
+      data: {
+        calendar: newFacility.calendar,
+      },
+    };
+
+    axios(config)
+      .then((response) => {
+        console.log("facility's calendar has been updated successfully!");
+      })
+      .catch((error) => {
+        console.log(error);
       });
   };
 
@@ -85,6 +100,7 @@ const Bookings = () => {
     axios(config)
       .then((response) => {
         console.log("The booking is deleted");
+        updateDatabase();
         getData();
       })
       .catch((error) => {
@@ -96,12 +112,12 @@ const Bookings = () => {
     getFacility(bookingInfo.facilityID);
 
     const updatedFacility = { ...facility };
-    const updatedCalender = Array.isArray(updatedFacility.calender)
-      ? [...updatedFacility.calender]
+    const updatedCalender = Array.isArray(updatedFacility.calendar)
+      ? [...updatedFacility.calendar]
       : [];
 
     const calenderIndex = updatedCalender.findIndex(
-      (calender) => calender.day === bookingInfo.slotDay
+      (calendar) => calendar.day === bookingInfo.slotDay
     );
 
     if (calenderIndex !== -1) {
@@ -131,13 +147,13 @@ const Bookings = () => {
 
         updatedCalender[calenderIndex] = selectedDayCalender;
 
-        updatedFacility.calender = updatedCalender;
+        updatedFacility.calendar = updatedCalender;
 
         const mainObject = { ...updatedFacility };
         setFacility(mainObject);
+        newFacility = mainObject;
 
         updateBookings(bookingInfo);
-        console.log(mainObject);
       }
     }
   };
@@ -148,8 +164,20 @@ const Bookings = () => {
         <td>{booking.studentName}</td>
         <td>{booking.facilityName}</td>
         <td>{booking.slotDate}</td>
-        <td>{booking.slotTime[0]}</td>
-        <td>{booking.slotTime[1]}</td>
+        <td>
+          {booking.slotTime[0] === 12
+            ? booking.slotTime[0] + " pm"
+            : booking.slotTime[0] > 12
+            ? booking.slotTime[0] - 12 + " pm"
+            : booking.slotTime[0] + " am"}
+        </td>
+        <td>
+          {booking.slotTime[1] === 12
+            ? booking.slotTime[1] + " pm"
+            : booking.slotTime[1] > 12
+            ? booking.slotTime[1] - 12 + " pm"
+            : booking.slotTime[1] + " am"}
+        </td>
         <td>{booking.status}</td>
         <td>
           <Link to="#" className="icon">

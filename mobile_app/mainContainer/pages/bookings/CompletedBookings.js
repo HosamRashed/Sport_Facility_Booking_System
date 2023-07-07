@@ -15,23 +15,17 @@ import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 
-let newFacility;
 const CompletedBookingComponent = (props) => {
-  const currentDateTime = new Date();
-  const currentDate = `${currentDateTime.getDate()}/${
-    currentDateTime.getMonth() + 1
-  }`;
-
   const url = useSelector((state) => state.url);
   const navigation = useNavigation();
   const { info, userID } = props;
   const [facility, setFacility] = useState(null);
-  const [rating, setRating] = useState(0);
+  console.log(info.rating);
+  const [rating, setRating] = useState(info.rating);
 
   const handleStarPress = (selectedRating) => {
     setRating(selectedRating);
     console.log(info.facilityID);
-
 
     if (selectedRating !== info.rating) {
       const config = {
@@ -45,6 +39,28 @@ const CompletedBookingComponent = (props) => {
       axios(config)
         .then((response) => {
           console.log("Rating has been updated successfully!");
+          updateBooking(selectedRating);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  };
+
+  const updateBooking = (selectedRating) => {
+    console.log(info.facilityID);
+
+    if (selectedRating !== info.rating) {
+      const config = {
+        method: "PUT",
+        url: `${url}/bookings/${info._id}`,
+        data: {
+          ratingStar: selectedRating,
+        },
+      };
+      axios(config)
+        .then((response) => {
+          console.log("booking has been updated successfully!");
         })
         .catch((error) => {
           console.log(error);
@@ -80,46 +96,6 @@ const CompletedBookingComponent = (props) => {
       );
     }
   }
-
-  const updateDatabase = () => {
-    const config = {
-      method: "PUT",
-      url: `${url}/facilities/update/${info.facilityID}`,
-      data: {
-        calendar: newFacility.calendar,
-      },
-    };
-
-    axios(config)
-      .then((response) => {
-        console.log("facility's calendar has been updated successfully!");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
-  const updateDatabaseEdit = () => {
-    const config = {
-      method: "PUT",
-      url: `${url}/facilities/update/${info.facilityID}`,
-      data: {
-        calendar: newFacility.calendar,
-      },
-    };
-
-    axios(config)
-      .then((response) => {
-        console.log("facility's calendar has been updated successfully!");
-        navigation.navigate("BookDetails", {
-          info: newFacility,
-          returnToBooking: true,
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>

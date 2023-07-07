@@ -101,14 +101,14 @@ const Facility = () => {
           </button>
         </td>
         <td>
-          <Link to="#" className="icon">
+          <Link to="#" className="iconStyle">
             <AiIcons.AiOutlineDelete
               onClick={() => {
                 delteFacility(facility._id);
               }}
             />
           </Link>
-          <Link to="#" className="icon">
+          <Link to="#" className="iconStyle">
             <FiIcons.FiEdit onClick={() => toggleModal(facility)} />
           </Link>
         </td>

@@ -14,17 +14,6 @@ export default function EditStudent(props) {
     setUpdatesForm((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  const convertImage = (file, callback) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => {
-      callback(reader.result);
-    };
-    reader.onerror = (error) => {
-      console.log("Error converting image: ", error);
-    };
-  };
-
   const Toast = Swal.mixin({
     toast: true,
     position: "top-end",
@@ -33,26 +22,23 @@ export default function EditStudent(props) {
     timer: 2000,
     timerProgressBar: true,
   });
-
-  const setImage = (event) => {
-    convertImage(event.target.files[0], (result) => {
-      setUpdatesForm((prevData) => ({ ...prevData, image: result }));
-    });
-  };
-
+  
   const handleSubmit = (event) => {
     event.preventDefault();
-
+    
+    console.log(updateForm.User_Email);
     const config = {
       method: "PUT",
       url: `http://localhost:3000/students/${updateForm._id}`,
       data: {
         User_ID: updateForm.User_ID,
         User_Email: updateForm.User_Email,
-        User_Name: updateForm.User_Name,
-        password: updateForm.password,
+        Full_Name: updateForm.Full_Name,
+        SecretQuestion: updateForm.SecretQuestion,
+        AnswerQuestion: updateForm.AnswerQuestion,
+        Password: updateForm.Password,
         User_Gender: updateForm.User_Gender,
-        User_status: updateForm.status ? "Active" : "Barred",
+        User_status: updateForm.status ? "active" : "barred",
       },
     };
 
@@ -84,61 +70,86 @@ export default function EditStudent(props) {
         <div onClick={clicked} className="overlay"></div>
         <div className="modal-content">
           <label className="Formlabel"> Student Profile </label>
-          <form onSubmit={handleSubmit} className="Edit ">
-            <div>
-              <label className="marginRight"> Student ID: </label>
-              <input
-                className="EditInfo "
-                type="text"
-                onChange={handleChange}
-                name="User_ID"
-                value={updateForm.User_ID}
-              />
-            </div>
+          <form onSubmit={handleSubmit} className="Edit">
+            <table className="editTable">
+              <tbody>
+                <tr>
+                  <td>
+                    <label>Student ID:</label>
+                  </td>
+                  <td>
+                    <input
+                      className="EditInfo"
+                      type="text"
+                      onChange={handleChange}
+                      name="User_ID"
+                      value={updateForm.User_ID}
+                    />
+                  </td>
+                </tr>
 
-            <div>
-              <label> Student Name: </label>
-              <input
-                className="EditInfo"
-                type="text"
-                onChange={handleChange}
-                name="User_Name"
-                value={updateForm.Full_Name}
-              />
-            </div>
+                <tr>
+                  <td>
+                    <label>Student Name:</label>
+                  </td>
+                  <td>
+                    <input
+                      className="EditInfo"
+                      type="text"
+                      onChange={handleChange}
+                      name="Full_Name"
+                      value={updateForm.Full_Name}
+                    />
+                  </td>
+                </tr>
 
-            <div>
-              <label> Secret Question: </label>
-              <input
-                className="EditInfo"
-                type="text"
-                onChange={handleChange}
-                name="User_Email"
-                value={updateForm.SecretQuestion}
-              />
-            </div>
+                <tr>
+                  <td>
+                    <label>Student Email:</label>
+                  </td>
+                  <td>
+                    <input
+                      className="EditInfo"
+                      type="text"
+                      onChange={handleChange}
+                      name="User_Email"
+                      value={updateForm.User_Email}
+                    />
+                  </td>
+                </tr>
 
-            <div>
-              <label> Secret Answer: </label>
-              <input
-                className="EditInfo"
-                type="text"
-                onChange={handleChange}
-                name="User_Email"
-                value={updateForm.AnswerQuestion}
-              />
-            </div>
+                <tr>
+                  <td>
+                    <label>Secret Answer:</label>
+                  </td>
+                  <td>
+                    <input
+                      className="EditInfo"
+                      type="text"
+                      onChange={handleChange}
+                      name="AnswerQuestion"
+                      value={updateForm.AnswerQuestion}
+                    />
+                  </td>
+                </tr>
 
-            <div>
-              <label className="marginleft"> Student Gender: </label>
-              <input
-                className="EditInfo"
-                type="text"
-                onChange={handleChange}
-                name="User_Gender"
-                value={updateForm.User_Gender}
-              />
-            </div>
+                <tr>
+                  <td>
+                    <label className="marginleft">Student Gender:</label>
+                  </td>
+                  <td>
+                    <input
+                      className="EditInfo"
+                      type="text"
+                      onChange={handleChange}
+                      name="User_Gender"
+                      value={updateForm.User_Gender}
+                    />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
             <button className="updateButton" type="submit">
               Update
             </button>

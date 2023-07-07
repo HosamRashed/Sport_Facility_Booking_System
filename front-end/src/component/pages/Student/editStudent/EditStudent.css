@@ -60,24 +60,28 @@
   box-shadow: 1px 2px 15px 1px rgb(169, 150, 150);
 }
 
-.marginRight {
-  margin-left: 28px;
-}
 
 .marginleft {
   margin-left: -10px;
 }
 
 .EditInfo {
-  margin-left: 10px;
-  margin-bottom: 10px;
-  background-color: white;
+  word-wrap: break-word;
+  max-width: 480px;
+  margin-left: px;
   font-size: 20px;
-  padding: 10px;
+  padding: 3px;
   border-radius: 5px;
-  border: 1px black solid;
-  max-width: 1000px;
   width: 420px;
+}
+
+.editTable tbody td {
+  width: 30%;
+}
+.editTable tbody td input {
+  /* max-width: 600px; */
+  text-align: center;
+  /* width: 60%; */
 }
 
 .updateButton {

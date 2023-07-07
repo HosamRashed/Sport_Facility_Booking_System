@@ -47,10 +47,10 @@ const styles = StyleSheet.create({
     marginTop: 10,
     alignItems: "start",
     paddingHorizontal: 25,
-    shadowOffset: { width: -2, height: 4 },
+    shadowOffset: { width: -2, height: 0 },
     shadowColor: "#171717",
-    shadowOpacity: 0.2,
-    shadowRadius: 3,
+    shadowOpacity: 0.4,
+    shadowRadius: 5,
   },
 
   title: {

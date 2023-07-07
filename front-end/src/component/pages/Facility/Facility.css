@@ -74,9 +74,9 @@ button {
   border-radius: 7px;
   cursor: pointer;
 }
-.icon {
+.iconStyle {
   color: black;
-  font-size: 25px;
+  font-size: 30px;
   margin-right: 10px;
 }
 

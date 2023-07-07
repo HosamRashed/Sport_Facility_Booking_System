@@ -20,8 +20,7 @@ const UserDashboard = () => {
   const navigation = useNavigation();
   const User = useSelector((state) => state.userID);
   const url = useSelector((state) => state.url);
-  
-  console.log(url);
+
   const [currentStudentInfo, setCurrentStudentInfo] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -31,9 +30,7 @@ const UserDashboard = () => {
 
   const getData = () => {
     axios
-      .get(
-        `${url}/api/students/${User._id}`
-      )
+      .get(`${url}/api/students/${User._id}`)
       .then((response) => {
         setCurrentStudentInfo(response.data.data[0]);
       })
@@ -57,6 +54,7 @@ const UserDashboard = () => {
     setEditedProfile({
       Full_Name: currentStudentInfo.Full_Name,
       User_Gender: currentStudentInfo.User_Gender,
+      User_Email: currentStudentInfo.User_Email,
       AnswerQuestion: currentStudentInfo.AnswerQuestion,
     });
   };
@@ -69,12 +67,13 @@ const UserDashboard = () => {
         Full_Name: editedProfile.Full_Name,
         AnswerQuestion: editedProfile.AnswerQuestion,
         User_Gender: editedProfile.User_Gender,
+        User_Email: editedProfile.User_Email,
       },
     };
 
     axios(config)
       .then((response) => {
-        console.log("Student information updated successfully!", response.data);
+        console.log("Student information updated successfully!");
         getData();
       })
       .catch((error) => {
@@ -132,14 +131,23 @@ const UserDashboard = () => {
             style={styles.profile}
           />
           <View style={styles.studentId}>
-            <Text style={styles.text}>Student ID:</Text>
+            <Text style={styles.label}>Student ID:</Text>
             <Text style={styles.text}>{currentStudentInfo.User_ID}</Text>
           </View>
           <View style={styles.studentInfo}>
-            <Text style={styles.text}>Student Name:</Text>
-            <Text style={styles.text}>{currentStudentInfo.Full_Name}</Text>
-            <Text style={styles.text}>Student Gender:</Text>
-            <Text style={styles.text}>{currentStudentInfo.User_Gender}</Text>
+            <View style={styles.row}>
+              <Text style={styles.label}>Full Name:</Text>
+              <Text style={styles.text}>{currentStudentInfo.Full_Name}</Text>
+            </View>
+            <View style={styles.row}>
+              <Text style={styles.label}>Email:</Text>
+              <Text style={styles.text}>{currentStudentInfo.User_Email}</Text>
+            </View>
+
+            <View style={styles.row}>
+              <Text style={styles.label}>Gender:</Text>
+              <Text style={styles.text}>{currentStudentInfo.User_Gender}</Text>
+            </View>
           </View>
           <TouchableOpacity style={styles.edit} onPress={handleEditProfile}>
             <Text style={styles.editText}>Edit Profile</Text>
@@ -165,6 +173,16 @@ const UserDashboard = () => {
                     value={editedProfile?.Full_Name}
                     onChangeText={(value) =>
                       setEditedProfile({ ...editedProfile, Full_Name: value })
+                    }
+                  />
+
+                  <Text style={styles.ModalText}>Email : </Text>
+                  <TextInput
+                    style={styles.input}
+                    placeholder="User Email"
+                    value={editedProfile?.User_Email}
+                    onChangeText={(value) =>
+                      setEditedProfile({ ...editedProfile, User_Email: value })
                     }
                   />
                   <Text style={styles.ModalText}>Secret Answer :</Text>
@@ -227,6 +245,7 @@ const UserDashboard = () => {
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: "white",
     justifyContent: "center",
     alignItems: "center",
     paddingHorizontal: 10,
@@ -245,9 +264,13 @@ const styles = StyleSheet.create({
     marginTop: 20,
     width: 350,
     height: 500,
+    shadowOffset: { width: 0, height: 0 },
+    shadowColor: "#171717",
+    shadowOpacity: 0.3,
+    shadowRadius: 10,
   },
   icons: {
-    height: "8%",
+    height: "9%",
     width: 100,
   },
   profile: {
@@ -315,7 +338,14 @@ const styles = StyleSheet.create({
   },
 
   text: {
+    maxWidth: 160,
     fontSize: 20,
+  },
+
+  label: {
+    fontWeight: "bold",
+    fontSize: 20,
+    marginRight: 10,
   },
 
   studentId: {
@@ -334,7 +364,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     borderRadius: 10,
     justifyContent: "center",
-    alignItems: "center",
+    alignItems: "start",
     width: 300,
     height: 200,
     display: "flex",
@@ -342,6 +372,12 @@ const styles = StyleSheet.create({
     backgroundColor: "#b0e0e6",
     marginTop: 20,
     fontSize: 23,
+  },
+  row: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 10,
   },
   modalContainer: {
     flex: 1,

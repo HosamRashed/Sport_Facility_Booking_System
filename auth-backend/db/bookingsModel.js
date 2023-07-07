@@ -37,6 +37,10 @@ const BookingsSchema = new mongoose.Schema({
     type: String,
     required: [true, "please provide the status of the booking"],
   },
+  rating: {
+    type: Number,
+  },
+
 });
 
 module.exports =

@@ -59,7 +59,7 @@ const Announcement = () => {
   };
 
   const today = new Date();
-  
+
   announcement.forEach((announce) => {
     const announcementDate = new Date(announce.date);
     const timeDiff = Math.abs(today.getTime() - announcementDate.getTime());
@@ -86,34 +86,37 @@ const Announcement = () => {
           source={require("../../../images/logo.png")}
           style={styles.icons}
         />
-        <View style={styles.buttons}>
-          <TouchableOpacity
-            style={[
-              styles.bookText,
-              validClicked && { backgroundColor: "#b0e0e6" },
-            ]}
-            onPress={handleValidClick}
+        <View style={styles.scrollContainer}>
+          <ScrollView
+            style={styles.scrollContainer}
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }
           >
-            <Text style={styles.text}>Valid</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[
-              styles.bookText,
-              archivedClicked && { backgroundColor: "#b0e0e6" },
-            ]}
-            onPress={handleArchivedClick}
-          >
-            <Text style={styles.text}>Archived</Text>
-          </TouchableOpacity>
+            <View style={styles.buttons}>
+              <TouchableOpacity
+                style={[
+                  styles.bookText,
+                  validClicked && { backgroundColor: "#b0e0e6" },
+                ]}
+                onPress={handleValidClick}
+              >
+                <Text style={styles.text}>Valid</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[
+                  styles.bookText,
+                  archivedClicked && { backgroundColor: "#b0e0e6" },
+                ]}
+                onPress={handleArchivedClick}
+              >
+                <Text style={styles.text}>Archived</Text>
+              </TouchableOpacity>
+            </View>
+
+            <View style={styles.announcementContainer}>{announcements}</View>
+          </ScrollView>
         </View>
-        <ScrollView
-          style={styles.scrollContainer}
-          refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-          }
-        >
-          <View style={styles.announcementContainer}>{announcements}</View>
-        </ScrollView>
       </View>
     </TouchableWithoutFeedback>
   );
@@ -121,7 +124,8 @@ const Announcement = () => {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 30,
+    paddingTop: 30,
+    backgroundColor: "white",
     display: "flex",
     justifyContent: "start",
     alignItems: "center",
@@ -129,16 +133,16 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   scrollContainer: {
-    marginTop: 10,
+    // marginTop: 10,
   },
 
   icons: {
-    height: "8%",
+    height: "9%",
     width: 100,
   },
 
   announcementContainer: {
-    marginTop: 10,
+    marginToptop: 20,
   },
 
   title: {
@@ -164,11 +168,11 @@ const styles = StyleSheet.create({
   buttons: {
     paddingHorizontal: 30,
     marginTop: 20,
+    marginBottom: 20,
     display: "flex",
     width: "100%",
     flexDirection: "row",
     justifyContent: "space-between",
-    // borderWidth: 1,
   },
 
   bookText: {

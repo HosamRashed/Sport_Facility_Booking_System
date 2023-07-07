@@ -38,6 +38,7 @@ app.post("/students/create", async (request, response) => {
   try {
     const {
       User_ID,
+      User_Email,
       Full_Name,
       SecretQuestion,
       AnswerQuestion,
@@ -56,6 +57,7 @@ app.post("/students/create", async (request, response) => {
 
       const student = new Students({
         User_ID: User_ID,
+        User_Email: User_Email,
         Full_Name: Full_Name,
         SecretQuestion: SecretQuestion,
         AnswerQuestion: AnswerQuestion,
@@ -122,6 +124,7 @@ app.put("/students/:id", (request, res) => {
     id,
     {
       User_ID: request.body.User_ID,
+      Email_ID: request.body.Email_ID,
       Full_Name: request.body.Full_Name,
       SecretQuestion: request.body.SecretQuestion,
       AnswerQuestion: request.body.AnswerQuestion,
@@ -152,6 +155,7 @@ app.put("/students/update/:id", (request, res) => {
       Full_Name: request.body.Full_Name,
       AnswerQuestion: request.body.AnswerQuestion,
       User_Gender: request.body.User_Gender,
+      User_Email: request.body.User_Email,
     },
     { new: true }
   )
@@ -289,6 +293,7 @@ app.post("/bookings/create", (request, response) => {
     slotDate: request.body.slotDate,
     slotDay: request.body.slotDay,
     status: "new",
+    rating: 0,
   });
 
   booking
@@ -342,6 +347,29 @@ app.delete("/bookings/delete/:id", (request, response) => {
         Error: err.message,
         data: "Error",
       });
+    });
+});
+
+app.put("/bookings/:id", (req, res) => {
+  const id = req.params.id;
+  const { ratingStar } = req.body;
+
+  Bookings.findOneAndUpdate(
+    { _id: id },
+    {
+      $set: {
+        rating: ratingStar,
+      },
+    },
+    { new: true, useFindAndModify: false }
+  )
+    .then((booking) => {
+      res.json(booking);
+    })
+    .catch((error) => {
+      res
+        .status(500)
+        .json({ message: "Error updating booking!", error: error });
     });
 });
 

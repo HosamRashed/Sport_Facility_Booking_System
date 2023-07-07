@@ -70,6 +70,7 @@ const Students = () => {
             url: `http://localhost:3000/students/${studentId}`,
             data: {
               User_ID: students[studentIndex].User_ID,
+              Email_ID: students[studentIndex].Email_ID,
               Full_Name: students[studentIndex].Full_Name,
               Password: students[studentIndex].Password,
               SecretQuestion: students[studentIndex].SecretQuestion,
@@ -105,7 +106,6 @@ const Students = () => {
           };
         });
         setStudents(initialStudents);
-        console.log(students);
         setIsLoading(false);
       })
       .catch((error) => {
@@ -113,7 +113,9 @@ const Students = () => {
       });
   };
 
+  
   const components = students.map((student) => {
+    console.log(student);
     return (
       <tr key={student._id}>
         <td>{student.Full_Name}</td>
@@ -121,7 +123,7 @@ const Students = () => {
         <td>{student.User_Gender}</td>
         <td>
           <button
-            onClick={() => handleStatusChange(student._id, student.status)}
+            onClick={() => handleStatusChange(student._id, student.User_status)}
             className={student.status ? "activeStudent" : "barred"}
           >
             {student.status ? "active" : "barred"}

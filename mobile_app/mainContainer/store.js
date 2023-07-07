@@ -3,7 +3,7 @@ import { createStore } from "redux";
 // Define initial state
 const initialState = {
   userID: "",
-  url: "https://bcea-2001-e68-5456-acfd-3825-b151-ebe2-76e0.ngrok-free.app",
+  url: "https://8d86-2001-e68-5456-acfd-4cad-8185-e9e-237c.ngrok-free.app",
 };
 
 // Define action types

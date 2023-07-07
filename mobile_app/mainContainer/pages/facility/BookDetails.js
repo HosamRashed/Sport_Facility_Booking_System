@@ -441,7 +441,9 @@ const BookDetails = (props) => {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 40,
+    backgroundColor: "white",
+    height: "100%",
+    paddingTop: 40,
     justifyContent: "center",
     alignItems: "center",
     paddingHorizontal: 20,
@@ -486,8 +488,8 @@ const styles = StyleSheet.create({
   contentContainer: {
     shadowOffset: { width: 0, height: 0 },
     shadowColor: "#171717",
-    shadowOpacity: 0.5,
-    shadowRadius: 3,
+    shadowOpacity: 0.3,
+    shadowRadius: 10,
     backgroundColor: "white",
     paddingTop: 10,
     flexDirection: "row",

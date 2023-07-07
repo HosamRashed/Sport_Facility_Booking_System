@@ -11,10 +11,17 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useRoute } from "@react-navigation/native";
+import { Ionicons } from "@expo/vector-icons";
+import MapView, { Marker } from "react-native-maps";
 
 const FacilityInfo = () => {
   const route = useRoute();
   const { facility } = route.params;
+  let NoOfStars = 0;
+  for (let i = 0; i < facility.rating.length; i++) {
+    NoOfStars += facility.rating[i].value;
+  }
+  const averageStars = NoOfStars / facility.rating.length;
 
   const image = facility.image;
   const navigation = useNavigation();
@@ -24,6 +31,31 @@ const FacilityInfo = () => {
       info: facility,
       returnToBooking: false,
     });
+  };
+
+  const renderStars = () => {
+    const filledStars = Math.floor(averageStars);
+    const emptyStars = 5 - filledStars;
+    const stars = [];
+
+    // Render filled stars
+    for (let i = 0; i < filledStars; i++) {
+      stars.push(<Ionicons key={i} name="star" size={25} color="#FFD700" />);
+    }
+
+    // Render empty stars
+    for (let i = 0; i < emptyStars; i++) {
+      stars.push(
+        <Ionicons
+          key={filledStars + i}
+          name="star-outline"
+          size={25}
+          color="#FFD700"
+        />
+      );
+    }
+
+    return stars;
   };
 
   return (
@@ -36,8 +68,13 @@ const FacilityInfo = () => {
           }}
         />
         <View style={styles.review}>
-          <Text style={styles.inputLabel}>3 reviews</Text>
-          <Text style={styles.inputLabel}></Text>
+          <Text style={styles.inputLabel}>
+            {facility.rating.length > 0
+              ? facility.rating.length +
+                (facility.rating.length === 1 ? " Review" : " Reviews")
+              : "No reviews yet"}
+          </Text>
+          <View style={styles.starsContainer}>{renderStars()}</View>
         </View>
 
         <View style={styles.content}>
@@ -45,6 +82,23 @@ const FacilityInfo = () => {
           <Text style={styles.name}>Description:</Text>
           <Text style={styles.contentText}>{facility.description}</Text>
         </View>
+        <MapView
+          style={styles.map}
+          initialRegion={{
+            latitude: 2.9279508,
+            longitude: 101.6424027,
+            latitudeDelta: 0.01,
+            longitudeDelta: 0.01,
+          }}
+        >
+          <Marker
+            coordinate={{
+              latitude: 2.9279508,
+              longitude: 101.6424027,
+            }}
+            title="Multimedia University Football Field"
+          />
+        </MapView>
         <TouchableOpacity style={styles.bookText} onPress={handleDetailsPress}>
           <Text style={styles.text}>BOOK A SLOT</Text>
         </TouchableOpacity>
@@ -55,13 +109,15 @@ const FacilityInfo = () => {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 20,
+    height: "100%",
+    backgroundColor: "white",
+    paddingTop: 20,
     justifyContent: "start",
     alignItems: "start",
     paddingHorizontal: 20,
   },
-
   profilePicture: {
+    borderWidth: 0.5,
     left: "auto",
     right: "auto",
     borderRadius: 20,
@@ -79,9 +135,13 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
   },
+  starsContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
   bookText: {
     position: "absolute",
-    top: 600,
+    top: 630,
     left: 15,
     shadowOffset: { width: 0, height: 0 },
     shadowColor: "#171717",
@@ -108,12 +168,19 @@ const styles = StyleSheet.create({
     // borderWidth: 1,
     maxWidth: "100%",
     fontSize: 20,
-    textAlign: "justify",
+    // textAlign: "justify",
   },
   name: {
     marginBottom: 5,
     color: "#2b79ff",
     fontSize: 25,
+  },
+  map: {
+    borderWidth: 0.5,
+    borderRadius: 20,
+    marginTop: 10,
+    width: "100%",
+    height: 110,
   },
 });
 

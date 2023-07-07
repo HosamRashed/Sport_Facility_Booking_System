@@ -18,6 +18,7 @@ import { useSelector } from "react-redux";
 
 const Bookings = () => {
   const url = useSelector((state) => state.url);
+  const User = useSelector((state) => state.userID);
   const [bookings, setBookings] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
 
@@ -64,7 +65,11 @@ const Bookings = () => {
     getData();
   };
 
-  bookings.map((booking, index) => {
+  const CurrentUserBookings = bookings
+    .filter((booking) => booking.studentID === User._id)
+    .map((booking) => booking);
+
+  CurrentUserBookings.forEach((booking) => {
     if (booking.status === "new") {
       currentBookings.push(booking);
     } else {
@@ -128,7 +133,8 @@ const Bookings = () => {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 30,
+    backgroundColor: "white",
+    paddingTop: 30,
     display: "flex",
     justifyContent: "start",
     alignItems: "center",
@@ -147,7 +153,7 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
   },
   icons: {
-    height: "8%",
+    height: "9%",
     width: 100,
   },
   announcementContainer: {

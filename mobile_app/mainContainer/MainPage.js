@@ -40,23 +40,19 @@ function MainPage() {
           }
 
           // You can return any component that you like here!
-          return <Ionicons name={iconName} size={size} color={color} />;
+          return <Ionicons name={iconName} size={27} color="#6495ed" />;
         },
       })}
       tabBarOptions={{
         tabBarActiveTintColor: "#2b79ff",
         tabBarInactiveTintColor: "grey",
         tabBarShowLabel: false,
+
         tabBarLabelStyle: {
           fontSize: 15,
         },
         tabBarItemStyle: {
-          borderBottomWidth: 4,
-          borderBottomColor: "#2b79ff",
           height: 50,
-        },
-        tabBarStyle: {
-          display: "flex",
         },
       }}
     >

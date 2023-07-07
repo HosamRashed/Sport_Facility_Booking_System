@@ -25,10 +25,10 @@ const AnnounceInfo = () => {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <View style={styles.container}>
-        <Image
+        {/* <Image
           source={require("../../../images/maintanance.png")}
           style={styles.image}
-        />
+        /> */}
 
         <View style={styles.content}>
           <Text style={styles.name}>{announcement.title.toUpperCase()}</Text>
@@ -41,10 +41,12 @@ const AnnounceInfo = () => {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 20,
+    backgroundColor: "white",
+    height: "100%",
     justifyContent: "start",
     alignItems: "start",
     paddingHorizontal: 20,
+    paddingTop: 20,
   },
 
   profilePicture: {
@@ -86,7 +88,7 @@ const styles = StyleSheet.create({
   image: {
     marginLeft: "auto",
     marginRight: "auto",
-    height: "8%",
+    height: "50%",
     width: 100,
   },
 });

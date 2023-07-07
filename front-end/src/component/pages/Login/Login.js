@@ -6,6 +6,8 @@ import Cookies from "universal-cookie";
 
 const Login = () => {
   const cookies = new Cookies();
+  const [error, setError] = useState({});
+  const [visible, setVisible] = useState(false);
   const [failedMessages, setFailedMessages] = useState(false);
 
   const initiolaize = {
@@ -21,29 +23,39 @@ const Login = () => {
     });
   }
 
+  const checkInputs = function (event) {
+    if (formData.password === "" || formData.userID === "") {
+      setError("All inputs are required!");
+      setVisible(true);
+      return false;
+    }
+    return true;
+  };
+
   const submit = (event) => {
     event.preventDefault();
-    // set configurations
-    const configuration = {
-      method: "post",
-      url: "http://localhost:3000/login",
-      data: {
-        User_ID: formData.userID,
-        password: formData.password,
-      },
-    };
-    axios(configuration)
-      .then((result) => {
-        console.log("success");
-        console.log(result);
-        cookies.set("TOKEN", result.data.token, { path: "/" });
-        window.location.href = "/facility";
-      })
-      .catch((error) => {
-        console.log("fail");
-        console.log(error);
-        setFailedMessages(true);
-      });
+    if (checkInputs()) {
+      const configuration = {
+        method: "post",
+        url: "http://localhost:3000/login",
+        data: {
+          User_ID: formData.userID,
+          password: formData.password,
+        },
+      };
+      axios(configuration)
+        .then((result) => {
+          console.log("success");
+          console.log(result);
+          cookies.set("TOKEN", result.data.token, { path: "/" });
+          window.location.href = "/facility";
+        })
+        .catch((error) => {
+          console.log("fail");
+          console.log(error);
+          setFailedMessages(true);
+        });
+    }
   };
 
   return (
@@ -76,7 +88,8 @@ const Login = () => {
           <p className="reset">Reset Password</p>
         </Link> */}
       </form>
-      {failedMessages && <p className="errormessage">INCORRECT CREDENTIALS</p>}
+
+      {visible ? <p className="errormessage">{error}</p> : ""}
     </div>
   );
 };

@@ -14,7 +14,6 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 
-
 const ResetPassword = () => {
   const url = useSelector((state) => state.url);
   const navigation = useNavigation();
@@ -70,8 +69,7 @@ const ResetPassword = () => {
 
   function update() {
     if (checkPasswords()) {
-      const completeUrl =
-      `${url}/students/updatePassword`;
+      const completeUrl = `${url}/students/updatePassword`;
       const data = {
         User_ID: formData.userID,
         Password: formData.password,
@@ -106,8 +104,7 @@ const ResetPassword = () => {
 
   function submit() {
     if (checkFields()) {
-      const completeUrl =
-      `${url}/students/resetPassword`;
+      const completeUrl = `${url}/students/resetPassword`;
       const data = {
         User_ID: formData.userID,
         AnswerQuestion: formData.answerQuestion,
@@ -201,11 +198,13 @@ const ResetPassword = () => {
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: "white",
+
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
     paddingHorizontal: 40,
-    marginTop: 120,
+    paddingTop: 120,
   },
   title: {
     fontSize: 30,
@@ -238,7 +237,7 @@ const styles = StyleSheet.create({
   },
   icon: {
     position: "absolute",
-    top: -20,
+    top: 100,
     width: 100,
   },
   button: {

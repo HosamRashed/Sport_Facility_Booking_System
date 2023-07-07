@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
   },
 
   inputLabel: {
-    maxWidth: 250,
+    maxWidth: 200,
     marginTop: 5,
     fontSize: 20,
   },

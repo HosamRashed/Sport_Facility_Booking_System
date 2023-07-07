@@ -20,6 +20,7 @@ const Signup = () => {
   const navigation = useNavigation();
   const initialize = {
     userID: "",
+    email: "",
     name: "",
     gender: "",
     secretQuestion: "",
@@ -66,6 +67,7 @@ const Signup = () => {
       formData.confirmPassword == "" ||
       formData.secretQuestion == "" ||
       formData.userID == "" ||
+      formData.email == "" ||
       formData.name == "" ||
       formData.answerQuestion == "" ||
       formData.gender == ""
@@ -96,6 +98,7 @@ const Signup = () => {
       const completeUrl = `${url}/students/create`;
       const data = {
         User_ID: formData.userID,
+        User_Email: formData.email,
         Full_Name: formData.name,
         SecretQuestion: formData.secretQuestion,
         AnswerQuestion: formData.answerQuestion,
@@ -140,6 +143,16 @@ const Signup = () => {
             style={styles.input}
             value={formData.userID}
             onChangeText={(value) => handleInputChange("userID", value)}
+          />
+        </View>
+
+        <View>
+          <Text style={styles.inputLabel}>Email: </Text>
+          <TextInput
+            keyboardType="email-address"
+            style={styles.input}
+            value={formData.email}
+            onChangeText={(value) => handleInputChange("email", value)}
           />
         </View>
 
@@ -245,6 +258,8 @@ const Signup = () => {
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: "white",
+
     justifyContent: "center",
     alignItems: "center",
     paddingHorizontal: 40,
@@ -260,7 +275,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "#2b79ff",
     fontSize: 30,
-    marginBottom: 20,
+    marginBottom: 12,
     fontWeight: "bold",
     shadowOffset: { width: 2, height: 5 },
     shadowColor: "#171717",
@@ -283,7 +298,7 @@ const styles = StyleSheet.create({
   input: {
     fontSize: 20,
     width: 370,
-    height: 35,
+    height: 25,
     marginVertical: 10,
     marginHorizontal: 5,
     borderBottomWidth: 2,
@@ -333,7 +348,10 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 3,
   },
+
   buttonText: {
+    position: "absolute",
+    // top: 50
     fontSize: 20,
     fontWeight: "bold",
     color: "#fff",

@@ -70,17 +70,17 @@ const Facility = () => {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 30,
+    backgroundColor: "white",
+    paddingTop: 30,
     display: "flex",
     justifyContent: "start",
     alignItems: "center",
     height: "100%",
     paddingHorizontal: 10,
-    backgroundColor: "#f5deb3 ",
   },
 
   icons: {
-    height: "8%",
+    height: "9%",
     width: 100,
   },
 
