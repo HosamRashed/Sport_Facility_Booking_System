@@ -338,7 +338,7 @@ const styles = StyleSheet.create({
   },
 
   text: {
-    maxWidth: 160,
+    maxWidth: 180,
     fontSize: 20,
   },
 

@@ -58,6 +58,24 @@ const FacilityInfo = () => {
     return stars;
   };
 
+  const extractCoordinates = (url) => {
+    const regex = /@(-?\d+\.\d+),(-?\d+\.\d+)/;
+    const matches = url.match(regex);
+    if (matches && matches.length === 3) {
+      const latitude = parseFloat(matches[1]);
+      const longitude = parseFloat(matches[2]);
+      return { latitude, longitude };
+    } else {
+      return { latitude: null, longitude: null };
+    }
+  };
+
+  const googleMapsLink = facility.location;
+
+  const coordinates = extractCoordinates(googleMapsLink);
+  const latitude = coordinates.latitude;
+  const longitude = coordinates.longitude;
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <View style={styles.container}>
@@ -85,20 +103,12 @@ const FacilityInfo = () => {
         <MapView
           style={styles.map}
           initialRegion={{
-            latitude: 2.9279508,
-            longitude: 101.6424027,
+            latitude: latitude,
+            longitude: longitude,
             latitudeDelta: 0.01,
             longitudeDelta: 0.01,
           }}
-        >
-          <Marker
-            coordinate={{
-              latitude: 2.9279508,
-              longitude: 101.6424027,
-            }}
-            title="Multimedia University Football Field"
-          />
-        </MapView>
+        ></MapView>
         <TouchableOpacity style={styles.bookText} onPress={handleDetailsPress}>
           <Text style={styles.text}>BOOK A SLOT</Text>
         </TouchableOpacity>
@@ -149,10 +159,10 @@ const styles = StyleSheet.create({
     shadowRadius: 3,
     marginLeft: 35,
     backgroundColor: "#3cb371",
-    borderRadius: 35,
-    padding: 15,
+    borderRadius: 10,
+    padding: 10,
     paddingHorizontal: 80,
-    marginTop: 35,
+    marginTop: 40,
   },
   text: {
     color: "white",
@@ -180,7 +190,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     marginTop: 10,
     width: "100%",
-    height: 110,
+    height: 95,
   },
 });
 

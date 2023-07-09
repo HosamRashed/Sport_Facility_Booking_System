@@ -81,6 +81,28 @@ app.post("/students/create", async (request, response) => {
   }
 });
 
+app.delete("/students/delete/:id", (request, response) => {
+  const studentID = request.params.id;
+
+  Students.findOneAndDelete({ _id: studentID }) // Use findOneAndDelete to find and delete the booking
+    .then((deletedStudent) => {
+      if (!deletedStudent) {
+        return response.status(404).send({
+          data: "Student not found",
+        });
+      }
+      response.status(200).send({
+        data: "Deleted",
+      });
+    })
+    .catch((err) => {
+      response.status(500).send({
+        Error: err.message,
+        data: "Error",
+      });
+    });
+});
+
 // retrive students data
 app.get("/api/students", (request, response) => {
   Students.find({})
@@ -124,7 +146,7 @@ app.put("/students/:id", (request, res) => {
     id,
     {
       User_ID: request.body.User_ID,
-      Email_ID: request.body.Email_ID,
+      User_Email: request.body.User_Email,
       Full_Name: request.body.Full_Name,
       SecretQuestion: request.body.SecretQuestion,
       AnswerQuestion: request.body.AnswerQuestion,
@@ -331,7 +353,7 @@ app.get("/api/bookings", (request, response) => {
 app.delete("/bookings/delete/:id", (request, response) => {
   const bookingID = request.params.id;
 
-  Bookings.findOneAndDelete({ _id: bookingID }) // Use findOneAndDelete to find and delete the booking
+  Bookings.findOneAndDelete({ _id: bookingID })
     .then((deletedBooking) => {
       if (!deletedBooking) {
         return response.status(404).send({
@@ -373,6 +395,28 @@ app.put("/bookings/:id", (req, res) => {
     });
 });
 
+app.put("/bookings/status/:id", (req, res) => {
+  const id = req.params.id;
+
+  Bookings.findOneAndUpdate(
+    { _id: id },
+    {
+      $set: {
+        status: req.body.status,
+      },
+    },
+    { new: true, useFindAndModify: false }
+  )
+    .then((booking) => {
+      res.json(booking);
+    })
+    .catch((error) => {
+      res
+        .status(500)
+        .json({ message: "Error updating booking status!", error: error });
+    });
+});
+
 // create a new facility
 app.post("/facility/create", (request, response) => {
   Facility.findOne({ name: request.body.name })
@@ -390,8 +434,8 @@ app.post("/facility/create", (request, response) => {
           image: request.body.image,
           rating: [],
           reservationTimes: 0,
+          location: request.body.location,
         });
-
         facility
           .save()
           // return success if the new user is added to the database successfully

@@ -115,7 +115,7 @@ export default function EditAnnouncement(props) {
             </div>
 
             <button className="EditsubmitBtn" type="submit">
-              Save
+              Update
             </button>
           </form>
           <Link className="close-modal" onClick={clicked}>

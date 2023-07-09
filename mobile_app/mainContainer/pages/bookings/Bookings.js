@@ -61,7 +61,7 @@ const Bookings = () => {
     getData();
   };
 
-  const onDelete = () => {
+  const update = () => {
     getData();
   };
 
@@ -79,10 +79,10 @@ const Bookings = () => {
 
   const bookingsData = archivedClicked
     ? completedBookings.map((booking) => (
-        <CompletedBookingComponent info={booking} onDelete={onDelete} />
+        <CompletedBookingComponent info={booking} update={update} />
       ))
     : currentBookings.map((booking) => (
-        <BookingComponent info={booking} onDelete={onDelete} />
+        <BookingComponent info={booking} update={update} />
       ));
 
   return (

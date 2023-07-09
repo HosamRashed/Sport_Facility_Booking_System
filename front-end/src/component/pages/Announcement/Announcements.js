@@ -80,11 +80,18 @@ const Announcement = () => {
       });
   };
 
+  const generateDate = (date) => {
+    const AnnounDate = new Date(date);
+
+    return `${AnnounDate.getMonth() + 1} / ${AnnounDate.getDate()}  `;
+  };
+
   const components = announcements.map((announcement) => {
     return (
       <tr key={announcement._id}>
         <td>{announcement.title}</td>
         <td>{announcement.content}</td>
+        <td>{generateDate(announcement.date)}</td>
 
         <td>
           <Link to="#" className="icon">
@@ -112,6 +119,7 @@ const Announcement = () => {
             <tr>
               <th>Announcemnet Title</th>
               <th>Announcemnet Descirption</th>
+              <th>Announcemnet Date</th>
             </tr>
           </thead>
           <tbody>{components}</tbody>

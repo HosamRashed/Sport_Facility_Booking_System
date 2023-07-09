@@ -22,10 +22,10 @@ export default function EditStudent(props) {
     timer: 2000,
     timerProgressBar: true,
   });
-  
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    
+
     console.log(updateForm.User_Email);
     const config = {
       method: "PUT",

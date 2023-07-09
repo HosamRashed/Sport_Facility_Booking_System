@@ -10,6 +10,7 @@ export default function CreateFacility() {
     name: "",
     description: "",
     image: "",
+    location: "",
   };
 
   const [form, setForm] = useState(initialize);
@@ -49,7 +50,7 @@ export default function CreateFacility() {
 
   const alert = () => {
     Toast.fire({
-      title: "Facility has created successfully",
+      title: "Facility has been created successfully",
       background: "#18a146",
       color: "white",
     });
@@ -64,6 +65,7 @@ export default function CreateFacility() {
         name: form.name,
         description: form.description,
         image: form.image,
+        location: form.location,
       },
     };
     axios(config)
@@ -110,6 +112,19 @@ export default function CreateFacility() {
                 />
               </div>
 
+              <div className="location">
+                <div className="coordinates">
+                  <label>Location:</label>
+                  <input
+                    className="locationInput"
+                    type="text"
+                    onChange={handleChange}
+                    name="location"
+                    value={form.location}
+                  />
+                </div>
+              </div>
+
               <div className="imageUplaoding">
                 <label className="uploadImage">Upload facility image:</label>
                 <input
@@ -129,7 +144,7 @@ export default function CreateFacility() {
         </div>
       ) : (
         <p className="authorizedMessage">
-          You are not authorized to access this page you have to login first!
+          You are not authorized to access this page. Please log in first!
         </p>
       )}
     </>

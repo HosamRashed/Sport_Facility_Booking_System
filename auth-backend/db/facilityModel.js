@@ -7,6 +7,7 @@ const FacilitySchema = new mongoose.Schema({
   reservationTimes: { type: Number },
   availableFrom: { type: "string" },
   availableTo: { type: "string" },
+  location: { type: "string" },
   duration: { type: "string" },
   slotTime: {
     type: [Number],

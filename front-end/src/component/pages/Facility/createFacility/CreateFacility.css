@@ -2,7 +2,7 @@
   padding: 20px;
   margin: 10px;
   background-color: white;
-  height: 520px;
+  height: 540px;
   display: flex;
   align-items: start;
   justify-content: start;
@@ -23,6 +23,11 @@ label {
   margin-block: 10px;
   text-align: left;
   width: 100%;
+}
+
+.location {
+  display: flex;
+  flex-direction: row;
 }
 
 #name {
@@ -67,7 +72,7 @@ select {
 
 .submitBtn {
   border: 1px solid rgb(80, 79, 79);
-  margin-top: 30px;
+  margin-top: 20px;
   margin-left: 400px;
   font-size: 20px;
   padding: 10px 60px;
@@ -83,4 +88,12 @@ select {
 .file {
   margin-left: 10px;
   font-size: 20px;
+}
+
+.locationInput {
+  font-size: 20px;
+  margin-left: 123px;
+  padding: 10px;
+  width: 40rem;
+  border-radius: 8px;
 }

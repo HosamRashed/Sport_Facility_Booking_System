@@ -50,6 +50,7 @@ export default function EditFacility(props) {
         name: updateForm.name,
         description: updateForm.description,
         image: updateForm.image,
+        location: updateForm.location,
       },
     };
 
@@ -104,6 +105,19 @@ export default function EditFacility(props) {
                 name="description"
                 value={updateForm.description}
               />
+            </div>
+
+            <div className="location">
+              <div className="coordinates">
+                <label>Location:</label>
+                <input
+                  className="editLocationInput"
+                  type="text"
+                  onChange={handleChange}
+                  name="location"
+                  value={updateForm.location}
+                />
+              </div>
             </div>
 
             <div className="imageUplaoding">

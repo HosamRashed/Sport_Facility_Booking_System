@@ -6,6 +6,8 @@ import axios from "axios";
 import "./Students.css";
 import Swal from "sweetalert2";
 import EditStudent from "./editStudent/EditStudent";
+import * as AiIcons from "react-icons/ai";
+import * as FiIcons from "react-icons/fi";
 
 const Students = () => {
   const cookies = new Cookies();
@@ -26,6 +28,48 @@ const Students = () => {
     setModal(!modal);
   };
 
+  const alert = (student_id) => {
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: "btn btn-success",
+        cancelButton: "btn btn-danger",
+      },
+      buttonsStyling: false,
+    });
+
+    swalWithBootstrapButtons
+      .fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes, delete it!",
+        cancelButtonText: "No, cancel!",
+        reverseButtons: true,
+      })
+      .then((result) => {
+        if (result.isConfirmed) {
+          const config = {
+            method: "DELETE",
+            url: `http://localhost:3000/students/delete/${student_id}`,
+          };
+          axios(config)
+            .then((response) => {
+              console.log(" The student is deleted", response);
+              getData();
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+        }
+      });
+  };
+
+  const delteStudent = (student_id) => {
+    alert(student_id);
+  };
+
   const findIndex = (student_id) => {
     return students.findIndex((student) => student._id === student_id);
   };
@@ -40,6 +84,7 @@ const Students = () => {
   };
 
   const handleStatusChange = (studentId, currentStatus) => {
+    console.log("hello", currentStatus);
     const newStatus = !currentStatus;
     const message = newStatus ? "activate" : "bar";
     const studentIndex = findIndex(studentId);
@@ -70,7 +115,7 @@ const Students = () => {
             url: `http://localhost:3000/students/${studentId}`,
             data: {
               User_ID: students[studentIndex].User_ID,
-              Email_ID: students[studentIndex].Email_ID,
+              User_Email: students[studentIndex].User_Email,
               Full_Name: students[studentIndex].Full_Name,
               Password: students[studentIndex].Password,
               SecretQuestion: students[studentIndex].SecretQuestion,
@@ -113,7 +158,6 @@ const Students = () => {
       });
   };
 
-  
   const components = students.map((student) => {
     console.log(student);
     return (
@@ -123,11 +167,20 @@ const Students = () => {
         <td>{student.User_Gender}</td>
         <td>
           <button
-            onClick={() => handleStatusChange(student._id, student.User_status)}
+            onClick={() => handleStatusChange(student._id, student.status)}
             className={student.status ? "activeStudent" : "barred"}
           >
             {student.status ? "active" : "barred"}
           </button>
+        </td>
+        <td>
+          <Link to="#" className="iconStyle">
+            <AiIcons.AiOutlineDelete
+              onClick={() => {
+                delteStudent(student._id);
+              }}
+            />
+          </Link>
         </td>
         <td>
           <button onClick={() => toggleModal(student)}>View Profile</button>

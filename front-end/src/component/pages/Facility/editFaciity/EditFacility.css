@@ -104,3 +104,16 @@
   top: 5px;
   left: 400px;
 }
+
+.location {
+  display: flex;
+  flex-direction: row;
+}
+
+.editLocationInput {
+  font-size: 20px;
+  margin-left: 123px;
+  padding: 10px;
+  width: 26rem;
+  border-radius: 8px;
+}

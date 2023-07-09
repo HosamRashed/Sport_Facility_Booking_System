@@ -81,6 +81,7 @@ const Facility = () => {
       });
   };
 
+  console.log(facilities);
   const components = facilities.map((facility) => {
     const calendar = facility.calendar?.length > 0 ? true : false;
     return calendar ? (

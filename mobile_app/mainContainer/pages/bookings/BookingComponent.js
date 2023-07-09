@@ -14,18 +14,22 @@ import { connect } from "react-redux";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { useSelector } from "react-redux";
+import LottieView from "lottie-react-native";
+import successAnimation from "../../../assets/animation/blueDone.json"; // Replace with the path to your JSON animation file
 
 let newFacility;
 let delteOrEditIndicator;
 const BookingComponent = (props) => {
   const url = useSelector((state) => state.url);
   const navigation = useNavigation();
-  const { info, userID, onDelete } = props;
+  const { info, userID, update } = props;
   const [facility, setFacility] = useState(null);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [showEditConfirmation, setShowEditConfirmation] = useState(false);
   const [showDoneConfirmation, setshowDoneConfirmation] = useState(false);
   const [showErrorDoneConfirmation, setshowErrorDoneConfirmation] =
+    useState(false);
+  const [showSuccessfullConfirmation, setshowSuccessfullConfirmation] =
     useState(false);
 
   useEffect(() => {
@@ -112,7 +116,7 @@ const BookingComponent = (props) => {
       .then((response) => {
         console.log("The booking is deleted");
         delteOrEditIndicator == 0 ? updateDatabase() : updateDatabaseEdit();
-        onDelete();
+        update();
       })
       .catch((error) => {
         console.log(error);
@@ -208,10 +212,18 @@ const BookingComponent = (props) => {
     const currentDateTime = new Date(); // Get the current date and time
     const currentDay = currentDateTime.getDate();
     const currentMonth = currentDateTime.getMonth() + 1; // Adding 1 because getMonth() returns zero-based index
-    const [bookedDay, bookedMonth] = info.slotDate.split("/").map(Number);
+    const currenthour = currentDateTime.getHours(); // Adding 1 because getMonth() returns zero-based index
 
-    if (currentDay === bookedDay && currentMonth === bookedMonth) {
-      console.log("Booking is on the correct date. Accepted.");
+    const [bookedDay, bookedMonth] = info.slotDate.split("/").map(Number);
+    const [bookedStartTime, bookedEndTime] = bookedSlot.time;
+
+    if (
+      currentDay === bookedDay &&
+      currentMonth === bookedMonth &&
+      currenthour >= bookedStartTime &&
+      currenthour <= bookedEndTime
+    ) {
+      console.log("Booking is within the correct time slot. Accepted.");
       return true;
     }
     return false;
@@ -228,45 +240,26 @@ const BookingComponent = (props) => {
   };
 
   const confirmDone = () => {
-    setShowConfirmation(false); // Hide the confirmation pop-up
-    const updatedFacility = { ...facility };
-    const updatedCalender = [...updatedFacility.calendar];
+    setshowDoneConfirmation(false);
 
-    const calenderIndex = updatedCalender.findIndex(
-      (calendar) => calendar.day === bookedCalender.day
-    );
-
-    if (calenderIndex !== -1) {
-      const selectedDayCalender = { ...updatedCalender[calenderIndex] };
-      const updatedSlots = [...selectedDayCalender.slots];
-
-      const selectedSlotIndex = updatedSlots.findIndex(
-        (slot) => slot._id === bookedSlot._id
-      );
-
-      if (selectedSlotIndex !== -1) {
-        updatedSlots[selectedSlotIndex] = {
-          ...bookedSlot,
-          availability: "available",
-          type: bookedSlot.prevType,
-          userID: null,
-          prevType: null,
-        };
-
-        selectedDayCalender.slots = updatedSlots;
-
-        updatedCalender[calenderIndex] = selectedDayCalender;
-
-        updatedFacility.calendar = updatedCalender;
-
-        const mainObject = { ...updatedFacility };
-        newFacility = mainObject;
-
-        setFacility(mainObject);
-        delteOrEditIndicator = 0;
-        updateBookings();
-      }
-    }
+    const config = {
+      method: "PUT",
+      url: `${url}/bookings/status/${info._id}`,
+      data: {
+        status: "successfull",
+      },
+    };
+    axios(config)
+      .then((response) => {
+        setshowSuccessfullConfirmation(true);
+        setTimeout(() => {
+          setshowSuccessfullConfirmation(false);
+          update();
+        }, 2500);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
@@ -336,12 +329,12 @@ const BookingComponent = (props) => {
             <View style={styles.modalContainer}>
               <View style={styles.insideContainer}>
                 <Text style={styles.modalText}>
-                  Are you sure you want {"\n"}to delete this booking?
+                  Are you sure you want to mark this booking as attended?
                 </Text>
                 <View style={styles.buttonContainer}>
                   <TouchableOpacity
                     style={[styles.button, styles.confirmButton]}
-                    onPress={confirmDelete}
+                    onPress={confirmDone}
                   >
                     <Text style={styles.buttonText}>Confirm</Text>
                   </TouchableOpacity>
@@ -366,6 +359,23 @@ const BookingComponent = (props) => {
                 <Text style={styles.modalText}>
                   The booked time slot does not match the current time.
                 </Text>
+              </View>
+            </View>
+          </Modal>
+
+          <Modal
+            visible={showSuccessfullConfirmation}
+            animationType="fade"
+            transparent={true}
+          >
+            <View style={styles.animationModalContainer}>
+              <View style={styles.animationContainer}>
+                <LottieView
+                  source={successAnimation}
+                  autoPlay
+                  loop={false}
+                  style={styles.animation}
+                />
               </View>
             </View>
           </Modal>
@@ -472,7 +482,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 3,
   },
-
   modalContainer: {
     flex: 1,
     marginLeft: "auto",
@@ -522,6 +531,26 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "white",
     fontSize: 16,
+  },
+  animationModalContainer: {
+    flex: 1,
+    marginLeft: "auto",
+    marginRight: "auto",
+    width: "100%",
+    padding: 10,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  animationContainer: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 20,
+    borderRadius: 20,
+  },
+  animation: {
+    width: 250,
+    height: 250,
   },
 });
 
