@@ -212,20 +212,40 @@ const BookDetails = (props) => {
   };
 
   const updateDatabase = (Facility) => {
-    console.log(Facility.calendar);
-    console.log(Facility._id);
+    const currentDateTime = new Date();
+    const todayDate = `${currentDateTime.getDate()}/${
+      currentDateTime.getMonth() + 1
+    } `;
 
-    const config = {
+    const calenderConfig = {
       method: "PUT",
       url: `${url}/facilities/update/${Facility._id}`,
       data: {
         calendar: Facility.calendar,
       },
     };
-
-    axios(config)
+    axios(calenderConfig)
       .then((response) => {
         console.log("facility's calendar has been updated successfully!");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+    console.log(userID._id);
+    const ReservationConfig = {
+      method: "PUT",
+      url: `${url}/facilities/updateUsage/${Facility._id}`,
+      data: {
+        userID: userID._id,
+        date: todayDate,
+      },
+    };
+    axios(ReservationConfig)
+      .then((response) => {
+        console.log(
+          "facility's reservation times has been updated successfully!"
+        );
         returnToBooking
           ? navigation.navigate("Bookings")
           : navigation.navigate("FacilityInfo", { facility: Facility });

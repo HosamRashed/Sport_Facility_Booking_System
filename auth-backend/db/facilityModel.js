@@ -4,7 +4,6 @@ const FacilitySchema = new mongoose.Schema({
   name: { required: true, type: "string", unique: true },
   description: { required: true, type: "string" },
   image: { required: true, type: "string" },
-  reservationTimes: { type: Number },
   availableFrom: { type: "string" },
   availableTo: { type: "string" },
   location: { type: "string" },
@@ -12,6 +11,16 @@ const FacilitySchema = new mongoose.Schema({
   slotTime: {
     type: [Number],
   },
+  reservationTimes: [
+    {
+      userID: {
+        type: "string",
+      },
+      date: {
+        type: "string",
+      },
+    },
+  ],
   rating: [
     {
       userID: {

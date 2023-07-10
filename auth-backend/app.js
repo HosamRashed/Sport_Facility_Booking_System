@@ -84,7 +84,7 @@ app.post("/students/create", async (request, response) => {
 app.delete("/students/delete/:id", (request, response) => {
   const studentID = request.params.id;
 
-  Students.findOneAndDelete({ _id: studentID }) // Use findOneAndDelete to find and delete the booking
+  Students.findOneAndDelete({ _id: studentID })
     .then((deletedStudent) => {
       if (!deletedStudent) {
         return response.status(404).send({
@@ -303,7 +303,6 @@ app.post("/students/updatePassword", (request, response) => {
     });
 });
 
-// create a new facility
 app.post("/bookings/create", (request, response) => {
   const booking = new Bookings({
     studentID: request.body.studentID,
@@ -315,7 +314,6 @@ app.post("/bookings/create", (request, response) => {
     slotDate: request.body.slotDate,
     slotDay: request.body.slotDay,
     status: "new",
-    rating: 0,
   });
 
   booking
@@ -433,7 +431,7 @@ app.post("/facility/create", (request, response) => {
           description: request.body.description,
           image: request.body.image,
           rating: [],
-          reservationTimes: 0,
+          reservationTimes: [],
           location: request.body.location,
         });
         facility
@@ -553,7 +551,7 @@ app.put("/facilities/update/:id", (request, res) => {
     });
 });
 
-// update specific facility calender from mobile app
+// update specific facility's rating from mobile app
 app.put("/facilities/updateRating/:id", (request, res) => {
   const id = request.params.id;
   const userID = request.body.userID;
@@ -584,6 +582,32 @@ app.put("/facilities/updateRating/:id", (request, res) => {
     });
 });
 
+app.put("/facilities/updateUsage/:id", (request, res) => {
+  const id = request.params.id;
+  const userID = request.body.userID;
+  const date = request.body.date;
+
+  Facility.findOne({ _id: id })
+    .then((facility) => {
+      if (!facility) {
+        throw new Error("Facility not found.");
+      }
+
+      facility.reservationTimes.push({ userID: userID, date: date });
+
+      return facility.save();
+    })
+    .then((updatedFacility) => {
+      res.json(updatedFacility);
+    })
+    .catch((error) => {
+      res.status(502).json({
+        message: "Error updating facility's reservation Times!",
+        error: error,
+      });
+    });
+});
+
 // update facility
 app.put("/facility/:id/timeTable", (req, res) => {
   const id = req.params.id;
@@ -611,6 +635,39 @@ app.put("/facility/:id/timeTable", (req, res) => {
         .json({ message: "Error updating facility!", error: error });
     });
 });
+
+// remove a facility reservation from facility utilization array
+app.delete(
+  "/facility/deleteReservation/:id/:studentId",
+  (request, response) => {
+    const facilityId = request.params.id;
+    const studentId = request.params.studentId;
+
+    Facility.findOneAndUpdate(
+      { _id: facilityId },
+      { $pull: { reservationTimes: { userID: studentId } } },
+      { new: true }
+    )
+      .then((updatedFacility) => {
+        if (!updatedFacility) {
+          response.status(404).send({
+            message: "Facility not found",
+          });
+          return;
+        }
+
+        response.status(200).send({
+          message: "Reservation deleted",
+        });
+      })
+      .catch((error) => {
+        response.status(500).send({
+          message: "Error deleting reservation",
+          error: error.message,
+        });
+      });
+  }
+);
 
 // delete facility
 app.delete("/facility/delete/:id", (request, response) => {

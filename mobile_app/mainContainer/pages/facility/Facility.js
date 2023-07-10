@@ -45,9 +45,11 @@ const Facility = () => {
     getData();
   };
 
-  const facilities = facility.map((facility, index) => (
-    <FacilityComponeent key={index} info={facility} />
-  ));
+  const facilities =
+    facility &&
+    facility.map((facility, index) => (
+      <FacilityComponeent key={index} info={facility} />
+    ));
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <View style={styles.container}>

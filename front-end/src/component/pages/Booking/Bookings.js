@@ -111,7 +111,7 @@ const Bookings = () => {
   const deletebooking = (bookingInfo) => {
     getFacility(bookingInfo.facilityID);
 
-    console.log(facility);
+    console.log("inside delete", facility);
     const updatedFacility = { ...facility };
     const updatedCalender = Array.isArray(updatedFacility.calendar)
       ? [...updatedFacility.calendar]
@@ -155,7 +155,6 @@ const Bookings = () => {
         setFacility(mainObject);
         newFacility = mainObject;
 
-        // console.log(newFacility.calendar[calenderIndex]);
         updateBookings(bookingInfo);
       }
     }

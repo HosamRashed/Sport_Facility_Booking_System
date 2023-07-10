@@ -20,13 +20,12 @@ const CompletedBookingComponent = (props) => {
   const navigation = useNavigation();
   const { info, userID } = props;
   const [facility, setFacility] = useState(null);
-  console.log(info.rating);
   const [rating, setRating] = useState(info.rating);
 
   const handleStarPress = (selectedRating) => {
     setRating(selectedRating);
-    console.log(info.facilityID);
 
+  
     if (selectedRating !== info.rating) {
       const config = {
         method: "PUT",
@@ -48,8 +47,6 @@ const CompletedBookingComponent = (props) => {
   };
 
   const updateBooking = (selectedRating) => {
-    console.log(info.facilityID);
-
     if (selectedRating !== info.rating) {
       const config = {
         method: "PUT",

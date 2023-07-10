@@ -124,7 +124,7 @@ const BookingComponent = (props) => {
   };
 
   const updateDatabase = () => {
-    const config = {
+    const calendarConfig = {
       method: "PUT",
       url: `${url}/facilities/update/${info.facilityID}`,
       data: {
@@ -132,7 +132,19 @@ const BookingComponent = (props) => {
       },
     };
 
-    axios(config)
+    axios(calendarConfig)
+      .then((response) => {
+        console.log("facility's calendar has been updated successfully!");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+    const calendarReservation = {
+      method: "DELETE",
+      url: `${url}/facility/deleteReservation/${info.facilityID}/${info.studentID}`,
+    };
+    axios(calendarReservation)
       .then((response) => {
         console.log("facility's calendar has been updated successfully!");
       })
@@ -209,10 +221,10 @@ const BookingComponent = (props) => {
     }
   };
   const checkBookingTime = () => {
-    const currentDateTime = new Date(); // Get the current date and time
+    const currentDateTime = new Date();
     const currentDay = currentDateTime.getDate();
-    const currentMonth = currentDateTime.getMonth() + 1; // Adding 1 because getMonth() returns zero-based index
-    const currenthour = currentDateTime.getHours(); // Adding 1 because getMonth() returns zero-based index
+    const currentMonth = currentDateTime.getMonth() + 1;
+    const currenthour = currentDateTime.getHours();
 
     const [bookedDay, bookedMonth] = info.slotDate.split("/").map(Number);
     const [bookedStartTime, bookedEndTime] = bookedSlot.time;
@@ -223,7 +235,6 @@ const BookingComponent = (props) => {
       currenthour >= bookedStartTime &&
       currenthour <= bookedEndTime
     ) {
-      console.log("Booking is within the correct time slot. Accepted.");
       return true;
     }
     return false;
