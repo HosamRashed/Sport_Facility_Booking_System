@@ -8,10 +8,13 @@ import {
   Image,
   TouchableWithoutFeedback,
   Keyboard,
+  Modal,
 } from "react-native";
 import { useDispatch } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 import { useSelector } from "react-redux";
+import successAnimation from "../../assets/animation/blueDone.json";
+import LottieView from "lottie-react-native";
 
 const Login = () => {
   const initialize = {
@@ -26,6 +29,9 @@ const Login = () => {
 
   const dispatch = useDispatch();
   const navigation = useNavigation();
+
+  const [showSuccessfullConfirmation, setshowSuccessfullConfirmation] =
+    useState(false);
 
   const handleInputChange = (name, value) => {
     setFormData({
@@ -67,7 +73,11 @@ const Login = () => {
         .then((res) => {
           if (res.message === "Login Successful") {
             dispatch({ type: "SET_USER_ID", payload: res.student });
-            navigation.navigate("MainPage");
+            setshowSuccessfullConfirmation(true);
+            setTimeout(() => {
+              navigation.navigate("MainPage");
+              setshowSuccessfullConfirmation(false);
+            }, 2500);
           } else {
             setError(res.message);
             setVisible(true);
@@ -135,6 +145,23 @@ const Login = () => {
             Sign Up
           </Text>
         </Text>
+
+        <Modal
+          visible={showSuccessfullConfirmation}
+          animationType="fade"
+          transparent={true}
+        >
+          <View style={styles.animationModalContainer}>
+            <View style={styles.animationContainer}>
+              <LottieView
+                source={successAnimation}
+                autoPlay
+                loop={false}
+                style={styles.animation}
+              />
+            </View>
+          </View>
+        </Modal>
       </View>
     </TouchableWithoutFeedback>
   );
@@ -220,6 +247,27 @@ const styles = StyleSheet.create({
   },
   effect: {
     color: "blue",
+  },
+  animationModalContainer: {
+    flex: 1,
+    marginLeft: "auto",
+    marginRight: "auto",
+    width: "100%",
+    padding: 10,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "white",
+  },
+  animationContainer: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 20,
+    borderRadius: 20,
+  },
+  animation: {
+    width: 250,
+    height: 250,
   },
 });
 

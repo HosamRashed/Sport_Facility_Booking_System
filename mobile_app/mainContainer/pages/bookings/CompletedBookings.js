@@ -25,7 +25,6 @@ const CompletedBookingComponent = (props) => {
   const handleStarPress = (selectedRating) => {
     setRating(selectedRating);
 
-  
     if (selectedRating !== info.rating) {
       const config = {
         method: "PUT",

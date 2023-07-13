@@ -193,10 +193,12 @@ app.put("/students/update/:id", (request, res) => {
 
 // login endpoint
 app.post("/students/login", (request, response) => {
+  // check if the user is exist in the system 
   Students.findOne({ User_ID: request.body.User_ID })
-    .then((student) => {
+  .then((student) => {
       if (student) {
         bcrypt
+        // check if the user's password match the provided password 
           .compare(request.body.Password, student.Password)
           .then((passwordCheck) => {
             if (passwordCheck) {
@@ -228,13 +230,16 @@ app.post("/students/login", (request, response) => {
         error,
       });
     });
-});
-
-app.post("/students/resetPassword", (request, response) => {
-  const { User_ID, AnswerQuestion } = request.body;
-  Students.findOne({ User_ID })
+  });
+  
+  app.post("/students/resetPassword", (request, response) => {
+    const { User_ID, AnswerQuestion } = request.body;
+    
+    // check if the user is exist in the system 
+    Students.findOne({ User_ID })
     .then((student) => {
       if (student) {
+        // check if the user's answer question match provided answer  
         if (student.AnswerQuestion === AnswerQuestion) {
           response.status(200).send({
             message: "Successful",

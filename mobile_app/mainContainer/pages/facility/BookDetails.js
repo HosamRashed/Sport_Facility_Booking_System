@@ -232,7 +232,6 @@ const BookDetails = (props) => {
         console.log(error);
       });
 
-    console.log(userID._id);
     const ReservationConfig = {
       method: "PUT",
       url: `${url}/facilities/updateUsage/${Facility._id}`,

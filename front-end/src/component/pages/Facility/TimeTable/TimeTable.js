@@ -239,7 +239,6 @@ export default function TimeTable() {
     };
     axios(config)
       .then((response) => {
-        console.log("success", response);
         alert();
         setTimeout(() => {
           window.location.href = "/facility";

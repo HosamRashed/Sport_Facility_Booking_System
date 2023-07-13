@@ -84,7 +84,6 @@ const Students = () => {
   };
 
   const handleStatusChange = (studentId, currentStatus) => {
-    console.log("hello", currentStatus);
     const newStatus = !currentStatus;
     const message = newStatus ? "activate" : "bar";
     const studentIndex = findIndex(studentId);

@@ -15,7 +15,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 import LottieView from "lottie-react-native";
-import successAnimation from "../../../assets/animation/blueDone.json"; // Replace with the path to your JSON animation file
+import successAnimation from "../../../assets/animation/blueDone.json"; 
 
 let newFacility;
 let delteOrEditIndicator;
@@ -66,7 +66,9 @@ const BookingComponent = (props) => {
   };
 
   const confirmDelete = () => {
-    setShowConfirmation(false); // Hide the confirmation pop-up
+    setShowConfirmation(false); 
+
+    // update facility timetable
     const updatedFacility = { ...facility };
     const updatedCalender = [...updatedFacility.calendar];
 
@@ -181,9 +183,10 @@ const BookingComponent = (props) => {
 
   const confirmEdit = () => {
     setShowEditConfirmation(false);
+    
+    // update facility timetable
     const updatedFacility = { ...facility };
     const updatedCalender = [...updatedFacility.calendar];
-
     const calenderIndex = updatedCalender.findIndex(
       (calendar) => calendar.day === bookedCalender.day
     );
@@ -220,6 +223,7 @@ const BookingComponent = (props) => {
       }
     }
   };
+  
   const checkBookingTime = () => {
     const currentDateTime = new Date();
     const currentDay = currentDateTime.getDate();

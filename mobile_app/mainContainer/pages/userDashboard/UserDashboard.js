@@ -300,7 +300,7 @@ const styles = StyleSheet.create({
     width: 300,
     height: 60,
     borderRadius: 10,
-    marginTop: 20,
+    marginTop: 15,
   },
   edit: {
     position: "absolute",
