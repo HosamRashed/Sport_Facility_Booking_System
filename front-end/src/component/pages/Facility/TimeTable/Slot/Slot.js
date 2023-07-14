@@ -2,8 +2,6 @@ import { React, useState } from "react";
 import "./Slot.css";
 
 const Slot = (props) => {
-  // console.log(props.info.type);
-
   const [type, setType] = useState(props.info.type);
 
   const handleTypeChange = (event) => {

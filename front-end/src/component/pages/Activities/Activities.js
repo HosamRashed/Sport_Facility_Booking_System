@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../../Navbar/Navbar";
 import Cookies from "universal-cookie";
-import { Link } from "react-router-dom";
 import axios from "axios";
 import "./Activities.css";
 import { FaStar, FaRegStar } from "react-icons/fa";

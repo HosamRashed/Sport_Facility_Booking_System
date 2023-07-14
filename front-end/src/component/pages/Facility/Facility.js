@@ -15,7 +15,7 @@ const Facility = () => {
   const cookies = new Cookies();
   const token = cookies.get("TOKEN");
   const [facilities, setFacilities] = useState([]);
-  const [isLoading, setIsLoading] = useState(true); // Add isLoading state variable
+  const [isLoading, setIsLoading] = useState(true); 
   const [selectFacility, setSelectFacility] = useState(null);
 
   useEffect(() => {
@@ -81,7 +81,6 @@ const Facility = () => {
       });
   };
 
-  console.log(facilities);
   const components = facilities.map((facility) => {
     const calendar = facility.calendar?.length > 0 ? true : false;
     return calendar ? (

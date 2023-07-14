@@ -1,6 +1,5 @@
 import React from "react";
-import MainPage from "./MainPage"; // Update import statement
-
+import MainPage from "./MainPage"; 
 function MainPageWrapper() {
   return <MainPage />;
 }

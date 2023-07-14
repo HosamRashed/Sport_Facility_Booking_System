@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {
   View,
-  Text,
-  TextInput,
-  TouchableOpacity,
   StyleSheet,
   Image,
   TouchableWithoutFeedback,
@@ -11,7 +8,6 @@ import {
   ScrollView,
   RefreshControl,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import FacilityComponeent from "./FacilityComponeent";
 import { useSelector } from "react-redux";
@@ -21,7 +17,6 @@ const Facility = () => {
   const [facility, setFacilities] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
 
-  // const []
   useEffect(() => {
     getData();
   }, []);

@@ -6,7 +6,6 @@ import "./TimeTable.css";
 import Slot from "./Slot/Slot";
 import Swal from "sweetalert2";
 import { useParams } from "react-router-dom";
-import { MdAirplanemodeActive } from "react-icons/md";
 
 export default function TimeTable() {
   const initialize = {

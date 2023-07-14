@@ -175,10 +175,8 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   contentText: {
-    // borderWidth: 1,
     maxWidth: "100%",
     fontSize: 20,
-    // textAlign: "justify",
   },
   name: {
     marginBottom: 5,

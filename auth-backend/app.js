@@ -4,7 +4,6 @@ const bodyParser = require("body-parser");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-// require database connection
 const dbConnect = require("./db/dbConnect");
 const User = require("./db/userModel");
 const Students = require("./db/studentModel");
@@ -15,7 +14,6 @@ const Announcement = require("./db/announcemnetModel");
 // execute database connection
 dbConnect();
 
-// Curb Cores Error by adding a header here
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader(
@@ -81,6 +79,7 @@ app.post("/students/create", async (request, response) => {
   }
 });
 
+// delete student account
 app.delete("/students/delete/:id", (request, response) => {
   const studentID = request.params.id;
 
@@ -103,7 +102,7 @@ app.delete("/students/delete/:id", (request, response) => {
     });
 });
 
-// retrive students data
+// retrive all students data
 app.get("/api/students", (request, response) => {
   Students.find({})
     .then((data) => {
@@ -120,13 +119,14 @@ app.get("/api/students", (request, response) => {
     });
 });
 
+// retrieve a particular student info
 app.get("/api/students/:id", (request, response) => {
   const id = request.params.id;
 
   Students.find({ _id: id })
     .then((data) => {
       response.status(200).json({
-        message: "the following are students data in the database: ",
+        message: "the following are student's data in the database: ",
         data: data,
       });
     })
@@ -191,14 +191,14 @@ app.put("/students/update/:id", (request, res) => {
     });
 });
 
-// login endpoint
+// student loign
 app.post("/students/login", (request, response) => {
-  // check if the user is exist in the system 
+  // check if student is exist in the system
   Students.findOne({ User_ID: request.body.User_ID })
-  .then((student) => {
+    .then((student) => {
       if (student) {
         bcrypt
-        // check if the user's password match the provided password 
+          // check if the user's password match the provided password
           .compare(request.body.Password, student.Password)
           .then((passwordCheck) => {
             if (passwordCheck) {
@@ -230,16 +230,17 @@ app.post("/students/login", (request, response) => {
         error,
       });
     });
-  });
-  
-  app.post("/students/resetPassword", (request, response) => {
-    const { User_ID, AnswerQuestion } = request.body;
-    
-    // check if the user is exist in the system 
-    Students.findOne({ User_ID })
+});
+
+// reset password for studnets
+app.post("/students/resetPassword", (request, response) => {
+  const { User_ID, AnswerQuestion } = request.body;
+
+  // check if the user is exist in the system
+  Students.findOne({ User_ID })
     .then((student) => {
       if (student) {
-        // check if the user's answer question match provided answer  
+        // check if the user's answer question match provided answer
         if (student.AnswerQuestion === AnswerQuestion) {
           response.status(200).send({
             message: "Successful",
@@ -263,6 +264,7 @@ app.post("/students/login", (request, response) => {
     });
 });
 
+// update student's password in the database after resetting the password
 app.post("/students/updatePassword", (request, response) => {
   const { User_ID, Password, ConfirmPassword } = request.body;
 
@@ -308,6 +310,7 @@ app.post("/students/updatePassword", (request, response) => {
     });
 });
 
+// create new booking
 app.post("/bookings/create", (request, response) => {
   const booking = new Bookings({
     studentID: request.body.studentID,
@@ -337,6 +340,7 @@ app.post("/bookings/create", (request, response) => {
     });
 });
 
+// retrieve all bookings information in the database
 app.get("/api/bookings", (request, response) => {
   Bookings.find({})
     .then((data) => {
@@ -353,6 +357,7 @@ app.get("/api/bookings", (request, response) => {
     });
 });
 
+// delete a specific facility booking
 app.delete("/bookings/delete/:id", (request, response) => {
   const bookingID = request.params.id;
 
@@ -375,29 +380,7 @@ app.delete("/bookings/delete/:id", (request, response) => {
     });
 });
 
-app.put("/bookings/:id", (req, res) => {
-  const id = req.params.id;
-  const { ratingStar } = req.body;
-
-  Bookings.findOneAndUpdate(
-    { _id: id },
-    {
-      $set: {
-        rating: ratingStar,
-      },
-    },
-    { new: true, useFindAndModify: false }
-  )
-    .then((booking) => {
-      res.json(booking);
-    })
-    .catch((error) => {
-      res
-        .status(500)
-        .json({ message: "Error updating booking!", error: error });
-    });
-});
-
+// update the status of the booking
 app.put("/bookings/status/:id", (req, res) => {
   const id = req.params.id;
 
@@ -441,14 +424,14 @@ app.post("/facility/create", (request, response) => {
         });
         facility
           .save()
-          // return success if the new user is added to the database successfully
+          // return success if the new facility is added to the database successfully
           .then((result) => {
             response.status(201).send({
               message: "facility hass been Created Successfully",
               result,
             });
           })
-          // catch erroe if the new user wasn't added successfully to the database
+          // catch erroe if the new facility wasn't added successfully to the database
           .catch((error) => {
             response.status(500).send({
               message: "Error creating new facility",
@@ -457,7 +440,6 @@ app.post("/facility/create", (request, response) => {
           });
       }
     })
-    // catch error if password do not match
     .catch((error) => {
       response.status(400).send({
         message: "",
@@ -466,7 +448,7 @@ app.post("/facility/create", (request, response) => {
     });
 });
 
-// retrive facility data
+// retrive all facilities data in the database
 app.get("/api/facility", (request, response) => {
   Facility.find({})
     .then((data) => {
@@ -483,7 +465,7 @@ app.get("/api/facility", (request, response) => {
     });
 });
 
-// retrive a specific facility by its id
+// retrive a specific facility info by its id
 app.get("/facilities/:id", (request, response) => {
   Facility.findOne({ _id: request.params.id })
     .then((result) => {
@@ -508,7 +490,7 @@ app.get("/facilities/:id", (request, response) => {
     });
 });
 
-// update facility info
+// update specefic facility's info
 app.put("/facility/:id", (req, res) => {
   const id = req.params.id;
   const { name, description, image } = req.body;
@@ -568,10 +550,13 @@ app.put("/facilities/updateRating/:id", (request, res) => {
         throw new Error("Facility not found.");
       }
 
+      // verifying if the student will provided id already rate the facility
       const existingRating = facility.rating.find((r) => r.userID === userID);
       if (existingRating) {
+        // update the value of rating stars
         existingRating.value = rating;
       } else {
+        // inset a new rating to the facility
         facility.rating.push({ userID, value: rating });
       }
 
@@ -587,6 +572,7 @@ app.put("/facilities/updateRating/:id", (request, res) => {
     });
 });
 
+// update number of facility's users
 app.put("/facilities/updateUsage/:id", (request, res) => {
   const id = request.params.id;
   const userID = request.body.userID;
@@ -613,13 +599,11 @@ app.put("/facilities/updateUsage/:id", (request, res) => {
     });
 });
 
-// update facility
+// update facility's calendar
 app.put("/facility/:id/timeTable", (req, res) => {
   const id = req.params.id;
   const { duration, availableTo, availableFrom, selectedDays, calendar } =
     req.body;
-
-  // name, description, image,
   Facility.findByIdAndUpdate(
     { _id: id },
     {
@@ -660,7 +644,6 @@ app.delete(
           });
           return;
         }
-
         response.status(200).send({
           message: "Reservation deleted",
         });
@@ -674,7 +657,7 @@ app.delete(
   }
 );
 
-// delete facility
+// delete a particular facility
 app.delete("/facility/delete/:id", (request, response) => {
   const id = request.params.id;
 
@@ -706,7 +689,6 @@ app.post("/announcement", (request, response) => {
     content: request.body.content,
     image: request.body.image,
   });
-
   announcement
     .save()
     .then((result) => {
@@ -723,7 +705,7 @@ app.post("/announcement", (request, response) => {
     });
 });
 
-// retrive announcements data
+// retrive all announcements data form database
 app.get("/api/announcements", (request, response) => {
   Announcement.find({})
     .then((data) => {
@@ -740,7 +722,7 @@ app.get("/api/announcements", (request, response) => {
     });
 });
 
-// update announcement
+// update announcement's content
 app.put("/announcement/:id", (req, res) => {
   const id = req.params.id;
   const { title, content, image } = req.body;
@@ -764,7 +746,7 @@ app.put("/announcement/:id", (req, res) => {
     });
 });
 
-// delete announcement
+// delete a particular announcement from the database
 app.delete("/announcement/delete/:id", (request, response) => {
   const id = request.params.id;
   Announcement.deleteOne(
@@ -788,7 +770,7 @@ app.delete("/announcement/delete/:id", (request, response) => {
     });
 });
 
-// register endpoint
+// admin registration endpoint
 app.post("/register", (request, response) => {
   // hash the password
   console.log("hello");
@@ -800,8 +782,6 @@ app.post("/register", (request, response) => {
         User_ID: request.body.User_ID,
         password: hashedPassword,
       });
-
-      // save the new user
       user
         .save()
         // return success if the new user is added to the database successfully
@@ -828,9 +808,9 @@ app.post("/register", (request, response) => {
     });
 });
 
-// login endpoint
+// admin login endpoint
 app.post("/login", (request, response) => {
-  // check if email exists
+  // check if user_ID exists
   User.findOne({ User_ID: request.body.User_ID })
 
     // if email exists
@@ -841,7 +821,6 @@ app.post("/login", (request, response) => {
 
         // if the passwords match
         .then((passwordCheck) => {
-          // check if password matches
           if (!passwordCheck) {
             return response.status(400).send({
               message: "Passwords does not match",
@@ -879,46 +858,6 @@ app.post("/login", (request, response) => {
       response.status(404).send({
         message: "User ID not found",
         e,
-      });
-    });
-});
-
-app.post("/facilities", (request, response) => {
-  Facility.findOne({ name: request.body.name })
-
-    .then((result) => {
-      if (result) {
-        response.status(200).send({
-          message: "there is another facility with the same name",
-        });
-      } else {
-        const facility = new Facility({
-          name: request.body.name,
-          description: request.body.description,
-          location: request.body.location,
-          reservationTimes: 0,
-        });
-
-        facility
-          .save()
-          .then((result) => {
-            response.status(201).send({
-              message: "facility hass been Created Successfully",
-              result,
-            });
-          })
-          .catch((error) => {
-            response.status(500).send({
-              message: "Error creating new facility",
-              error,
-            });
-          });
-      }
-    })
-    .catch((error) => {
-      response.status(400).send({
-        message: "",
-        error,
       });
     });
 });

@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 
-// user schema
 const StudentSchema = new mongoose.Schema({
   User_ID: {
     type: String,
@@ -57,6 +56,5 @@ const StudentSchema = new mongoose.Schema({
   },
 });
 
-// export UserSchema
 module.exports =
   mongoose.model.Student || mongoose.model("student", StudentSchema);

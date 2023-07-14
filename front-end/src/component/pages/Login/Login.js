@@ -84,9 +84,6 @@ const Login = () => {
           value={formData.password}
         />
         <button className="submitbutton">Log in</button>
-        {/* <Link to="/login/reset-password">
-          <p className="reset">Reset Password</p>
-        </Link> */}
       </form>
 
       {visible ? <p className="errormessage">{error}</p> : ""}

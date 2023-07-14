@@ -48,7 +48,6 @@ const Announcement = () => {
           };
           axios(config)
             .then((response) => {
-              console.log(" The announcement has been deleted", response);
               getData();
             })
             .catch((error) => {

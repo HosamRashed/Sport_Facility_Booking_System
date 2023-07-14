@@ -112,7 +112,7 @@ button {
 .star-container {
   display: flex;
   justify-content: center;
-  alignitems: center;
+  align-items: center;
 }
 
 .filled-star,

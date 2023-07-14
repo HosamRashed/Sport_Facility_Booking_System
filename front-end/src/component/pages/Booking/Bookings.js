@@ -10,12 +10,9 @@ let newFacility;
 const Bookings = () => {
   const cookies = new Cookies();
   const token = cookies.get("TOKEN");
-  const [modal, setModal] = useState(false);
 
   const [bookings, setBookings] = useState([]);
   const [facility, setFacility] = useState([]);
-  const [selecBookings, setSelecBookings] = useState(null);
-
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -54,7 +51,6 @@ const Bookings = () => {
       .get("http://localhost:3000/api/bookings")
       .then((response) => {
         setBookings(response.data.data);
-        console.log(bookings);
         setIsLoading(false);
       })
       .catch((error) => {
@@ -67,11 +63,11 @@ const Bookings = () => {
       .get(`http://localhost:3000/facilities/${facility}`)
       .then((response) => {
         setFacility(response.data.data);
-        return;
       })
       .catch((error) => {
         console.log("error", error);
       });
+    return;
   };
 
   const updateDatabase = () => {
@@ -111,7 +107,6 @@ const Bookings = () => {
   const deletebooking = (bookingInfo) => {
     getFacility(bookingInfo.facilityID);
 
-    console.log("inside delete", facility);
     const updatedFacility = { ...facility };
     const updatedCalender = Array.isArray(updatedFacility.calendar)
       ? [...updatedFacility.calendar]
@@ -233,13 +228,6 @@ const Bookings = () => {
               displayAnnouncement
             )}
           </div>
-          {/* {modal && (
-            <EditStudent
-              update={getData}
-              prevStudent={selecStudent}
-              clicked={toggleModal}
-            />
-          )} */}
         </div>
       ) : (
         <p className="errorContainer">

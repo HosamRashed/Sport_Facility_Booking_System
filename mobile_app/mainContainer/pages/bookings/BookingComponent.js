@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
-  TextInput,
   TouchableOpacity,
   StyleSheet,
   TouchableWithoutFeedback,
@@ -116,7 +115,6 @@ const BookingComponent = (props) => {
     };
     axios(config)
       .then((response) => {
-        console.log("The booking is deleted");
         delteOrEditIndicator == 0 ? updateDatabase() : updateDatabaseEdit();
         update();
       })
@@ -217,6 +215,7 @@ const BookingComponent = (props) => {
         const mainObject = { ...updatedFacility };
         newFacility = mainObject;
 
+        // update the current facility object
         setFacility(mainObject);
         delteOrEditIndicator = 1;
         updateBookings();

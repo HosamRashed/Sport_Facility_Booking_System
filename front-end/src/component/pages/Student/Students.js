@@ -7,7 +7,6 @@ import "./Students.css";
 import Swal from "sweetalert2";
 import EditStudent from "./editStudent/EditStudent";
 import * as AiIcons from "react-icons/ai";
-import * as FiIcons from "react-icons/fi";
 
 const Students = () => {
   const cookies = new Cookies();
@@ -55,7 +54,7 @@ const Students = () => {
           };
           axios(config)
             .then((response) => {
-              console.log(" The student is deleted", response);
+              console.log(" The student is deleted");
               getData();
             })
             .catch((error) => {
@@ -126,13 +125,10 @@ const Students = () => {
 
           axios(config)
             .then((response) => {
-              console.log(
-                "student status updated successfully!",
-                response.data
-              );
+              console.log("student status updated successfully!");
             })
             .catch((error) => {
-              console.log("hello", error);
+              console.log(error);
             });
         } else if (result.dismiss === Swal.DismissReason.cancel) {
         }

@@ -35,7 +35,6 @@ const FacilityComponent = (props) => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "white",
-    // borderWidth: 1,
     margin: 10,
     width: 370,
     borderRadius: 10,
@@ -52,7 +51,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.4,
     shadowRadius: 5,
   },
-
   title: {
     borderWidth: 2,
     marginTop: 10,
@@ -61,7 +59,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 10,
   },
-
   bookText: {
     backgroundColor: "#90ee90",
     borderRadius: 50,

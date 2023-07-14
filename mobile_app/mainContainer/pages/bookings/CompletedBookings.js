@@ -12,13 +12,11 @@ import {
 import axios from "axios";
 import { connect } from "react-redux";
 import { Ionicons } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 
 const CompletedBookingComponent = (props) => {
   const url = useSelector((state) => state.url);
-  const navigation = useNavigation();
-  const { info, userID } = props;
+  const { info } = props;
   const [facility, setFacility] = useState(null);
   const [rating, setRating] = useState(info.rating);
 

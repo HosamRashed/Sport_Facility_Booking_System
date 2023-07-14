@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
-  TextInput,
   TouchableOpacity,
   StyleSheet,
   Image,
@@ -131,9 +130,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     height: "100%",
     paddingHorizontal: 10,
-  },
-  scrollContainer: {
-    // marginTop: 10,
   },
 
   icons: {

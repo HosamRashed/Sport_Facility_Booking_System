@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {
   View,
   Text,
-  TextInput,
   TouchableOpacity,
   StyleSheet,
   TouchableWithoutFeedback,
@@ -10,7 +9,6 @@ import {
 } from "react-native";
 
 import { useNavigation } from "@react-navigation/native";
-import axios from "axios";
 
 const AnnounceComponent = (props) => {
   const navigation = useNavigation();
@@ -53,7 +51,6 @@ const AnnounceComponent = (props) => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "white",
-    // borderWidth: 1,
     margin: 10,
     width: 370,
     borderRadius: 10,
