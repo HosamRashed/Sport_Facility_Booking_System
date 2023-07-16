@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -8,15 +8,41 @@ import {
   Image,
   TouchableWithoutFeedback,
   Keyboard,
+  Modal,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useRoute } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
+import { useSelector } from "react-redux";
+import LottieView from "lottie-react-native";
+import errorAnimation from "../../../assets/animation/warning.json";
+import axios from "axios";
 import MapView, { Marker } from "react-native-maps";
 
 const FacilityInfo = () => {
   const route = useRoute();
   const { facility } = route.params;
+  const url = useSelector((state) => state.url);
+  const User = useSelector((state) => state.userID);
+  const [currentStudentInfo, setCurrentStudentInfo] = useState(null);
+  const [showSuccessfullConfirmation, setshowSuccessfullConfirmation] =
+    useState(false);
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  const getData = () => {
+    axios
+      .get(`${url}/api/students/${User._id}`)
+      .then((response) => {
+        setCurrentStudentInfo(response.data.data[0]);
+      })
+      .catch((error) => {
+        console.log("error", error);
+      });
+  };
+
   let NoOfStars = 0;
   for (let i = 0; i < facility.rating.length; i++) {
     NoOfStars += facility.rating[i].value;
@@ -27,10 +53,17 @@ const FacilityInfo = () => {
   const navigation = useNavigation();
 
   const handleDetailsPress = () => {
-    navigation.navigate("BookDetails", {
-      info: facility,
-      returnToBooking: false,
-    });
+    if (currentStudentInfo.User_status === "barred") {
+      setshowSuccessfullConfirmation(true);
+      setTimeout(() => {
+        setshowSuccessfullConfirmation(false);
+      }, 4000);
+    } else {
+      navigation.navigate("BookDetails", {
+        info: facility,
+        returnToBooking: false,
+      });
+    }
   };
 
   const renderStars = () => {
@@ -112,6 +145,26 @@ const FacilityInfo = () => {
         <TouchableOpacity style={styles.bookText} onPress={handleDetailsPress}>
           <Text style={styles.text}>BOOK A SLOT</Text>
         </TouchableOpacity>
+
+        <Modal
+          visible={showSuccessfullConfirmation}
+          animationType="fade"
+          transparent={true}
+        >
+          <View style={styles.animationModalContainer}>
+            <View style={styles.animationContainer}>
+              <LottieView
+                source={errorAnimation}
+                autoPlay
+                loop={false}
+                style={styles.animation}
+              />
+              <Text style={styles.animationText}>
+                You are barred from booking any facilities
+              </Text>
+            </View>
+          </View>
+        </Modal>
       </View>
     </TouchableWithoutFeedback>
   );
@@ -189,6 +242,35 @@ const styles = StyleSheet.create({
     marginTop: 10,
     width: "100%",
     height: 95,
+  },
+  animationModalContainer: {
+    flex: 1,
+    marginLeft: "auto",
+    marginRight: "auto",
+    width: "100%",
+    padding: 10,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "white",
+  },
+  animationContainer: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 20,
+    borderRadius: 20,
+    backgroundColor: "white",
+  },
+  animation: {
+    width: 150,
+    height: 150,
+  },
+  animationText: {
+    textAlign: "center",
+    marginTop: 10,
+    fontSize: 20,
+    fontwidth: "bold",
+    fontcolor: "white",
   },
 });
 

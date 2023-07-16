@@ -335,33 +335,33 @@ const BookingComponent = (props) => {
 
         <TouchableOpacity style={styles.DoneButton} onPress={handleDone}>
           <Ionicons name="checkmark-done" size={20} color="white" />
-          <Modal
-            visible={showDoneConfirmation}
-            animationType="fade"
-            transparent={true}
-          >
-            <View style={styles.modalContainer}>
-              <View style={styles.insideContainer}>
-                <Text style={styles.modalText}>
-                  Are you sure you want to mark this booking as attended?
-                </Text>
-                <View style={styles.buttonContainer}>
-                  <TouchableOpacity
-                    style={[styles.button, styles.confirmButton]}
-                    onPress={confirmDone}
-                  >
-                    <Text style={styles.buttonText}>Confirm</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={[styles.button, styles.cancelButton]}
-                    onPress={() => setshowDoneConfirmation(false)}
-                  >
-                    <Text style={styles.buttonText}>Cancel</Text>
-                  </TouchableOpacity>
+            <Modal
+              visible={showDoneConfirmation}
+              animationType="fade"
+              transparent={true}
+            >
+              <View style={styles.modalContainer}>
+                <View style={styles.insideContainer}>
+                  <Text style={styles.modalText}>
+                    Are you sure you want to mark this booking as attended?
+                  </Text>
+                  <View style={styles.buttonContainer}>
+                    <TouchableOpacity
+                      style={[styles.button, styles.confirmButton]}
+                      onPress={confirmDone}
+                    >
+                      <Text style={styles.buttonText}>Confirm</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      style={[styles.button, styles.cancelButton]}
+                      onPress={() => setshowDoneConfirmation(false)}
+                    >
+                      <Text style={styles.buttonText}>Cancel</Text>
+                    </TouchableOpacity>
+                  </View>
                 </View>
               </View>
-            </View>
-          </Modal>
+            </Modal>
 
           <Modal
             visible={showErrorDoneConfirmation}
