@@ -14,6 +14,8 @@ import { useNavigation } from "@react-navigation/native";
 import { connect } from "react-redux";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import LottieView from "lottie-react-native";
+import successAnimation from "../../../assets/animation/blueDone.json";
 
 let calenderIndex;
 let newFacility;
@@ -35,7 +37,16 @@ const BookDetails = (props) => {
   const [slots, setSlots] = useState(null);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [showGenderMismatchModal, setShowGenderMismatchModal] = useState(false);
+  const [showSuccessfullConfirmation, setshowSuccessfullConfirmation] =
+    useState(false);
   const [showBookedModal, setShowBookedModal] = useState(false);
+  const todayDate = new Date();
+
+  const today =
+    todayDate.getDate() < 10
+      ? `0${todayDate.getDate()}`
+      : `${todayDate.getDate()}`;
+  const month = todayDate.getMonth() + 1;
 
   const sortedDays = [
     "Monday",
@@ -52,46 +63,74 @@ const BookDetails = (props) => {
     .map((day, index) => {
       const calendarDay =
         facility.calendar && facility.calendar.find((item) => item.day == day);
-      if (facility.selectedDays.length - 1 === index && index % 2 === 0) {
-        return (
-          <TouchableOpacity
-            style={[
-              styles.lastDay,
-              selectedDay === day && { backgroundColor: "#2471A3" },
-            ]}
-            key={index}
-            onPress={() => handleDaySelectedClick(day)}
-          >
-            <Text
+
+      const [dayDate, monthDate] = calendarDay.date.split("/");
+      if (dayDate >= today && month == monthDate) {
+        if (facility.selectedDays.length - 1 === index && index % 2 === 0) {
+          return (
+            <TouchableOpacity
               style={[
-                styles.dayText,
-                selectedDay === day && { color: "white" },
+                styles.lastDay,
+                selectedDay === day && { backgroundColor: "#2471A3" },
               ]}
+              key={index}
+              onPress={() => handleDaySelectedClick(day)}
             >
-              {calendarDay.day} {"\n"} {calendarDay.date}
-            </Text>
-          </TouchableOpacity>
-        );
+              <Text
+                style={[
+                  styles.dayText,
+                  selectedDay === day && { color: "white" },
+                ]}
+              >
+                {calendarDay.day} {"\n"} {calendarDay.date}
+              </Text>
+            </TouchableOpacity>
+          );
+        } else {
+          return (
+            <TouchableOpacity
+              style={[
+                styles.day,
+                selectedDay === day && { backgroundColor: "#2471A3" },
+              ]}
+              key={index}
+              onPress={() => handleDaySelectedClick(day)}
+            >
+              <Text
+                style={[
+                  styles.dayText,
+                  selectedDay === day && { color: "white" },
+                ]}
+              >
+                {calendarDay.day} {"\n"} {calendarDay.date}
+              </Text>
+            </TouchableOpacity>
+          );
+        }
       } else {
-        return (
-          <TouchableOpacity
-            style={[
-              styles.day,
-              selectedDay === day && { backgroundColor: "#2471A3" },
-            ]}
-            key={index}
-            onPress={() => handleDaySelectedClick(day)}
-          >
-            <Text
-              style={[
-                styles.dayText,
-                selectedDay === day && { color: "white" },
-              ]}
+        if (facility.selectedDays.length - 1 === index && index % 2 === 0) {
+          return (
+            <View
+              style={[styles.lastDay, { backgroundColor: "#DFE8E3" }]}
+              key={index}
             >
-              {calendarDay.day} {"\n"} {calendarDay.date}
-            </Text>
-          </TouchableOpacity>
-        );
+              <Text style={[styles.dayText, { color: "black" }]}>
+                {calendarDay.day} {"\n"} {calendarDay.date}
+              </Text>
+            </View>
+          );
+        } else {
+          return (
+            <View
+              style={[styles.day, { backgroundColor: "#DFE8E3" }]}
+              key={index}
+            >
+              <Text style={[styles.dayText, { color: "black" }]}>
+                {calendarDay.day} {"\n"} {calendarDay.date}
+              </Text>
+            </View>
+          );
+        }
       }
     });
 
@@ -245,9 +284,13 @@ const BookDetails = (props) => {
         console.log(
           "facility's reservation times has been updated successfully!"
         );
-        returnToBooking
-          ? navigation.navigate("Bookings")
-          : navigation.navigate("FacilityInfo", { facility: Facility });
+        setshowSuccessfullConfirmation(true);
+        setTimeout(() => {
+          setshowSuccessfullConfirmation(false);
+          returnToBooking
+            ? navigation.navigate("Bookings")
+            : navigation.navigate("FacilityInfo", { facility: Facility });
+        }, 2500);
       })
       .catch((error) => {
         console.log(error);
@@ -450,6 +493,22 @@ const BookDetails = (props) => {
                   <Text style={styles.modalButtonText}>Cancel</Text>
                 </TouchableOpacity>
               </View>
+            </View>
+          </View>
+        </Modal>
+        <Modal
+          visible={showSuccessfullConfirmation}
+          animationType="fade"
+          transparent={true}
+        >
+          <View style={styles.animationModalContainer}>
+            <View style={styles.animationContainer}>
+              <LottieView
+                source={successAnimation}
+                autoPlay
+                loop={false}
+                style={styles.animation}
+              />
             </View>
           </View>
         </Modal>
@@ -726,6 +785,27 @@ const styles = StyleSheet.create({
   },
   modalButtonTextConfirm: {
     color: "white",
+  },
+  animationModalContainer: {
+    flex: 1,
+    marginLeft: "auto",
+    marginRight: "auto",
+    width: "100%",
+    padding: 10,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "white",
+  },
+  animationContainer: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 20,
+    borderRadius: 20,
+  },
+  animation: {
+    width: 250,
+    height: 250,
   },
 });
 

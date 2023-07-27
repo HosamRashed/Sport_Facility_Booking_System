@@ -35,26 +35,6 @@ const CompletedBookingComponent = (props) => {
       axios(config)
         .then((response) => {
           console.log("Rating has been updated successfully!");
-          updateBooking(selectedRating);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
-  };
-
-  const updateBooking = (selectedRating) => {
-    if (selectedRating !== info.rating) {
-      const config = {
-        method: "PUT",
-        url: `${url}/bookings/${info._id}`,
-        data: {
-          ratingStar: selectedRating,
-        },
-      };
-      axios(config)
-        .then((response) => {
-          console.log("booking has been updated successfully!");
         })
         .catch((error) => {
           console.log(error);

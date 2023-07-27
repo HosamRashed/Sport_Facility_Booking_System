@@ -20,6 +20,7 @@ const UserDashboard = () => {
   const navigation = useNavigation();
   const User = useSelector((state) => state.userID);
   const url = useSelector((state) => state.url);
+  const [refreshing, setRefreshing] = useState(false);
 
   const [currentStudentInfo, setCurrentStudentInfo] = useState(null);
   const [isLoading, setIsLoading] = useState(true);

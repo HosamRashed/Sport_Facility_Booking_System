@@ -20,13 +20,16 @@ const AnnounceInfo = () => {
   const day = date.getDate();
   const month = date.getMonth() + 1;
   const year = date.getFullYear();
+  const image = announcement.image;
 
   const formattedDate = `${day}/${month}/${year}`;
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <View style={styles.container}>
         <Image
-          source={require("../../../images/maintanance.png")}
+          source={{
+            uri: `${image}`,
+          }}
           style={styles.image}
         />
 
