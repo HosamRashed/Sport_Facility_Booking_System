@@ -60,14 +60,12 @@ Follow these steps to set up and use the MMU Sports Facility Booking System:
 
 Begin by cloning this repository to your local machine:
 
-```sh
 git clone https://github.com/your-username/mmu-sports-booking.git
 Replace your-username with your GitHub username.
 
-2. Install Ngrok
+## 2. Install Ngrok
 Install ngrok to create a secure tunnel to your local server:
 
-sh
 Copy code
 # Download and install ngrok
 
@@ -76,7 +74,8 @@ brew install ngrok
 
 # On Windows
 choco install ngrok
-3. Start the Backend Server
+
+## 3. Start the Backend Server
 Navigate to the backend folder and start the backend server:
 
 sh
@@ -92,13 +91,13 @@ Copy code
 ngrok http 3000
 Copy the generated URL (e.g., http://your-ngrok-url) from the terminal.
 
-5. Configure Mobile App
+## 5. Configure Mobile App
 Go to the mobile-app/main_container/store.js file and replace the API URL with the ngrok URL from the previous step:
 
 javascript
 Copy code
 const API_URL = 'http://your-ngrok-url';
-6. Start Web App and Mobile App
+## 6. Start Web App and Mobile App
 To start the web application and mobile application, navigate to their respective folders and run the following command:
 
 For Web App:
@@ -115,7 +114,7 @@ Copy code
 cd mmu-sports-booking/mobile-app
 npm install
 npm start
-7. Access the Application
+## 7. Access the Application
 Once the web application and mobile application are running, you can access them by opening your web browser for the web app and using an iOS/Android emulator or a physical device for the mobile app.
 
 Feel free to explore and enjoy the MMU Sports Facility Booking System!
