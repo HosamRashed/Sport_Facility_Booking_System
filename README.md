@@ -66,52 +66,51 @@ git clone https://github.com/HosamRashed/Sport_Facility_Booking_System.git
 Install ngrok to create a secure tunnel to your local server:
 
 ## On Linux or macOS
-```sh brew install ngrok
+```sh
+brew install ngrok
 ```
 ## On Windows
+```sh
 choco install ngrok
-
+```
 ## 3. Start the Backend Server
 Navigate to the backend folder and start the backend server:
 
-sh
-Copy code
-cd mmu-sports-booking/backend
+```sh
+cd Sport_Facility_Booking_System/auth-backend
 npm install
 npm start
+```
 ## 4. Create Ngrok Tunnel
 In a new terminal window, navigate to the location where ngrok is installed and run the following command to create a tunnel:
 
-sh
-Copy code
+```sh
 ngrok http 3000
+```
 Copy the generated URL (e.g., http://your-ngrok-url) from the terminal.
 
 ## 5. Configure Mobile App
-Go to the mobile-app/main_container/store.js file and replace the API URL with the ngrok URL from the previous step:
+Go to the Sport_Facility_Booking_System/main_container/store.js file and replace the API URL with the ngrok URL from the previous step:
 
-javascript
-Copy code
-const API_URL = 'http://your-ngrok-url';
 ## 6. Start Web App and Mobile App
 To start the web application and mobile application, navigate to their respective folders and run the following command:
 
 For Web App:
 
 ```sh
-cd mmu-sports-booking/web-app
+cd Sport_Facility_Booking_System/front-end
 ```
 ```sh
 npm install
 npm start
+```
 For Mobile App:
 
-```
-sh
-Copy code
-cd mmu-sports-booking/mobile-app
+```sh
+cd Sport_Facility_Booking_System/mobile_app
 npm install
 npm start
+```
 ## 7. Access the Application
 Once the web application and mobile application are running, you can access them by opening your web browser for the web app and using an iOS/Android emulator or a physical device for the mobile app.
 
