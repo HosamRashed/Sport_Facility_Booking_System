@@ -39,14 +39,21 @@ For the **mobile application**, React Native was employed for front-end developm
 
 ### Student Requirements
 
-...
-<!-- Rest of the content remains unchanged -->
+- Log in using Student ID and password.
+- View available facilities and their timetables.
+- Book facilities based on available time slots.
+- Rate facilities after use.
+- Edit or cancel bookings.
+- View past bookings and personal information.
+- Log out of the application.
 
-## Conclusion
+### Administrator Requirements
 
-The MMU Sports Facility Booking System streamlines the process of reserving sports facilities at Multimedia University. By automating booking processes, providing real-time availability updates, and enhancing administrative control, the system aims to improve the overall experience for both students and staff. The project's implementation utilized cutting-edge technologies to ensure efficient and effective solutions.
+- Log in using user ID and password.
+- Add facilities with information and timetables.
+- Post announcements with text and images.
+- View student profiles.
+- Manage and track facility activities.
+- View and delete student bookings.
 
-## Acknowledgments
-
-This project is the culmination of dedicated effort and commitment. Special thanks to [Your Name] for supervising and guiding throughout the project's journey.
 
