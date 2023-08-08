@@ -99,8 +99,6 @@ For Web App:
 
 ```sh
 cd Sport_Facility_Booking_System/front-end
-```
-```sh
 npm install
 npm start
 ```
