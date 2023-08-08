@@ -52,4 +52,16 @@ For the **mobile application**, React Native was employed for front-end developm
 - Manage and track facility activities.
 - View and delete student bookings.
 
+# Getting Started
+
+Follow these steps to set up and use the MMU Sports Facility Booking System:
+
+## 1. Clone the Repository
+
+Begin by cloning this repository to your local machine:
+
+```sh
+git clone https://github.com/HosamRashed/Sport_Facility_Booking_System.git
+
+
 
