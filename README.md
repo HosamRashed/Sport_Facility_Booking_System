@@ -33,8 +33,6 @@ For the **mobile application**, React Native was employed for front-end developm
 
 ## Functional Requirements
 
-## Functional Requirements
-
 ### Student Requirements
 
 - Log in using Student ID and password.
