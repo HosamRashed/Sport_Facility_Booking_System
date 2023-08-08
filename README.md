@@ -99,13 +99,14 @@ To start the web application and mobile application, navigate to their respectiv
 For Web App:
 
 ```sh
-Copy code
 cd mmu-sports-booking/web-app
 ```
+```sh
 npm install
 npm start
 For Mobile App:
 
+```
 sh
 Copy code
 cd mmu-sports-booking/mobile-app
