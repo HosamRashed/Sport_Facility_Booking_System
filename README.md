@@ -33,7 +33,9 @@ The project includes the development of a mobile application compatible with iOS
 
 For the **web application**, the MERN stack (MongoDB, Express.js, React.js, Node.js) was utilized to ensure a robust and dynamic interface.
 
-For the **mobile application**, React Native was employed for front-end development, while Node.js and Express were used to establish seamless communication between the front-end and backend components.
+For the **mobile application**, React Native was employed for front-end development, while Node.js served as the back-end runtime environment. Express.js, a minimal and flexible web application framework, was leveraged to create a structured and efficient API communication layer between the front-end and the back-end components.
+
+## Functional Requirements
 
 ## Functional Requirements
 
