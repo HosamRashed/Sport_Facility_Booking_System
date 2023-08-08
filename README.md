@@ -61,7 +61,6 @@ Follow these steps to set up and use the MMU Sports Facility Booking System:
 Begin by cloning this repository to your local machine:
 
 git clone https://github.com/HosamRashed/Sport_Facility_Booking_System.git
-Replace your-username with your GitHub username.
 
 ## 2. Install Ngrok
 Install ngrok to create a secure tunnel to your local server:
@@ -70,7 +69,7 @@ Copy code
 # Download and install ngrok
 
 # On Linux or macOS
-brew install ngrok
+--sh brew install ngrok
 
 # On Windows
 choco install ngrok
