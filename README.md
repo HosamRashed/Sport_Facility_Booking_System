@@ -65,13 +65,10 @@ git clone https://github.com/HosamRashed/Sport_Facility_Booking_System.git
 ## 2. Install Ngrok
 Install ngrok to create a secure tunnel to your local server:
 
-Copy code
-# Download and install ngrok
-
-# On Linux or macOS
---sh brew install ngrok
-
-# On Windows
+## On Linux or macOS
+```sh brew install ngrok
+```
+## On Windows
 choco install ngrok
 
 ## 3. Start the Backend Server
