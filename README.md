@@ -52,28 +52,28 @@ For the **mobile application**, React Native was employed for front-end developm
 - Manage and track facility activities.
 - View and delete student bookings.
 
-# Getting Started
+## Getting Started
 
 Follow these steps to set up and use the MMU Sports Facility Booking System:
 
-## 1. Clone the Repository
+### 1. Clone the Repository
 
 Begin by cloning this repository to your local machine:
 
 git clone https://github.com/HosamRashed/Sport_Facility_Booking_System.git
 
-## 2. Install Ngrok
+### 2. Install Ngrok
 Install ngrok to create a secure tunnel to your local server:
 
-### On Linux or macOS
+#### On Linux or macOS
 ```sh
 brew install ngrok
 ```
-### On Windows
+#### On Windows
 ```sh
 choco install ngrok
 ```
-## 3. Start the Backend Server
+### 3. Start the Backend Server
 Navigate to the backend folder and start the backend server:
 
 ```sh
@@ -81,7 +81,7 @@ cd Sport_Facility_Booking_System/auth-backend
 npm install
 npm start
 ```
-## 4. Create Ngrok Tunnel
+### 4. Create Ngrok Tunnel
 In a new terminal window, navigate to the location where ngrok is installed and run the following command to create a tunnel:
 
 ```sh
@@ -89,10 +89,10 @@ ngrok http 3000
 ```
 Copy the generated URL (e.g., http://your-ngrok-url) from the terminal.
 
-## 5. Configure Mobile App
+### 5. Configure Mobile App
 Go to the Sport_Facility_Booking_System/main_container/store.js file and replace the API URL with the ngrok URL from the previous step:
 
-## 6. Start Web App and Mobile App
+### 6. Start Web App and Mobile App
 To start the web application and mobile application, navigate to their respective folders and run the following command:
 
 For Web App:
@@ -109,7 +109,7 @@ cd Sport_Facility_Booking_System/mobile_app
 npm install
 npm start
 ```
-## 7. Access the Application
+### 7. Access the Application
 Once the web application and mobile application are running, you can access them by opening your web browser for the web app and using an iOS/Android emulator or a physical device for the mobile app.
 ## Contribute
 
