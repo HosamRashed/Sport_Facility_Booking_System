@@ -8,10 +8,6 @@ Managing sports facilities and organizing their utilization at MMU is currently 
 - A web application dashboard for administrators and staff to manage facility information, time slots, and statistics.
 - A mobile application for students to book facilities, receive announcements, and manage bookings.
 
-## Problem Statement
-
-The existing manual booking process has limitations, including lack of visibility into facility availability, potential for double bookings, and inconvenience for both students and staff. This project aims to address these issues by developing a mobile application that provides a visible timetable of available slots, allowing students to book and manage facilities seamlessly.
-
 ## Objectives
 
 - Simplify and automate the MMU sports facility booking process.
